@@ -78,8 +78,9 @@ const GlowCard: React.FC<{
       {/* Dynamic Pulsing Gradient Glow */}
       <div 
         className={`absolute -inset-4 rounded-[2rem] blur-3xl transition-opacity duration-700 pointer-events-none opacity-0 group-hover:opacity-100 animate-glow-pulse z-0`}
+      
         style={{
-          background: `radial-gradient(circle at ${mousePos.x}% ${mousePos.y}%, ${glowColors})`,
+          background: `${isHovered ? `radial-gradient(circle at ${mousePos.x}% ${mousePos.y}%, ${glowColors})` : ''}`,
         }}
       />
       
@@ -108,7 +109,7 @@ const FeaturedCard: React.FC<{ study: CaseStudy; reverse?: boolean; onClick: () 
   return (
     <GlowCard 
       onClick={onClick}
-      glowColors="rgba(139, 92, 246, 0.4), rgba(59, 130, 246, 0.3), rgba(16, 185, 129, 0.2)"
+      glowColors="rgba(139, 92, 246, 0.4), rgba(175, 4, 4, 0.3), rgba(16, 185, 129, 0.2)"
       className="mb-8"
     >
       <div 
@@ -226,16 +227,17 @@ const WorkGrid: React.FC<WorkGridProps> = ({ onSelectCaseStudy }) => {
 
       {lastItem && (
         <div className="mt-12 md:mt-24 w-full aspect-[16/10] md:aspect-video bg-black overflow-hidden rounded-2xl relative shadow-2xl group">
-          <iframe 
+          <iframe width="100%" height="100%" src="https://www.youtube.com/embed/13Q5VPkq8Yk?si=_B7j-yBYBOGrDM0N&amp;controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+      )}
+
+      {/*   <iframe 
             className="absolute inset-0 w-full h-full border-0 z-10"
             src="https://drive.google.com/file/d/1fNougBOHymGKCLiU8gazruh7pex9kOO4/preview" 
             title="Work Spotlight"
             allow="autoplay; fullscreen"
             allowFullScreen
-          />
-        </div>
-      )}
-
+          /> */}
       {remaining.length > 0 && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-16 mt-16">
           {remaining.map((study, idx) => (

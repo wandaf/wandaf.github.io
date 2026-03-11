@@ -213,7 +213,7 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
                       </ul>
                     </div>
                     <div className="lg:col-span-7 aspect-square md:aspect-[16/10] bg-gray-50 rounded-2xl overflow-hidden shadow-inner border border-gray-100 relative">
-                        <img src={`https://picsum.photos/seed/${study.slug}-challenge/1400/900`} className="w-full h-full object-cover opacity-80" alt="Challenge visual" />
+                        <img src={`assets/imgs/Case1.png`} className="w-full h-full object-cover opacity-80" alt="Challenge visual" />
                     </div>
                   </div>
                 </FadeInSection>

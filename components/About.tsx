@@ -16,7 +16,7 @@ const About: React.FC = () => {
         <div className="md:col-span-4 lg:col-span-3">
           <div className="aspect-square bg-gray-100 overflow-hidden grayscale rounded-[2px] shadow-sm">
             <img 
-              src="https://picsum.photos/seed/wanda-portrait/800/800" 
+              src="assets/imgs/me.png" 
               alt="Wanda Felsenhardt"
               className="w-full h-full object-cover"
             />
