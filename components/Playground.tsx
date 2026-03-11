@@ -2,7 +2,29 @@ import React, { useEffect, useRef, useState } from 'react';
 import { PLAYGROUND_ITEMS } from '../constants';
 import Sketchbook from './Sketchbook';
 
-const PlaygroundItemCard: React.FC<{ item: any; index: number }> = ({ item, index }) => {
+const FULL_SPAN_IDS = [5, 13, 15];
+
+function buildDisplayOrder(): (typeof PLAYGROUND_ITEMS[0] | null)[] {
+  const byId = new Map(PLAYGROUND_ITEMS.map((item) => [item.id, item]));
+  const idsInOrder: (number | null)[] = [
+    1, 2, 3,
+    5,
+    4, 6, 7,
+    8, 9, 10,
+    11, 12, 14,
+    13,
+    15,
+    16, 17, 18,
+    19, 20, 21,
+    22, 23, 24,
+    25, 26, 27,
+  ];
+  return idsInOrder.map((id) => (id === null ? null : byId.get(id)!));
+}
+
+const DISPLAY_ORDER = buildDisplayOrder();
+
+const PlaygroundItemCard: React.FC<{ item: any; index: number; fullSpan?: boolean }> = ({ item, index, fullSpan }) => {
   const [isVisible, setIsVisible] = useState(false);
   const domRef = useRef<HTMLDivElement>(null);
 
@@ -30,18 +52,16 @@ const PlaygroundItemCard: React.FC<{ item: any; index: number }> = ({ item, inde
   return (
     <div
       ref={domRef}
-      className={`group relative overflow-hidden bg-[#111] aspect-[4/5] rounded-[4pt] transition-all duration-1000 ease-out 
+      className={`relative overflow-hidden flex items-center justify-center min-h-[200px] rounded-[4pt] transition-all duration-1000 ease-out
+        ${fullSpan ? 'col-span-1 sm:col-span-2 lg:col-span-3' : ''}
         ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
     >
       <img
         src={item.imageUrl}
         alt={item.title}
-        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+        loading="lazy"
+        className="w-full h-auto max-h-[70vh] object-contain"
       />
-      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/60 transition-all duration-500 flex flex-col justify-end p-8 opacity-0 group-hover:opacity-100">
-        <p className="text-[10px] uppercase tracking-[0.2em] text-white/60 font-mono-tag mb-1">{item.type}</p>
-        <p className="text-xl font-light font-['IBM_Plex_Serif'] text-white">{item.title}</p>
-      </div>
     </div>
   );
 };
@@ -62,14 +82,19 @@ const Playground: React.FC = () => {
         <Sketchbook />
       </section>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
-        {PLAYGROUND_ITEMS.map((item, index) => (
-          <PlaygroundItemCard 
-            key={item.id} 
-            item={item} 
-            index={index} 
-          />
-        ))}
+      <div className="grid grid-cols-3 gap-4 sm:gap-6 md:gap-8 lg:gap-12 px-4 md:px-0">
+        {DISPLAY_ORDER.map((entry, index) =>
+          entry === null ? (
+            <div key={`placeholder-${index}`} aria-hidden className="min-h-[200px]" />
+          ) : (
+            <PlaygroundItemCard
+              key={entry.id}
+              item={entry}
+              index={index}
+              fullSpan={FULL_SPAN_IDS.includes(entry.id)}
+            />
+          )
+        )}
       </div>
     </div>
   );

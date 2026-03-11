@@ -59,10 +59,19 @@ const About: React.FC = () => {
         <div className="md:col-span-7 space-y-16">
           <div className="group">
             <h3 className="text-xl md:text-2xl font-light font-['IBM_Plex_Serif'] text-gray-900 mb-2">
+              Contract Designer | tms
+            </h3>
+            <p className="text-xs uppercase tracking-[0.2em] text-gray-400 font-mono-tag">
+              May 2025 — October 2025
+            </p>
+          </div>
+
+          <div className="group">
+            <h3 className="text-xl md:text-2xl font-light font-['IBM_Plex_Serif'] text-gray-900 mb-2">
               Design Intern | National Park Service
             </h3>
             <p className="text-xs uppercase tracking-[0.2em] text-gray-400 font-mono-tag">
-              January 2025 — Present
+              January 2025 — May 2025
             </p>
           </div>
 

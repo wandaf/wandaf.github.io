@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 interface Sketch {
   id: number;
@@ -57,22 +57,33 @@ const Sketchbook: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const [isResetting, setIsResetting] = useState(false);
   const totalPages = SKETCHES.length;
+  const closeTimerRef = useRef<number | null>(null);
 
   useEffect(() => {
-    if (currentPage === totalPages) {
-      setIsResetting(true);
-      const timer = setTimeout(() => {
-        setCurrentPage(0);
-        setIsResetting(false);
-      }, 1200);
-      return () => clearTimeout(timer);
-    }
-  }, [currentPage, totalPages]);
+    return () => {
+      if (closeTimerRef.current !== null) clearTimeout(closeTimerRef.current);
+    };
+  }, []);
+
+  const closeBook = () => {
+    if (isResetting) return;
+    setIsResetting(true);
+    setCurrentPage(0);
+    if (closeTimerRef.current !== null) clearTimeout(closeTimerRef.current);
+    closeTimerRef.current = window.setTimeout(() => {
+      setIsResetting(false);
+      closeTimerRef.current = null;
+    }, 1300);
+  };
 
   const handleNext = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (currentPage < totalPages && !isResetting) {
+    if (isResetting) return;
+
+    if (currentPage < totalPages - 1) {
       setCurrentPage(prev => prev + 1);
+    } else if (currentPage === totalPages - 1) {
+      closeBook();
     }
   };
 
@@ -106,6 +117,11 @@ const Sketchbook: React.FC = () => {
             height: var(--book-height);
             transform-style: preserve-3d;
             transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
+          }
+
+          .book-wrapper.closing .page-item:first-child {
+            z-index: 1000;
+            transition: transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1), z-index 0s 0s;
           }
 
           .page-item {
@@ -185,7 +201,7 @@ const Sketchbook: React.FC = () => {
 
         <div className="book-viewport w-full">
           <div 
-            className="book-wrapper"
+            className={`book-wrapper${isResetting ? ' closing' : ''}`}
             style={{ 
               transform: (currentPage > 0 && currentPage < totalPages) ? 'translateX(50%)' : 'translateX(0)' 
             }}
