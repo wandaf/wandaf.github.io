@@ -11,45 +11,45 @@ interface Sketch {
 const SKETCHES: Sketch[] = [
   { 
     id: 0, 
-    title: 'Wanda Felsenhardt', 
-    url: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=1200', 
-    backUrl: 'https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?auto=format&fit=crop&q=80&w=1200'
+    title: 'Cover', 
+    url: 'assets/imgs/Sketchbook/Frame 49.jpg', 
+    backUrl: 'assets/imgs/Sketchbook/Frame 48.jpg'
   },
   { 
     id: 1, 
-    url: 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&q=80&w=1200', 
-    backUrl: 'https://images.unsplash.com/photo-1549490349-8643362247b5?auto=format&fit=crop&q=80&w=1200',
-    title: 'Abstract Flow' 
+    title: 'Spread 1',
+    url: 'assets/imgs/Sketchbook/Frame 47.jpg', 
+    backUrl: 'assets/imgs/Sketchbook/Frame 46.jpg'
   },
   { 
     id: 2, 
-    url: 'https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&q=80&w=1200', 
-    backUrl: 'https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&q=80&w=1200',
-    title: 'Gestural Study' 
+    title: 'Spread 2',
+    url: 'assets/imgs/Sketchbook/Frame 45.jpg', 
+    backUrl: 'assets/imgs/Sketchbook/Frame 44.jpg'
   },
   { 
     id: 3, 
-    url: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?auto=format&fit=crop&q=80&w=1200', 
-    backUrl: 'https://images.unsplash.com/photo-1576770986940-507110c37031?auto=format&fit=crop&q=80&w=1200',
-    title: 'Charcoal Texture' 
+    title: 'Spread 3',
+    url: 'assets/imgs/Sketchbook/Frame 43.jpg', 
+    backUrl: 'assets/imgs/Sketchbook/Frame 42.jpg'
   },
   { 
     id: 4, 
-    url: 'https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?auto=format&fit=crop&q=80&w=1200', 
-    backUrl: 'https://images.unsplash.com/photo-1605721911519-3dfeb3be25e7?auto=format&fit=crop&q=80&w=1200',
-    title: 'Anatomy Study' 
+    title: 'Spread 4',
+    url: 'assets/imgs/Sketchbook/Frame 41.jpg', 
+    backUrl: 'assets/imgs/Sketchbook/Frame 40.jpg'
   },
   { 
     id: 5, 
-    url: 'https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?auto=format&fit=crop&q=80&w=1200', 
-    backUrl: 'https://images.unsplash.com/photo-1508247967583-7d982ea01526?auto=format&fit=crop&q=80&w=1200',
-    title: 'Minimal Line' 
+    title: 'Spread 5',
+    url: 'assets/imgs/Sketchbook/Frame 39.jpg', 
+    backUrl: 'assets/imgs/Sketchbook/Frame 38.jpg'
   },
   { 
     id: 6, 
-    url: 'https://images.unsplash.com/photo-1574169208507-84376144848b?auto=format&fit=crop&q=80&w=1200', 
-    backUrl: 'https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?auto=format&fit=crop&q=80&w=1200',
-    title: 'Ink & Water' 
+    title: 'Back', 
+    url: 'assets/imgs/Sketchbook/Frame 37.jpg', 
+    backUrl: 'assets/imgs/Sketchbook/Frame 37.jpg'
   },
 ];
 
