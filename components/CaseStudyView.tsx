@@ -49,16 +49,52 @@ const SectionHeading: React.FC<{ title: string; icon: React.ElementType }> = ({ 
   </div>
 );
 
+const MCDONALDS_IMAGES = [
+  'assets/imgs/Mcdonalds/IHUsE9aVdEHPrcf2LaRZdN9th6c.png.webp',
+  'assets/imgs/Mcdonalds/uAtdCtqR69anravVJfnxNYeg.png.webp',
+  'assets/imgs/Mcdonalds/4XsAkMo1LUqSy5HYVvNQrpcGWwI.png.webp',
+  'assets/imgs/Mcdonalds/MDttHhf5aErkP5lFGprSH0tl10.png.webp',
+  'assets/imgs/Mcdonalds/BZVXaeFgM7qknbDV2cYYhcaaE.png.webp',
+  'assets/imgs/Mcdonalds/fzwbpbdhFVLhAWhcUm6yr2PMog.png.webp',
+  'assets/imgs/Mcdonalds/CwHPBomIJykO7JgFCOElWYDbz3c.png.webp',
+  'assets/imgs/Mcdonalds/TsvuOqwvcrGMJKnRGwEf7lARjVk.png.webp',
+];
+
+const NdaCallout: React.FC = () => (
+  <div className="rounded-2xl bg-[#e6efff] p-8 md:p-10 max-w-2xl">
+    <p className="text-xl md:text-2xl font-light font-['IBM_Plex_Serif'] text-gray-900 mb-2">
+      This work cannot be publicly shared yet
+    </p>
+    <p className="text-base md:text-lg font-light font-['IBM_Plex_Serif'] text-gray-700 mb-6">
+      Please reach out for more info about my process!
+    </p>
+    <a
+      href="mailto:wandafelsen@gmail.com"
+      className="inline-block px-6 py-3 rounded-xl bg-[#2e2e2e] text-white text-sm font-medium hover:opacity-90 transition-opacity"
+    >
+      Contact
+    </a>
+  </div>
+);
+
 const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
   const [activeSection, setActiveSection] = useState('overview');
-  
-  const sections = [
-    { id: 'overview', label: 'Overview', icon: Eye },
-    { id: 'challenge', label: 'The Challenge', icon: Target },
-    { id: 'process', label: 'Process', icon: Workflow },
-    { id: 'visuals', label: 'Visual System', icon: Palette },
-    { id: 'final', label: 'Final Result', icon: CheckCircle2 }
-  ];
+  const isMcdonalds = study.slug === 'mcdonalds-game';
+
+  const sections = isMcdonalds
+    ? [
+        { id: 'overview', label: 'Background', icon: Eye },
+        { id: 'speculative', label: 'Speculative MLB', icon: Target },
+        { id: 'visuals', label: 'Gallery', icon: Palette },
+        { id: 'final', label: 'Final Thoughts', icon: CheckCircle2 },
+      ]
+    : [
+        { id: 'overview', label: 'Overview', icon: Eye },
+        { id: 'challenge', label: 'The Challenge', icon: Target },
+        { id: 'process', label: 'Process', icon: Workflow },
+        { id: 'visuals', label: 'Visual System', icon: Palette },
+        { id: 'final', label: 'Final Result', icon: CheckCircle2 },
+      ];
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
@@ -175,112 +211,161 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
 
             {/* Content Body */}
             <div className="flex-1 space-y-64 overflow-visible">
-              <section id="overview" className="scroll-mt-40">
-                <FadeInSection>
-                  <SectionHeading title="Project Context" icon={Eye} />
-                  <div className="text-gray-600 font-light text-lg leading-relaxed space-y-12">
-                    <p className="max-w-3xl">
-                      My approach focused on translating raw architectural intent into fluid human experiences. By dissecting the user journey, we identified friction points that weren't just functional, but emotional.
-                    </p>
-                    <div className="relative overflow-hidden rounded-2xl shadow-xl border border-gray-100 w-full aspect-[16/10]">
-                       <img 
-                        src={`https://picsum.photos/seed/${study.slug}-context/1800/1100`} 
-                        className="w-full h-full object-cover" 
-                        alt="Context visual" 
-                      />
-                    </div>
-                  </div>
-                </FadeInSection>
-              </section>
+              {isMcdonalds ? (
+                <>
+                  <section id="overview" className="scroll-mt-40">
+                    <FadeInSection>
+                      <SectionHeading title="Background" icon={Eye} />
+                      <div className="text-gray-600 font-light text-lg leading-relaxed space-y-12">
+                        <p className="max-w-3xl">
+                          I worked as a designer on the McDonald's powerups team at The Marketing Store for 6 months. The digital team focuses on designing mobile games that pair with current Happy Meal toy series. I worked on the UI design, websites, character and background illustrations, QA testing, and animation storyboards for multiple mobile web games. The games I designed for included IPs from anime, McDonald's original characters, and movies.
+                        </p>
+                        <NdaCallout />
+                      </div>
+                    </FadeInSection>
+                  </section>
 
-              <section id="challenge" className="scroll-mt-40">
-                <FadeInSection>
-                  <SectionHeading title="The Challenge" icon={Target} />
-                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
-                    <div className="lg:col-span-5 text-gray-600 font-light text-lg leading-relaxed space-y-8">
-                      <p>
-                        Designing for complex systems requires a balance of logic and intuition. The primary hurdle was making high-density information feel breathable and actionable.
+                  <section id="speculative" className="scroll-mt-40">
+                    <FadeInSection>
+                      <SectionHeading title="Speculative MLB campaign" icon={Target} />
+                      <p className="text-gray-600 font-light text-lg leading-relaxed max-w-3xl">
+                        While at tms, I worked on a speculative design project where teams explored different potential sports collaborations. My team focused on the World Series and MLB, and I designed, 3D-modelled, and art directed all aspects of the project.
                       </p>
-                      <ul className="space-y-6 text-sm text-gray-500 font-mono-tag">
-                        <li className="flex items-start gap-4">
-                          <span className="w-1.5 h-1.5 bg-black rounded-full mt-2 shrink-0" />
-                          Bridging the gap between legacy data and modern UI.
-                        </li>
-                        <li className="flex items-start gap-4">
-                          <span className="w-1.5 h-1.5 bg-black rounded-full mt-2 shrink-0" />
-                          Maintaining performance across low-bandwidth environments.
-                        </li>
-                      </ul>
-                    </div>
-                    <div className="lg:col-span-7 aspect-square md:aspect-[16/10] bg-gray-50 rounded-2xl overflow-hidden shadow-inner border border-gray-100 relative">
-                        <img src={`assets/imgs/Case1.png`} className="w-full h-full object-cover opacity-80" alt="Challenge visual" />
-                    </div>
-                  </div>
-                </FadeInSection>
-              </section>
+                    </FadeInSection>
+                  </section>
 
-              <section id="process" className="scroll-mt-40">
-                <FadeInSection>
-                  <SectionHeading title="Process" icon={Workflow} />
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-16 mb-24">
-                    <div className="space-y-6">
-                      <span className="text-[10px] text-gray-300 font-bold font-mono-tag">01 / Exploration</span>
-                      <p className="text-sm text-gray-600 font-light leading-relaxed">Early sketches and conceptual frameworks.</p>
-                    </div>
-                    <div className="space-y-6">
-                      <span className="text-[10px] text-gray-300 font-bold font-mono-tag">02 / Iteration</span>
-                      <p className="text-sm text-gray-600 font-light leading-relaxed">Rapid prototyping and continuous feedback loops.</p>
-                    </div>
-                    <div className="space-y-6">
-                      <span className="text-[10px] text-gray-300 font-bold font-mono-tag">03 / Synthesis</span>
-                      <p className="text-sm text-gray-600 font-light leading-relaxed">Finalizing the atomic design language.</p>
-                    </div>
-                  </div>
-                  <div className="w-full rounded-2xl overflow-hidden border border-gray-100 aspect-[21/9]">
-                      <img src={`https://picsum.photos/seed/${study.slug}-process/2200/1000`} className="w-full h-full object-cover" alt="Process panorama" />
-                  </div>
-                </FadeInSection>
-              </section>
+                  <section id="visuals" className="scroll-mt-40">
+                    <FadeInSection>
+                      <SectionHeading title="Gallery" icon={Palette} />
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        {MCDONALDS_IMAGES.map((src, i) => (
+                          <div key={i} className="relative overflow-hidden rounded-2xl border border-gray-100 aspect-[4/3] bg-gray-50">
+                            <img src={src} alt={`McDonald's project ${i + 1}`} className="w-full h-full object-cover" />
+                          </div>
+                        ))}
+                      </div>
+                    </FadeInSection>
+                  </section>
 
-              <section id="visuals" className="scroll-mt-40">
-                <FadeInSection>
-                  <SectionHeading title="Visual System" icon={Palette} />
-                  <div className="space-y-16">
-                    <p className="text-gray-600 font-light text-lg leading-relaxed max-w-3xl">
-                      A cohesive visual language was established to ensure brand resonance across all touchpoints.
-                    </p>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        <div className="aspect-square bg-gray-50 rounded-2xl p-16 flex flex-col justify-center border border-gray-100">
-                           <h4 className="font-mono-tag text-[10px] uppercase tracking-widest text-gray-300 mb-12">Typography</h4>
-                           <p className="text-5xl md:text-7xl font-serif-heading italic text-black">A a</p>
-                           <p className="mt-4 text-xs font-mono-tag text-gray-400">IBM Plex Serif / Regular & Italic</p>
+                  <section id="final" className="scroll-mt-40">
+                    <FadeInSection>
+                      <SectionHeading title="Final Thoughts" icon={CheckCircle2} />
+                      <p className="text-gray-600 font-light text-lg leading-relaxed max-w-3xl">
+                        Designing for games with global releases that required localization, coordination with the packaging and toys teams, and input from IP owners made me realize the importance of a flexible design system.
+                      </p>
+                    </FadeInSection>
+                  </section>
+                </>
+              ) : (
+                <>
+                  <section id="overview" className="scroll-mt-40">
+                    <FadeInSection>
+                      <SectionHeading title="Project Context" icon={Eye} />
+                      <div className="text-gray-600 font-light text-lg leading-relaxed space-y-12">
+                        <p className="max-w-3xl">
+                          My approach focused on translating raw architectural intent into fluid human experiences. By dissecting the user journey, we identified friction points that weren't just functional, but emotional.
+                        </p>
+                        <div className="relative overflow-hidden rounded-2xl shadow-xl border border-gray-100 w-full aspect-[16/10]">
+                           <img 
+                            src={`https://picsum.photos/seed/${study.slug}-context/1800/1100`} 
+                            className="w-full h-full object-cover" 
+                            alt="Context visual" 
+                          />
                         </div>
-                        <div className="aspect-square bg-gray-50 rounded-2xl p-16 flex flex-col justify-center border border-gray-100">
-                           <h4 className="font-mono-tag text-[10px] uppercase tracking-widest text-gray-300 mb-12">Type Scale</h4>
-                           <div className="space-y-4">
-                             <div className="h-4 w-full bg-black/80 rounded-full" />
-                             <div className="h-4 w-3/4 bg-black/40 rounded-full" />
-                             <div className="h-4 w-1/2 bg-black/10 rounded-full" />
-                           </div>
-                        </div>
-                    </div>
-                  </div>
-                </FadeInSection>
-              </section>
+                      </div>
+                    </FadeInSection>
+                  </section>
 
-              <section id="final" className="scroll-mt-40">
-                <FadeInSection>
-                  <SectionHeading title="Final Outcome" icon={CheckCircle2} />
-                  <div className="space-y-20">
-                    <p className="text-gray-600 font-light text-lg leading-relaxed max-w-3xl">
-                      The resulting platform saw a 40% increase in user engagement by simplifying complex navigation and prioritizing contextual information.
-                    </p>
-                    <div className="w-full rounded-3xl overflow-hidden shadow-[0_30px_100px_rgba(0,0,0,0.1)] aspect-[16/9] bg-gray-50">
-                        <img src={`https://picsum.photos/seed/${study.slug}-final/2000/1125`} className="w-full h-full object-cover" alt="Final product" />
-                    </div>
-                  </div>
-                </FadeInSection>
-              </section>
+                  <section id="challenge" className="scroll-mt-40">
+                    <FadeInSection>
+                      <SectionHeading title="The Challenge" icon={Target} />
+                      <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
+                        <div className="lg:col-span-5 text-gray-600 font-light text-lg leading-relaxed space-y-8">
+                          <p>
+                            Designing for complex systems requires a balance of logic and intuition. The primary hurdle was making high-density information feel breathable and actionable.
+                          </p>
+                          <ul className="space-y-6 text-sm text-gray-500 font-mono-tag">
+                            <li className="flex items-start gap-4">
+                              <span className="w-1.5 h-1.5 bg-black rounded-full mt-2 shrink-0" />
+                              Bridging the gap between legacy data and modern UI.
+                            </li>
+                            <li className="flex items-start gap-4">
+                              <span className="w-1.5 h-1.5 bg-black rounded-full mt-2 shrink-0" />
+                              Maintaining performance across low-bandwidth environments.
+                            </li>
+                          </ul>
+                        </div>
+                        <div className="lg:col-span-7 aspect-square md:aspect-[16/10] bg-gray-50 rounded-2xl overflow-hidden shadow-inner border border-gray-100 relative">
+                            <img src={`assets/imgs/Case1.png`} className="w-full h-full object-cover opacity-80" alt="Challenge visual" />
+                        </div>
+                      </div>
+                    </FadeInSection>
+                  </section>
+
+                  <section id="process" className="scroll-mt-40">
+                    <FadeInSection>
+                      <SectionHeading title="Process" icon={Workflow} />
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-16 mb-24">
+                        <div className="space-y-6">
+                          <span className="text-[10px] text-gray-300 font-bold font-mono-tag">01 / Exploration</span>
+                          <p className="text-sm text-gray-600 font-light leading-relaxed">Early sketches and conceptual frameworks.</p>
+                        </div>
+                        <div className="space-y-6">
+                          <span className="text-[10px] text-gray-300 font-bold font-mono-tag">02 / Iteration</span>
+                          <p className="text-sm text-gray-600 font-light leading-relaxed">Rapid prototyping and continuous feedback loops.</p>
+                        </div>
+                        <div className="space-y-6">
+                          <span className="text-[10px] text-gray-300 font-bold font-mono-tag">03 / Synthesis</span>
+                          <p className="text-sm text-gray-600 font-light leading-relaxed">Finalizing the atomic design language.</p>
+                        </div>
+                      </div>
+                      <div className="w-full rounded-2xl overflow-hidden border border-gray-100 aspect-[21/9]">
+                          <img src={`https://picsum.photos/seed/${study.slug}-process/2200/1000`} className="w-full h-full object-cover" alt="Process panorama" />
+                      </div>
+                    </FadeInSection>
+                  </section>
+
+                  <section id="visuals" className="scroll-mt-40">
+                    <FadeInSection>
+                      <SectionHeading title="Visual System" icon={Palette} />
+                      <div className="space-y-16">
+                        <p className="text-gray-600 font-light text-lg leading-relaxed max-w-3xl">
+                          A cohesive visual language was established to ensure brand resonance across all touchpoints.
+                        </p>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div className="aspect-square bg-gray-50 rounded-2xl p-16 flex flex-col justify-center border border-gray-100">
+                               <h4 className="font-mono-tag text-[10px] uppercase tracking-widest text-gray-300 mb-12">Typography</h4>
+                               <p className="text-5xl md:text-7xl font-serif-heading italic text-black">A a</p>
+                               <p className="mt-4 text-xs font-mono-tag text-gray-400">IBM Plex Serif / Regular & Italic</p>
+                            </div>
+                            <div className="aspect-square bg-gray-50 rounded-2xl p-16 flex flex-col justify-center border border-gray-100">
+                               <h4 className="font-mono-tag text-[10px] uppercase tracking-widest text-gray-300 mb-12">Type Scale</h4>
+                               <div className="space-y-4">
+                                 <div className="h-4 w-full bg-black/80 rounded-full" />
+                                 <div className="h-4 w-3/4 bg-black/40 rounded-full" />
+                                 <div className="h-4 w-1/2 bg-black/10 rounded-full" />
+                               </div>
+                            </div>
+                        </div>
+                      </div>
+                    </FadeInSection>
+                  </section>
+
+                  <section id="final" className="scroll-mt-40">
+                    <FadeInSection>
+                      <SectionHeading title="Final Outcome" icon={CheckCircle2} />
+                      <div className="space-y-20">
+                        <p className="text-gray-600 font-light text-lg leading-relaxed max-w-3xl">
+                          The resulting platform saw a 40% increase in user engagement by simplifying complex navigation and prioritizing contextual information.
+                        </p>
+                        <div className="w-full rounded-3xl overflow-hidden shadow-[0_30px_100px_rgba(0,0,0,0.1)] aspect-[16/9] bg-gray-50">
+                            <img src={`https://picsum.photos/seed/${study.slug}-final/2000/1125`} className="w-full h-full object-cover" alt="Final product" />
+                        </div>
+                      </div>
+                    </FadeInSection>
+                  </section>
+                </>
+              )}
             </div>
           </div>
         </div>

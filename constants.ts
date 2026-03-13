@@ -16,14 +16,15 @@ export const CASE_STUDIES: CaseStudy[] = [
   {
     id: 2,
     slug: "mcdonalds-game",
-    title: "McDonald’s Game Design",
-    category: "Game & System Design",
+    title: "McDonald’s Happy Meal Games",
+    category: "Game and UI Design",
+    subhead: "Designing for 4 unique mobile games",
     tags: ["Product Design", "Branding"],
-    imageUrl: "assets/imgs/Case2.png",
-    description: "Designing mobile games for Happy Meal campaigns and standardizing a design system in Figma.",
-    timeline: "3 Months",
-    role: "Lead Game Designer",
-    tools: "Figma, Unity, Illustrator"
+    imageUrl: "assets/imgs/Mcdonalds/IHUsE9aVdEHPrcf2LaRZdN9th6c.png.webp",
+    description: "Designing for 4 unique mobile games",
+    timeline: "6 Months",
+    role: "UI Designer",
+    tools: "Figma, AfterEffects"
   },
   {
     id: 3,
