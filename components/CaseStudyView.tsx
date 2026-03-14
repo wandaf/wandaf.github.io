@@ -137,7 +137,7 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
   const [activeSection, setActiveSection] = useState('overview');
   const isMcdonalds = study.slug === 'mcdonalds-game';
   const isHigherEd = study.slug === 'higher-ed-campaign' || study.id === 4;
-  const isMTA = study.slug === 'mta-open-source' || study.id === 1;
+  const isMTA = study.slug === 'mta-open-source' || study.id === 2;
 
   const sections = isMcdonalds
     ? [
@@ -299,7 +299,7 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
                         <GalleryBlockHeading title="Lead campaign visuals" description="TPP Music Engineering and key campaign imagery for digital channels." />
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 items-stretch">
                           <div className="flex items-center justify-center overflow-hidden sm:col-span-1 p-4">
-                            <img src={encodeURI(HIGHER_ED_ROW_1[0])} alt="TPP Music Engineering" className="h-full w-[75%] max-w-full object-contain object-center" />
+                            <img src={encodeURI(HIGHER_ED_ROW_1[0])} alt="TPP Music Engineering" className="h-full w-[75%] max-w-full object-contain object-center rounded-lg" />
                           </div>
                           <div className="flex items-center justify-center overflow-hidden sm:col-span-2">
                             <img src={encodeURI(HIGHER_ED_ROW_1[1])} alt="Higher ed campaign" className="h-full w-auto max-w-full object-contain object-center" />
@@ -315,7 +315,7 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-[22px]">
                           {HIGHER_ED_ROW_2_SIMMONS.map((src, i) => (
                             <div key={i} className="relative w-full flex items-center justify-center p-6">
-                              <img src={encodeURI(src)} alt={`Simmons campaign ${i + 1}`} className="w-[75%] h-auto block" />
+                              <img src={encodeURI(src)} alt={`Simmons campaign ${i + 1}`} className="w-[75%] h-auto block rounded-lg" />
                             </div>
                           ))}
                         </div>
@@ -327,7 +327,7 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-[22px]">
                           {HIGHER_ED_ROW_3_UNNAMED.map((src, i) => (
                             <div key={i} className="relative w-full flex items-center justify-center p-6">
-                              <img src={encodeURI(src)} alt={`Campaign ${i + 1}`} className="w-[75%] h-auto block" />
+                              <img src={encodeURI(src)} alt={`Campaign ${i + 1}`} className="w-[75%] h-auto block rounded-lg" />
                             </div>
                           ))}
                         </div>
@@ -433,6 +433,19 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
                         <div>
                           <h3 className="text-base font-semibold text-gray-900 mb-2">Animated Weather Patterns</h3>
                           <p>I animated four different weather patterns in Adobe AfterEffects to add a responsive visual element in the center of the circle chart.</p>
+                        </div>
+                        <div className="relative w-full max-w-3xl aspect-video rounded-lg overflow-hidden">
+                          <iframe
+                            width="100%"
+                            height="100%"
+                            src="https://www.youtube.com/embed/FyN8XrWWyM8?si=MC_wvr1oqq5HVJsQ&modestbranding=1&autoplay=1&mute=1&loop=1&playlist=FyN8XrWWyM8"
+                            title="YouTube video player"
+                            frameBorder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            referrerPolicy="strict-origin-when-cross-origin"
+                            allowFullScreen
+                            className="absolute inset-0 w-full h-full"
+                          />
                         </div>
                         <ResearchDeckCallout />
                       </div>

@@ -60,7 +60,7 @@ const PlaygroundItemCard: React.FC<{ item: any; index: number; fullSpan?: boolea
         src={item.imageUrl}
         alt={item.title}
         loading="lazy"
-        className="w-full h-auto max-h-[70vh] object-contain"
+        className="w-full h-auto max-h-[70vh] object-contain rounded-lg"
       />
     </div>
   );

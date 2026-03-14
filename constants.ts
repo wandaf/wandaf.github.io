@@ -3,19 +3,6 @@ import { CaseStudy, PlaygroundItem } from './types';
 export const CASE_STUDIES: CaseStudy[] = [
   {
     id: 1,
-    slug: "mta-open-source",
-    title: "MTA Open Source Challenge",
-    category: "Data Visualization Design",
-    subhead: "Designing and coding a data visualization web app from the ground up",
-    tags: ["UI/UX", "Mobile App"],
-    imageUrl: "assets/imgs/Case1.png",
-    description: "Designing and coding a data visualization web app from the ground up",
-    timeline: "5 Weeks",
-    role: "Designer, Developer",
-    tools: "Figma, D3.js, CSS, HTML, AfterEffects"
-  },
-  {
-    id: 2,
     slug: "mcdonalds-game",
     title: "McDonald’s Happy Meal Games",
     category: "Game and UI Design",
@@ -26,6 +13,19 @@ export const CASE_STUDIES: CaseStudy[] = [
     timeline: "6 Months",
     role: "UI Designer",
     tools: "Figma, AfterEffects"
+  },
+  {
+    id: 2,
+    slug: "mta-open-source",
+    title: "MTA Open Source Challenge",
+    category: "Data Visualization Design",
+    subhead: "Designing and coding a data visualization web app from the ground up",
+    tags: ["UI/UX", "Mobile App"],
+    imageUrl: "assets/imgs/Case1.png",
+    description: "Designing and coding a data visualization web app from the ground up",
+    timeline: "5 Weeks",
+    role: "Designer, Developer",
+    tools: "Figma, D3.js, CSS, HTML, AfterEffects"
   },
   {
     id: 3,

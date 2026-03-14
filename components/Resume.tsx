@@ -4,58 +4,70 @@ import React from 'react';
 const Resume: React.FC = () => {
   const experiences = [
     {
-      company: "Studio Minimal",
-      role: "Senior Product Designer",
-      period: "2021 — Present",
-      location: "Chicago, IL"
+      company: "tms",
+      role: "Contract Designer",
+      period: "May 2025 — October 2025",
+      location: ""
     },
     {
-      company: "Digital Arts Agency",
-      role: "UI/UX Designer",
-      period: "2018 — 2021",
-      location: "New York, NY"
+      company: "National Park Service",
+      role: "Design Intern",
+      period: "January 2025 — May 2025",
+      location: ""
     },
     {
-      company: "Freelance",
-      role: "Designer & Art Director",
-      period: "2016 — 2018",
-      location: "Remote"
+      company: "Chicago Transit Authority",
+      role: "Digital Design Intern",
+      period: "May 2024 — August 2024",
+      location: ""
+    },
+    {
+      company: "Georgetown University Office of Advancement",
+      role: "Senior Graphic Designer",
+      period: "October 2021 — August 2023",
+      location: ""
+    },
+    {
+      company: "CLS Strategies",
+      role: "Graphic Designer",
+      period: "March 2020 — September 2021",
+      location: ""
     }
   ];
 
   const education = [
     {
-      school: "School of the Art Institute of Chicago",
-      degree: "BFA in Visual Communication Design",
-      period: "2012 — 2016"
+      school: "VCU Brandcenter",
+      degree: "Master's in Experience Design",
+      period: "2023 — 2025"
     }
   ];
 
   return (
     <div className="pb-32 max-w-3xl">
-      <h2 className="text-3xl font-light tracking-tight mb-16 text-gray-900">Experience</h2>
+      <h2 className="text-4xl md:text-5xl font-light font-['IBM_Plex_Serif'] leading-tight mb-16 text-gray-900">Experience</h2>
       
       <div className="space-y-16">
         {experiences.map((exp, idx) => (
           <div key={idx} className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="text-sm text-gray-400 uppercase tracking-widest">{exp.period}</div>
+            <div className="text-xs uppercase tracking-[0.2em] text-gray-400 font-mono-tag">{exp.period}</div>
             <div className="md:col-span-2">
-              <h3 className="text-xl font-light text-gray-900">{exp.company}</h3>
-              <p className="text-gray-500 mt-1">{exp.role} · {exp.location}</p>
+              <h3 className="text-xl md:text-2xl font-light font-['IBM_Plex_Serif'] text-gray-900 mb-2">{exp.company}</h3>
+              <p className="text-gray-500 mt-1 font-['IBM_Plex_Serif'] font-light">{exp.role}{exp.location ? ` · ${exp.location}` : ''}</p>
             </div>
           </div>
         ))}
       </div>
 
-      <h2 className="text-3xl font-light tracking-tight mb-16 mt-32 text-gray-900">Education</h2>
+      <h2 className="text-4xl md:text-5xl font-light font-['IBM_Plex_Serif'] leading-tight mb-16 mt-32 text-gray-900">Education</h2>
       
       <div className="space-y-16">
         {education.map((edu, idx) => (
           <div key={idx} className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="text-sm text-gray-400 uppercase tracking-widest">{edu.period}</div>
+            <div className="text-xs uppercase tracking-[0.2em] text-gray-400 font-mono-tag">{edu.period}</div>
             <div className="md:col-span-2">
-              <h3 className="text-xl font-light text-gray-900">{edu.school}</h3>
-              <p className="text-gray-500 mt-1">{edu.degree}</p>
+              <h3 className="text-xl md:text-2xl font-light font-['IBM_Plex_Serif'] text-gray-900 mb-2">{edu.school}</h3>
+              <p className="text-gray-500 mt-1 font-['IBM_Plex_Serif'] font-light">{edu.degree}</p>
             </div>
           </div>
         ))}
