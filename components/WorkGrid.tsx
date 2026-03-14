@@ -211,7 +211,7 @@ const WorkGrid: React.FC<WorkGridProps> = ({ onSelectCaseStudy }) => {
             <FeaturedCard 
               study={study} 
               reverse={idx % 2 !== 0} 
-              onClick={() => onSelectCaseStudy(study)} 
+              onClick={() => study.externalUrl ? window.open(study.externalUrl, '_blank', 'noopener,noreferrer') : onSelectCaseStudy(study)} 
             />
           </ScrollReveal>
         ))}
@@ -220,7 +220,7 @@ const WorkGrid: React.FC<WorkGridProps> = ({ onSelectCaseStudy }) => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-16 mt-16">
         {gridItems.map((study, idx) => (
           <ScrollReveal key={study.id || idx}>
-            <GridCard study={study} onClick={() => onSelectCaseStudy(study)} />
+            <GridCard study={study} onClick={() => study.externalUrl ? window.open(study.externalUrl, '_blank', 'noopener,noreferrer') : onSelectCaseStudy(study)} />
           </ScrollReveal>
         ))}
       </div>
@@ -242,7 +242,7 @@ const WorkGrid: React.FC<WorkGridProps> = ({ onSelectCaseStudy }) => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-16 mt-16">
           {remaining.map((study, idx) => (
             <ScrollReveal key={study.id || idx}>
-              <GridCard study={study} onClick={() => onSelectCaseStudy(study)} />
+              <GridCard study={study} onClick={() => study.externalUrl ? window.open(study.externalUrl, '_blank', 'noopener,noreferrer') : onSelectCaseStudy(study)} />
             </ScrollReveal>
           ))}
         </div>

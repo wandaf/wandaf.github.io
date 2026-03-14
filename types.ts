@@ -10,6 +10,9 @@ export interface CaseStudy {
   timeline?: string;
   role?: string;
   tools?: string;
+  year?: string;
+  /** When set, the case study card opens this URL in a new tab instead of the case study view. */
+  externalUrl?: string;
 }
 
 export interface PlaygroundItem {

@@ -4,11 +4,12 @@ export const CASE_STUDIES: CaseStudy[] = [
   {
     id: 1,
     slug: "mta-open-source",
-    title: "MTA Open Source App",
+    title: "MTA Open Source Challenge",
     category: "Data Visualization Design",
+    subhead: "Designing and coding a data visualization web app from the ground up",
     tags: ["UI/UX", "Mobile App"],
     imageUrl: "assets/imgs/Case1.png",
-    description: "Designing a web app that visualizes MTA ridership and weather patterns.",
+    description: "Designing and coding a data visualization web app from the ground up",
     timeline: "5 Weeks",
     role: "Designer, Developer",
     tools: "Figma, D3.js, CSS, HTML, AfterEffects"
@@ -43,14 +44,15 @@ export const CASE_STUDIES: CaseStudy[] = [
     id: 4,
     slug: "higher-ed-campaign",
     title: "Higher Education Campaign Design",
-    category: "Campaign Design",
+    category: "CAMPAIGN DESIGN",
     subhead: "Designing campaigns for universities",
     tags: ["Social Media", "Web Design"],
     imageUrl: "assets/imgs/Case3.png",
-    description: "Developing cohesive visual identities for academic outreach and engagement.",
-    timeline: "6 Months",
+    description: "Designing campaigns for universities",
+    timeline: "Ongoing",
     role: "Visual Designer",
-    tools: "InDesign, AfterEffects, Figma"
+    tools: "InDesign, AfterEffects, Figma",
+    year: "2025-Ongoing"
   },
   {
     id: 5,
@@ -76,7 +78,8 @@ export const CASE_STUDIES: CaseStudy[] = [
     description: "Mapping the linguistic landscape of classic literature.",
     timeline: "5 Weeks",
     role: "Information Designer",
-    tools: "D3.js, Python, Figma"
+    tools: "D3.js, Python, Figma",
+    externalUrl: "https://thesecretgardenindata.framer.website/"
   },
   {
     id: 7,
