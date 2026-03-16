@@ -38,13 +38,13 @@ const About: React.FC = () => {
         </div>
         <div className="md:col-span-7 space-y-4">
           <div className="text-2xl md:text-3xl font-light font-['IBM_Plex_Serif'] text-gray-800">
-            Drawing <span className="border-b border-black cursor-pointer hover:opacity-50 transition-opacity">comics</span>
+            Drawing comics
           </div>
           <div className="text-2xl md:text-3xl font-light font-['IBM_Plex_Serif'] text-gray-800">
-            Developing <span className="border-b border-black cursor-pointer hover:opacity-50 transition-opacity">games</span>
+            Developing games
           </div>
           <div className="text-2xl md:text-3xl font-light font-['IBM_Plex_Serif'] text-gray-800">
-            Creating <span className="border-b border-black cursor-pointer hover:opacity-50 transition-opacity">illustrations</span>
+            Creating illustrations
           </div>
         </div>
       </section>

@@ -176,15 +176,23 @@ const Hero: React.FC = () => {
           <div className="flex flex-col md:flex-row gap-8 md:gap-24 mb-10 md:mb-16 transition-all duration-1000 delay-700" style={{ opacity: isMounted ? 1 : 0, transform: isMounted ? 'none' : 'translateY(20px)' }}>
             <div className="space-y-2">
               <h3 className="text-[10px] md:text-[11px] uppercase tracking-[0.3em] font-medium text-white font-mono-tag">Focus</h3>
-              <p className="text-xs md:text-sm opacity-50 font-light max-w-[200px]">Motion, Branding, and UX Design</p>
+              <p className="text-xs md:text-sm opacity-50 font-light max-w-[200px]">
+                Branding, UX Design,
+                <br />
+                and motion
+              </p>
             </div>
             <div className="space-y-2">
               <h3 className="text-[10px] md:text-[11px] uppercase tracking-[0.3em] font-medium text-white font-mono-tag">Philosophy</h3>
-              <p className="text-xs md:text-sm opacity-50 font-light max-w-[280px]">Design happens in conversation with others</p>
+              <p className="text-xs md:text-sm opacity-50 font-light max-w-[280px]">
+                Design happens in conversation
+                <br />
+                with others
+              </p>
             </div>
           </div>
 
-          <div className="w-full border-y border-white/10 py-6 md:py-10 mt-8 md:mt-12 flex flex-wrap justify-start gap-y-3 gap-x-4 md:gap-x-6 items-center transition-opacity duration-1000 delay-1000" style={{ opacity: isMounted ? 1 : 0 }}>
+          <div className="w-full border-y border-white/10 py-4 md:py-7 mt-8 md:mt-12 flex flex-wrap justify-start gap-y-3 gap-x-4 md:gap-x-6 items-center transition-opacity duration-1000 delay-1000" style={{ opacity: isMounted ? 1 : 0 }}>
             <div className="flex items-center gap-3 md:gap-4">
               <span className="text-[9px] md:text-[11px] uppercase tracking-[0.3em] font-medium text-white">currently</span>
               <span className="text-white font-light">|</span>

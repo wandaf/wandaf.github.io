@@ -31,14 +31,14 @@ export const CASE_STUDIES: CaseStudy[] = [
     id: 3,
     slug: "faceless-affair",
     title: "Faceless Affair",
-    category: "Interactive Narrative",
-    subhead: "An interactive mystery game",
+    category: "App and Experience Design",
+    subhead: "A Knives Out murder mystery experience utilizing an app and AR",
     tags: ["UX Design", "Game Design"],
     imageUrl: "assets/imgs/Case6.png",
-    description: "An interactive mystery game exploring narrative depth through digital interaction.",
-    timeline: "8 Weeks",
-    role: "UX Designer, Writer",
-    tools: "Twine, Figma, Photoshop"
+    description: "An interactive murder mystery experience combining a physical game, mobile app, and AR elements inspired by the Knives Out film series.",
+    timeline: "3 Weeks",
+    role: "Designer, Researcher",
+    tools: "Figma, Adobe Illustrator, AfterEffects"
   },
   {
     id: 4,
@@ -63,9 +63,9 @@ export const CASE_STUDIES: CaseStudy[] = [
     tags: ["Print Design", "Illustration"],
     imageUrl: "assets/imgs/Case5.png",
     description: "A typographic exploration of visual language in social movements.",
-    timeline: "Ongoing",
+    timeline: "2021-2023",
     role: "Print Designer",
-    tools: "Print Design, Branding"
+    tools: "Adobe InDesign"
   },
   {
     id: 6,

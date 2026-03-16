@@ -73,7 +73,7 @@ const Playground: React.FC = () => {
         <h2 className="text-5xl md:text-7xl font-light font-['IBM_Plex_Serif'] mb-8 tracking-tighter">Playground</h2>
         <div className="h-[1px] w-32 bg-white/20 mb-8" />
         <p className="text-gray-400 max-w-2xl text-xl font-light leading-relaxed">
-          A digital laboratory of artifacts. Exploring code, motion, and visual materiality within the silence of the void.
+          A collection of sketches, illustrations, and experiments I've created when I'm not designing.
         </p>
       </header>
 

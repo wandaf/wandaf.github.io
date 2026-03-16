@@ -195,8 +195,12 @@ const Sketchbook: React.FC = () => {
 
       <div className="flex flex-col items-center gap-12">
         <div className="text-center">
-          <p className="text-[10px] uppercase tracking-[0.4em] text-white/40 font-mono-tag mb-2">Visual Fragment</p>
-          <h3 className="text-2xl md:text-3xl font-light font-['IBM_Plex_Serif'] text-white">Digital Folio</h3>
+          <h3 className="text-2xl md:text-3xl font-light font-['IBM_Plex_Serif'] text-white mb-2">
+            Take a Peek into my Sketches
+          </h3>
+          <p className="text-[10px] uppercase tracking-[0.4em] text-white/40 font-mono-tag">
+            Click to Explore
+          </p>
         </div>
 
         <div className="book-viewport w-full">

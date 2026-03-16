@@ -90,6 +90,26 @@ const MCDONALDS_GALLERY_ROW_2 = [
   'assets/imgs/Mcdonalds/CwHPBomIJykO7JgFCOElWYDbz3c.png.webp',
 ];
 
+const EDITORIAL_THIRD_PLACE = [
+  'dist/assets/imgs/Editorial/The Third Place/Desktop - 13.jpg',
+  'dist/assets/imgs/Editorial/The Third Place/Desktop - 14.jpg',
+  'dist/assets/imgs/Editorial/The Third Place/Desktop - 15.jpg',
+  'dist/assets/imgs/Editorial/The Third Place/Desktop - 16.jpg',
+  'dist/assets/imgs/Editorial/The Third Place/Desktop - 17.jpg',
+  'dist/assets/imgs/Editorial/The Third Place/Desktop - 18.jpg',
+];
+
+const EDITORIAL_GEORGETOWN = [
+  'dist/assets/imgs/Editorial/Georgetown Magazine/Desktop - 20.jpg',
+  'dist/assets/imgs/Editorial/Georgetown Magazine/Desktop - 21.jpg',
+];
+
+const EDITORIAL_NIGHTLY = [
+  'dist/assets/imgs/Editorial/The Nightly/Desktop - 23.jpg',
+  'dist/assets/imgs/Editorial/The Nightly/Desktop - 22.jpg',
+  'dist/assets/imgs/Editorial/The Nightly/Desktop - 24.jpg',
+];
+
 const NdaCallout: React.FC = () => (
   <div className="rounded-2xl bg-[#e6efff] p-8 md:p-10 max-w-2xl">
     <p className="text-xl md:text-2xl font-light font-['IBM_Plex_Serif'] text-gray-900 mb-2">
@@ -138,6 +158,8 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
   const isMcdonalds = study.slug === 'mcdonalds-game';
   const isHigherEd = study.slug === 'higher-ed-campaign' || study.id === 4;
   const isMTA = study.slug === 'mta-open-source' || study.id === 2;
+  const isEditorial = study.slug === 'editorial-design' || study.id === 5;
+  const isFaceless = study.slug === 'faceless-affair' || study.id === 3;
 
   const sections = isMcdonalds
     ? [
@@ -156,6 +178,22 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
         { id: 'overview', label: 'Background', icon: Eye },
         { id: 'process', label: 'Process', icon: Workflow },
         { id: 'features', label: 'Features', icon: Target },
+        { id: 'final', label: 'Final Thoughts', icon: CheckCircle2 },
+      ]
+    : isEditorial
+    ? [
+        { id: 'overview', label: 'Overview', icon: Eye },
+        { id: 'third-place', label: 'The Third Place', icon: Target },
+        { id: 'georgetown', label: 'Georgetown Magazines', icon: Target },
+        { id: 'nightly', label: 'The Nightly', icon: Palette },
+      ]
+    : isFaceless
+    ? [
+        { id: 'overview', label: 'Background', icon: Eye },
+        { id: 'experience', label: 'The Experience', icon: Target },
+        { id: 'how-might-we', label: 'How Might We', icon: Workflow },
+        { id: 'journey', label: 'User Journey', icon: Workflow },
+        { id: 'visual-design', label: 'Visual Design', icon: Palette },
         { id: 'final', label: 'Final Thoughts', icon: CheckCircle2 },
       ]
     : [
@@ -217,6 +255,8 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
               ? 'dist/assets/imgs/Mcdonalds/ld4tdsEQzQw9aIQj47eO0ZamxY.jpeg'
               : isMTA
               ? 'dist/assets/MTA/WsdxxC4cphhRoECrkAfFh526E.avif'
+              : study.slug === 'editorial-design'
+              ? 'dist/assets/imgs/Editorial/2I7GWougET3BKSbEA8Rqq5vg.png'
               : study.imageUrl
           } 
           alt={study.title}
@@ -230,8 +270,8 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
         <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/10" />
       </div>
 
-      <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-16">
-        <div className="max-w-[1240px] mx-auto pt-16 md:pt-20 pb-48">
+      <div className="max-w-[1600px] mx-auto px-6 md:px-12 lg:px-16">
+        <div className="max-w-[1400px] mx-auto pt-16 md:pt-20 pb-48">
           {/* Header Section */}
           <div className="mb-24 md:mb-32">
             <FadeInSection>
@@ -267,9 +307,9 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
           </div>
 
           {/* Sticky Container */}
-          <div className="flex flex-col md:flex-row gap-8 lg:gap-20 items-start">
+          <div className="flex flex-col md:flex-row gap-10 lg:gap-24 items-start">
             {/* Index Sidebar */}
-            <aside className="md:w-[120px] sticky top-40 mb-12 md:mb-0 h-fit shrink-0">
+            <aside className="md:w-[120px] sticky top-40 mb-12 md:mb-0 h-fit shrink-0 md:-ml-6 lg:-ml-10">
               <nav className="flex flex-col gap-6">
                 {sections.map(section => (
                   <button
@@ -377,11 +417,11 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
                   <section id="visuals" className="scroll-mt-40">
                     <FadeInSection>
                       <SectionHeading title="Gallery" icon={Palette} />
-                      <div className="space-y-0">
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                      <div className="space-y-8">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-2 gap-y-8">
                           {MCDONALDS_GALLERY_GRID_4.map((src, i) => (
-                            <div key={i} className="relative overflow-hidden aspect-[4/3] flex items-center justify-center">
-                              <img src={src} alt={`McDonald's project ${i + 1}`} className="w-full h-full object-contain" />
+                            <div key={i} className="relative overflow-hidden aspect-[4/3]">
+                              <img src={src} alt={`McDonald's project ${i + 1}`} className="w-full h-full object-cover" />
                             </div>
                           ))}
                         </div>
@@ -391,10 +431,10 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
                         <div className="relative w-full">
                           <img src={MCDONALDS_FULL_WIDTH_2} alt="McDonald's project" className="w-full h-auto block" />
                         </div>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-2 gap-y-8">
                           {MCDONALDS_GALLERY_ROW_2.map((src, i) => (
-                            <div key={i} className="relative overflow-hidden aspect-[4/3] flex items-center justify-center">
-                              <img src={src} alt={`McDonald's project ${i + 5}`} className="w-full h-full object-contain" />
+                            <div key={i} className="relative overflow-hidden aspect-[4/3]">
+                              <img src={src} alt={`McDonald's project ${i + 5}`} className="w-full h-full object-cover" />
                             </div>
                           ))}
                         </div>
@@ -462,7 +502,7 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
                     </FadeInSection>
                   </section>
 
-                  <section id="features" className="scroll-mt-40 bg-gray-100 rounded-2xl -mx-6 md:-mx-12 lg:-mx-16 px-6 md:px-12 lg:px-16 py-12 md:py-16">
+                  <section id="features" className="scroll-mt-40 bg-gray-100 rounded-2xl -mx-6 md:mx-0 lg:mx-0 px-6 md:px-12 lg:px-16 py-12 md:py-16">
                     <FadeInSection>
                       <SectionHeading title="Features" icon={Target} />
                       <div className="text-gray-600 font-light text-lg leading-relaxed space-y-12">
@@ -513,6 +553,228 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
                           <ul className="text-gray-600 font-light text-lg leading-relaxed list-disc list-inside space-y-2">
                             <li>Fixing coding bugs and publishing the dashboard to Github!</li>
                             <li>Experimenting more with UI motion design.</li>
+                          </ul>
+                        </div>
+                      </div>
+                    </FadeInSection>
+                  </section>
+                </>
+              ) : isEditorial ? (
+                <>
+                  <section id="overview" className="scroll-mt-40">
+                    <FadeInSection>
+                      <SectionHeading title="Editorial Design" icon={Eye} />
+                      <div className="text-gray-600 font-light text-lg leading-relaxed space-y-6 max-w-[1240px]">
+                        <p>
+                          Designing for print is how I first learned fundamental design skills such as hierarchy, alignment, and typography.
+                        </p>
+                      </div>
+                    </FadeInSection>
+                  </section>
+
+                  <section id="third-place" className="scroll-mt-40">
+                    <FadeInSection>
+                      <SectionHeading title="The Third Place" icon={Target} />
+                      <div className="text-gray-600 font-light text-lg leading-relaxed space-y-8 max-w-[1240px]">
+                        <p>
+                          A personal project where I created a magazine about some of Washington DC&apos;s lesser-known attractions.
+                          I was interested in exploring the concept of &quot;the third place,&quot; which refers to the social surroundings
+                          that are separate from the two usual social environments of home and the workplace.
+                        </p>
+                        <div className="space-y-6">
+                          {EDITORIAL_THIRD_PLACE.map((src, index) => (
+                            <div key={index} className="relative w-full">
+                              <img
+                                src={encodeURI(src)}
+                                alt={`The Third Place spread ${index + 1}`}
+                                className="w-full h-auto block"
+                              />
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </FadeInSection>
+                  </section>
+
+                  <section id="georgetown" className="scroll-mt-40">
+                    <FadeInSection>
+                      <SectionHeading title="Georgetown Magazine &amp; Georgetown Health" icon={Target} />
+                      <div className="text-gray-600 font-light text-lg leading-relaxed space-y-8 max-w-[1240px]">
+                        <p>
+                          Each year Georgetown publishes four issues of Georgetown Magazine and four issues of Georgetown Health.
+                          I have designed multiple features, created illustrations, scheduled photoshoots, delved into research
+                          for articles, and on one occasion acted as a hand model.
+                        </p>
+                        <div className="space-y-6">
+                          {EDITORIAL_GEORGETOWN.map((src, index) => (
+                            <div key={index} className="relative w-full">
+                              <img
+                                src={encodeURI(src)}
+                                alt={`Georgetown magazine spread ${index + 1}`}
+                                className="w-full h-auto block"
+                              />
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </FadeInSection>
+                  </section>
+
+                  <section id="nightly" className="scroll-mt-40">
+                    <FadeInSection>
+                      <SectionHeading title="The Nightly" icon={Palette} />
+                      <div className="text-gray-600 font-light text-lg leading-relaxed space-y-8 max-w-[1240px]">
+                        <p>
+                          Spreads from a 32-page magazine I designed about dreams and sleep. For the &quot;Sleep Experts&quot; article,
+                          we interviewed experts including writers, psychologists, and scientists studying sleep.
+                        </p>
+                        <div className="space-y-6">
+                          {EDITORIAL_NIGHTLY.map((src, index) => (
+                            <div key={index} className="relative w-full">
+                              <img
+                                src={encodeURI(src)}
+                                alt={`The Nightly spread ${index + 1}`}
+                                className="w-full h-auto block"
+                              />
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </FadeInSection>
+                  </section>
+                </>
+              ) : isFaceless ? (
+                <>
+                  <section id="overview" className="scroll-mt-40">
+                    <FadeInSection>
+                      <SectionHeading title="Background" icon={Eye} />
+                      <div className="text-gray-600 font-light text-lg leading-relaxed space-y-8 max-w-2xl">
+                        <p>
+                          This project was created at VCU Brandcenter for our Physical Computing class. Our task was to design an experience with physical and digital components for a piece of media.
+                          Our team chose <em>Knives Out</em> for our piece of media, a movie series about Benoit Blanc, a detective who solves mysteries.
+                        </p>
+                      </div>
+                    </FadeInSection>
+                  </section>
+
+                  <section id="experience" className="scroll-mt-40">
+                    <FadeInSection>
+                      <SectionHeading title="The Experience" icon={Target} />
+                      <div className="text-gray-600 font-light text-lg leading-relaxed space-y-8 max-w-2xl">
+                        <p>
+                          We landed on creating a murder mystery game with an additional digital app component. We decided on this strategy because, like the <em>Knives Out</em> movie series, we wanted
+                          to add a twist to a classic format.
+                        </p>
+                      </div>
+                    </FadeInSection>
+                  </section>
+
+                  <section id="how-might-we" className="scroll-mt-40">
+                    <FadeInSection>
+                      <SectionHeading title="How Might We…" icon={Workflow} />
+                      <div className="text-gray-600 font-light text-lg leading-relaxed space-y-4 max-w-2xl">
+                        <p>Translate the experience of watching a movie or piece of media into an interactive experience?</p>
+                        <p>Engage the user both in a physical and digital environment?</p>
+                        <p>Refresh the classic murder-mystery dinner format into something new?</p>
+                      </div>
+                    </FadeInSection>
+                  </section>
+
+                  <section id="journey" className="scroll-mt-40">
+                    <FadeInSection>
+                      <SectionHeading title="The User Journey" icon={Workflow} />
+                      <div className="text-gray-600 font-light text-lg leading-relaxed space-y-8 max-w-2xl">
+                        <p>
+                          Our team spent a lot of time—and used countless flash cards—to figure out the game system for the experience. We explored multiple versions of the game and thought about
+                          questions such as: Are all the characters completing the same actions? How are they interacting with the physical and digital space? What are the win/lose cases?
+                        </p>
+                        <p>
+                          Ultimately, we settled on a game where one player becomes the murderer while the rest of the group acts as detectives. However, both teams complete the same scanning action
+                          with their phones to collect clues in their inventory. While the murderer is looking for clues to solve the original “fabulous prize” task, the rest of the characters are
+                          looking for clues about the murderer.
+                        </p>
+                      </div>
+                    </FadeInSection>
+                  </section>
+
+                  <section id="visual-design" className="scroll-mt-40">
+                    <FadeInSection>
+                      <SectionHeading title="Visual & Experience Design" icon={Palette} />
+                      <div className="text-gray-600 font-light text-lg leading-relaxed space-y-8 max-w-2xl">
+                        <div className="space-y-4">
+                          <h3 className="text-base font-semibold text-gray-900 mb-1">Visual Design</h3>
+                          <p>
+                            I designed the logo in Adobe Illustrator, aiming to straddle the line between whimsical and elegant. We created imagery using Midjourney for the host character and
+                            environments. In the future, I hope to further develop this project by 3D modeling each room the players go through.
+                          </p>
+                        </div>
+
+                        <div className="space-y-4">
+                          <h3 className="text-base font-semibold text-gray-900 mb-1">Digital Invitation</h3>
+                          <p>
+                            The players receive a digital invitation via text link that leads to a puzzle and an invitation to the manor, setting the tone for the experience before they arrive.
+                          </p>
+                        </div>
+
+                        <div className="space-y-4">
+                          <h3 className="text-base font-semibold text-gray-900 mb-1">Face Filter</h3>
+                          <p>
+                            We envision face filters for each game character, allowing users to share their excitement on social media. I created this filter using Procreate to illustrate the mask
+                            design and Spark AR Studio to map it to the user&apos;s face.
+                          </p>
+                        </div>
+
+                        <div className="space-y-4">
+                          <h3 className="text-base font-semibold text-gray-900 mb-1">The Manor & Entry</h3>
+                          <p>
+                            When the players enter the manor, they receive phones with the app pre-loaded in the reception room at the beginning of the experience. Each phone has a privacy screen to
+                            prevent other players from looking at each other’s screens.
+                          </p>
+                        </div>
+
+                        <div className="space-y-4">
+                          <h3 className="text-base font-semibold text-gray-900 mb-1">Character Selection</h3>
+                          <p>
+                            Through the app, players are introduced to the cast of characters and select their role for the evening, aligning narrative expectations with gameplay.
+                          </p>
+                        </div>
+
+                        <div className="space-y-4">
+                          <h3 className="text-base font-semibold text-gray-900 mb-1">Scanning for Clues</h3>
+                          <p>
+                            Players can scan items marked with a special symbol and collect them in their digital inventory. I modeled the clue items in the 3D app Nomad and added additional texture in
+                            Blender.
+                          </p>
+                        </div>
+
+                        <div className="space-y-4">
+                          <h3 className="text-base font-semibold text-gray-900 mb-1">Accuse the Murderer</h3>
+                          <p>
+                            From the home screen, players can select which player to accuse of being the murderer and solve the mystery. We created distinct win and lose states depending on the
+                            outcome of the game.
+                          </p>
+                        </div>
+                      </div>
+                    </FadeInSection>
+                  </section>
+
+                  <section id="final" className="scroll-mt-40">
+                    <FadeInSection>
+                      <SectionHeading title="Final Thoughts" icon={CheckCircle2} />
+                      <div className="space-y-10 max-w-2xl">
+                        <div>
+                          <h3 className="text-base font-semibold text-gray-900 mb-2">What We Learned</h3>
+                          <p className="text-gray-600 font-light text-lg leading-relaxed">
+                            Through this project, I became more familiar with app design, game design, and the challenges of translating a cinematic experience into an interactive one that lives across
+                            both physical and digital touchpoints.
+                          </p>
+                        </div>
+                        <div>
+                          <h3 className="text-base font-semibold text-gray-900 mb-2">Future Considerations</h3>
+                          <ul className="text-gray-600 font-light text-lg leading-relaxed list-disc list-inside space-y-2">
+                            <li>Building out the rest of the characters and clues.</li>
+                            <li>Creating alternate plots for different characters as the murderer.</li>
+                            <li>Potentially expanding to new rooms and settings.</li>
                           </ul>
                         </div>
                       </div>
