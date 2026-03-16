@@ -226,8 +226,17 @@ const WorkGrid: React.FC<WorkGridProps> = ({ onSelectCaseStudy }) => {
       </div>
 
       {lastItem && (
-        <div className="mt-12 md:mt-24 w-full aspect-[16/10] md:aspect-video bg-black overflow-hidden rounded-2xl relative shadow-2xl group">
-          <iframe width="100%" height="100%" src="https://www.youtube.com/embed/13Q5VPkq8Yk?si=_B7j-yBYBOGrDM0N&amp;controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <div className="mt-12 md:mt-24 w-full aspect-[16/10] md:aspect-video bg-black overflow-hidden rounded-2xl relative border-2 border-gray-100 group">
+          <iframe
+            width="100%"
+            height="100%"
+            src="https://www.youtube.com/embed/13Q5VPkq8Yk?si=_B7j-yBYBOGrDM0N&amp;controls=0"
+            title="YouTube video player"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerPolicy="strict-origin-when-cross-origin"
+            allowFullScreen
+          ></iframe>
         </div>
       )}
 

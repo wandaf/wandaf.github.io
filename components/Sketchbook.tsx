@@ -95,7 +95,7 @@ const Sketchbook: React.FC = () => {
   };
 
   return (
-    <div className="w-full max-w-5xl mx-auto py-12 md:py-24 px-4 overflow-visible select-none">
+    <div className="w-full max-w-5xl mx-auto py-10 md:py-20 px-4 overflow-visible select-none">
       <style>
         {`
           :root {

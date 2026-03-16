@@ -1,0 +1,23 @@
+
+
+  VITE v5.4.21  ready in 172 ms
+
+  ➜  Local:   http://localhost:5173/
+  ➜  Network: use --host to expose
+  ➜  press h + enter to show help
+12:37:07 AM [vite] hmr update /components/CaseStudyView.tsx
+12:40:07 AM [vite] hmr update /components/Resume.tsx
+12:40:07 AM [vite] hmr update /components/Resume.tsx (x2)
+12:40:37 AM [vite] hmr update /components/Resume.tsx (x3)
+12:41:08 AM [vite] hmr update /components/Resume.tsx (x4)
+12:42:02 AM [vite] hmr update /components/CaseStudyView.tsx
+12:42:06 AM [vite] hmr update /components/WorkGrid.tsx, /components/Playground.tsx
+12:42:13 AM [vite] hmr update /components/WorkGrid.tsx, /components/Playground.tsx (x2)
+1:42:01 PM [vite] hmr update /components/CaseStudyView.tsx
+1:44:10 PM [vite] hmr update /components/CaseStudyView.tsx (x2)
+1:46:11 PM [vite] hmr update /components/CaseStudyView.tsx (x3)
+1:47:27 PM [vite] hmr update /components/CaseStudyView.tsx (x4:36 PM [vite] hmr update /components/CaseStudyView.tsx (x5)
+1:49:30 PM [vite] hmr update /components/CaseStudyView.tsx (x6)
+2:01:36 PM [vite] hmr update /components/CaseStudyView.tsx (x7)
+^C1:47:27 PM [vite] hmr update /components/CaseStudyView.tsx (x4:36 PM [vite] hmr update /components/CaseStudyView.tsx (x5)
+1:49:30 PM [vite] hmr uzsh: command not found: dev1:47:27 PM [vite] hmr update /components/CaseStudyView.tsx (x4:36 PM [vite] hmr update /components/CaseStudyView.tsx (x5)

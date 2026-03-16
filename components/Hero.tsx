@@ -1,17 +1,23 @@
 import React, { useState, useEffect } from 'react';
+import { GrainGradient } from '@paper-design/shaders-react';
 
 const Hero: React.FC = () => {
   const [scrollY, setScrollY] = useState(0);
   const [isMounted, setIsMounted] = useState(false);
   const [time, setTime] = useState('');
+  const [size, setSize] = useState({ width: 1280, height: 720 });
   const fullText = "Wanda Felsenhardt";
 
   useEffect(() => {
     const handleScroll = () => {
       setScrollY(window.scrollY);
     };
+    const handleResize = () => {
+      setSize({ width: window.innerWidth, height: window.innerHeight });
+    };
+    handleResize();
     window.addEventListener('scroll', handleScroll, { passive: true });
-    
+    window.addEventListener('resize', handleResize);
     const timer = setTimeout(() => setIsMounted(true), 150);
 
     // Time update logic for Chicago
@@ -31,6 +37,7 @@ const Hero: React.FC = () => {
     
     return () => {
       window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleResize);
       clearTimeout(timer);
       clearInterval(interval);
     };
@@ -43,8 +50,60 @@ const Hero: React.FC = () => {
   const translateY = scrollY * 0.25;
   const blurAmount = (scrollY / vh) * 8;
 
+  // Fade only on scroll: 100 = no fade at load; band grows until it covers the whole hero
+  const fadeStart = Math.max(0, 100 - (scrollY / vh) * 100);
+  const maskGradient = `linear-gradient(to bottom, black 0%, black ${fadeStart}%, transparent 100%)`;
+
+  // Same as App whiteFadeProgress so hero white overlay stays in sync with global transition
+  const startFade = vh * 0.15;
+  const endFade = vh * 0.85;
+  const whiteFadeProgress =
+    scrollY <= startFade ? 0 : scrollY >= endFade ? 1 : (() => {
+      const t = (scrollY - startFade) / (endFade - startFade);
+      return t * t * (3 - 2 * t);
+    })();
+
   return (
     <section className="relative w-full h-[100vh] flex flex-col items-center justify-start overflow-hidden z-10 pt-40 md:pt-56">
+      {/* Grain gradient — bottom fade appears only as you scroll, short band */}
+      <div
+        className="absolute inset-0 w-full h-full pointer-events-none"
+        style={{
+          maskImage: maskGradient,
+          WebkitMaskImage: maskGradient,
+        }}
+      >
+        <GrainGradient
+          width={size.width}
+          height={size.height}
+          colors={['#043153', '#0425a9', '#2e428a', '#09729f']}
+          colorBack="#0d0707"
+          softness={1}
+          intensity={0.5}
+          noise={0.25}
+          shape="corners"
+          speed={0.5}
+          offsetX={0.14}
+          offsetY={0.06}
+        />
+      </div>
+      {/* White scroll transition — fades in on scroll toward case studies */}
+      <div
+        className="absolute inset-0 pointer-events-none bg-white"
+        style={{ opacity: whiteFadeProgress }}
+      />
+      {/* Soft blurred bottom edge — only appears on scroll toward case studies */}
+      <div
+        className="absolute left-0 right-0 bottom-0 pointer-events-none"
+        style={{
+          height: '25vh',
+          background: 'linear-gradient(to top, rgba(255,255,255,0.98), transparent)',
+          filter: 'blur(24px)',
+          WebkitFilter: 'blur(24px)',
+          transform: 'translateZ(0)',
+          opacity: whiteFadeProgress,
+        }}
+      />
       <style>
         {`
           .name-container {
@@ -125,10 +184,10 @@ const Hero: React.FC = () => {
             </div>
           </div>
 
-          <div className="w-full border-y border-white/10 py-6 md:py-10 mt-8 md:mt-12 flex flex-wrap justify-start gap-y-3 gap-x-4 md:gap-x-6 items-center opacity-70 transition-opacity duration-1000 delay-1000" style={{ opacity: isMounted ? 0.7 : 0 }}>
+          <div className="w-full border-y border-white/10 py-6 md:py-10 mt-8 md:mt-12 flex flex-wrap justify-start gap-y-3 gap-x-4 md:gap-x-6 items-center transition-opacity duration-1000 delay-1000" style={{ opacity: isMounted ? 1 : 0 }}>
             <div className="flex items-center gap-3 md:gap-4">
               <span className="text-[9px] md:text-[11px] uppercase tracking-[0.3em] font-medium text-white">currently</span>
-              <span className="opacity-20 text-white font-light">|</span>
+              <span className="text-white font-light">|</span>
             </div>
             <div className="flex items-center gap-3 md:gap-4">
                <div className="flex items-center gap-2">
@@ -137,7 +196,7 @@ const Hero: React.FC = () => {
                   {time} Chicago, IL
                 </span>
               </div>
-              <span className="opacity-20 text-white font-light">|</span>
+              <span className="text-white font-light">|</span>
             </div>
             <span className="text-[9px] md:text-[11px] uppercase tracking-[0.3em] font-medium text-white">Freelance Designer</span>
           </div>

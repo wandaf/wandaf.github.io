@@ -12,7 +12,7 @@ const Footer: React.FC<FooterProps> = ({ onPageChange }) => {
   };
 
   return (
-    <footer className="w-full pb-12 transition-colors duration-700">
+    <footer className="relative z-20 w-full pb-12 transition-colors duration-700">
       <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-16">
         <div className="bg-[#F0E6FF] rounded-[8pt] p-8 md:p-12 text-black">
           {/* Main Footer Layout: Flexbox to push content to extremes */}

@@ -48,16 +48,20 @@ const App: React.FC = () => {
     setCurrentPage(page);
   };
 
-  // Calculate the "Darkness" progress for the Work page transition
-  const darkProgress = useMemo(() => {
-    if (displayPage !== Page.WORK) return 0;
+  // Gradient → white: 0 = only gradient visible, 1 = white overlay fully visible (for nav/branding and transition)
+  const whiteFadeProgress = useMemo(() => {
+    if (displayPage !== Page.WORK) return 1;
     const vh = typeof window !== 'undefined' ? window.innerHeight : 800;
-    const startFade = vh * 0.5;
-    const endFade = vh * 1.0;
-    if (scrollY <= startFade) return 1;
-    if (scrollY >= endFade) return 0;
-    return 1 - (scrollY - startFade) / (endFade - startFade);
+    const startFade = vh * 0.15;
+    const endFade = vh * 0.85;
+    if (scrollY <= startFade) return 0;
+    if (scrollY >= endFade) return 1;
+    const t = (scrollY - startFade) / (endFade - startFade);
+    return t * t * (3 - 2 * t); // smoothstep for softer transition
   }, [scrollY, displayPage]);
+
+  // Nav/branding: dark mode (light text) when we're still on the gradient
+  const darkProgress = useMemo(() => 1 - whiteFadeProgress, [whiteFadeProgress]);
 
   // Determine if the current view (or scroll position) requires a Dark Mode (white text/icons)
   const isDarkMode = useMemo(() => {
@@ -116,14 +120,13 @@ const App: React.FC = () => {
 
   return (
     <div className={`min-h-screen w-full flex flex-col transition-colors duration-500 ${displayPage === Page.PLAYGROUND ? 'bg-black' : 'bg-white'} selection:bg-gray-500 selection:text-white`}>
-      {/* The Fixed Black Veil for the Work page intro */}
+      {/* Work page: scroll-driven fade from gradient (opacity 0) to white (opacity 1) — no harsh line */}
       {displayPage === Page.WORK && (
-        <div 
-          className="fixed inset-0 z-0 bg-black pointer-events-none will-change-opacity"
-          style={{ opacity: darkProgress }}
+        <div
+          className="fixed inset-0 z-0 bg-white pointer-events-none will-change-opacity"
+          style={{ opacity: whiteFadeProgress }}
         />
       )}
-
       <Branding isDarkMode={isDarkMode} onPageChange={handlePageChange} />
       
       <Navbar 

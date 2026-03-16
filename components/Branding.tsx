@@ -35,14 +35,14 @@ const Branding: React.FC<BrandingProps> = ({ isDarkMode, onPageChange }) => {
   
   // Dynamic icon fill:
   // If dark mode (on dark bg): always white.
-  // If light mode (on white bg): interpolate from Black (#1a1a1a) to Neon (#ccff00) based on scroll.
+  // If light mode (on white bg): interpolate from Black (#1a1a1a) to #0D37E5 based on scroll.
   const getIconFill = () => {
     if (isDarkMode) return '#ffffff';
     
     // RGB for #1a1a1a
     const startColor = { r: 26, g: 26, b: 26 };
-    // RGB for #ccff00
-    const endColor = { r: 204, g: 255, b: 0 };
+    // RGB for #0D37E5
+    const endColor = { r: 13, g: 55, b: 229 };
     
     const r = Math.round(startColor.r + (endColor.r - startColor.r) * progress);
     const g = Math.round(startColor.g + (endColor.g - startColor.g) * progress);

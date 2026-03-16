@@ -210,11 +210,19 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
   return (
     <div className="w-full text-black bg-white min-h-screen">
       {/* 1. Impact Hero Image */}
-      <div className="w-full h-[52vh] md:h-[59vh] relative overflow-hidden bg-black">
+      <div className="w-full h-[52vh] md:h-[59vh] relative overflow-hidden bg-black flex items-center justify-center">
         <img 
-          src={study.imageUrl} 
+          src={
+            isMcdonalds
+              ? 'dist/assets/imgs/Mcdonalds/ld4tdsEQzQw9aIQj47eO0ZamxY.jpeg'
+              : isMTA
+              ? 'dist/assets/MTA/WsdxxC4cphhRoECrkAfFh526E.avif'
+              : study.imageUrl
+          } 
           alt={study.title}
-          className="w-full h-full object-cover opacity-90 transition-opacity duration-1000"
+          className={`h-full opacity-90 transition-opacity duration-1000 ${
+            isMTA ? 'w-auto max-w-[70%] object-contain' : 'w-full object-cover'
+          }`}
           onError={(e) => {
             (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=2000";
           }}
@@ -262,15 +270,15 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
           <div className="flex flex-col md:flex-row gap-8 lg:gap-20 items-start">
             {/* Index Sidebar */}
             <aside className="md:w-[120px] sticky top-40 mb-12 md:mb-0 h-fit shrink-0">
-              <nav className="flex flex-col gap-8">
+              <nav className="flex flex-col gap-6">
                 {sections.map(section => (
                   <button
                     key={section.id}
                     onClick={() => scrollToSection(section.id)}
-                    className={`text-left text-[9px] md:text-[10px] uppercase tracking-[0.4em] transition-all duration-500 font-mono-tag ${
+                    className={`text-left text-[10px] md:text-[12px] uppercase tracking-widest transition-all duration-500 font-mono-tag ${
                       activeSection === section.id 
                         ? 'text-black font-bold opacity-100 scale-105 origin-left' 
-                        : 'text-gray-600 hover:text-gray-900'
+                        : 'text-gray-500 hover:text-gray-900'
                     }`}
                   >
                     {section.label}
@@ -417,18 +425,20 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
                   <section id="process" className="scroll-mt-40">
                     <FadeInSection>
                       <SectionHeading title="Process" icon={Workflow} />
-                      <div className="text-gray-600 font-light text-lg leading-relaxed space-y-12 max-w-2xl">
-                        <div>
-                          <h3 className="text-base font-semibold text-gray-900 mb-2">Low-Fidelity Sketches</h3>
-                          <p>Initial sketches included linear bar graphs and scatter plots but evolved into a radial format for a compact solution. User testing with early wireframes revealed that radial designs were more intuitive for visualizing cyclic patterns.</p>
-                        </div>
-                        <div>
-                          <h3 className="text-base font-semibold text-gray-900 mb-2">Figma Prototype</h3>
-                          <p>I developed a high-fidelity prototype in Figma of the sidebar to visualize how users might interact with the data.</p>
-                        </div>
-                        <div>
-                          <h3 className="text-base font-semibold text-gray-900 mb-2">Code Development</h3>
-                          <p><strong>Data Cleaning:</strong> Python for preprocessing. <strong>Visualization:</strong> D3.js for creating interactive radial graphs. <strong>User Interface:</strong> HTML, CSS for web development.</p>
+                      <div className="text-gray-600 font-light text-lg leading-relaxed space-y-12 max-w-4xl">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+                          <div>
+                            <h3 className="text-base font-semibold text-gray-900 mb-2">Low-Fidelity Sketches</h3>
+                            <p>Initial sketches included linear bar graphs and scatter plots but evolved into a radial format for a compact solution. User testing with early wireframes revealed that radial designs were more intuitive for visualizing cyclic patterns.</p>
+                          </div>
+                          <div>
+                            <h3 className="text-base font-semibold text-gray-900 mb-2">Figma Prototype</h3>
+                            <p>I developed a high-fidelity prototype in Figma of the sidebar to visualize how users might interact with the data.</p>
+                          </div>
+                          <div>
+                            <h3 className="text-base font-semibold text-gray-900 mb-2">Code Development</h3>
+                            <p><strong>Data Cleaning:</strong> Python for preprocessing. <strong>Visualization:</strong> D3.js for creating interactive radial graphs. <strong>User Interface:</strong> HTML, CSS for web development.</p>
+                          </div>
                         </div>
                         <div>
                           <h3 className="text-base font-semibold text-gray-900 mb-2">Animated Weather Patterns</h3>
