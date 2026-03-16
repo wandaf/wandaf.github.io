@@ -847,20 +847,20 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
                               Blender.
                             </p>
                           </div>
+                          {(FACELESS_GIFS[5] || FACELESS_GIFS[6] || FACELESS_GIFS[7]) && (
+                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                              {[FACELESS_GIFS[5], FACELESS_GIFS[6], FACELESS_GIFS[7]].filter(Boolean).map((src, index) => (
+                                <div key={index} className="relative w-full flex justify-center">
+                                  <img
+                                    src={src}
+                                    alt={`Faceless Affair scanning clues ${index + 1}`}
+                                    className="w-full h-auto block rounded-[3rem]"
+                                  />
+                                </div>
+                              ))}
+                            </div>
+                          )}
                         </div>
-                        {(FACELESS_GIFS[4] || FACELESS_GIFS[5] || FACELESS_GIFS[6]) && (
-                          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-                            {[FACELESS_GIFS[4], FACELESS_GIFS[5], FACELESS_GIFS[6]].filter(Boolean).map((src, index) => (
-                              <div key={index} className="relative w-full flex justify-center">
-                                <img
-                                  src={src}
-                                  alt={`Faceless Affair scanning clues ${index + 1}`}
-                                  className="w-full h-auto block rounded-[3rem]"
-                                />
-                              </div>
-                            ))}
-                          </div>
-                        )}
 
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
                           <div className="md:col-span-1">
