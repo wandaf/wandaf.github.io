@@ -110,6 +110,24 @@ const EDITORIAL_NIGHTLY = [
   'dist/assets/imgs/Editorial/The Nightly/Desktop - 24.jpg',
 ];
 
+const FACELESS_IMAGES = [
+  '/assets/imgs/Faceless Affair/1.png.webp',
+  '/assets/imgs/Faceless Affair/2.png.webp',
+  '/assets/imgs/Faceless Affair/3.png.webp',
+];
+
+const FACELESS_GIFS = [
+  '/assets/imgs/Faceless Affair/4.gif',
+  '/assets/imgs/Faceless Affair/5.gif',
+  '/assets/imgs/Faceless Affair/6.gif',
+  '/assets/imgs/Faceless Affair/7.gif',
+  '/assets/imgs/Faceless Affair/8.gif',
+  '/assets/imgs/Faceless Affair/9.gif',
+  '/assets/imgs/Faceless Affair/10.gif',
+  '/assets/imgs/Faceless Affair/11.gif',
+  '/assets/imgs/Faceless Affair/12.gif',
+];
+
 const NdaCallout: React.FC = () => (
   <div className="rounded-2xl bg-[#e6efff] p-8 md:p-10 max-w-2xl">
     <p className="text-xl md:text-2xl font-light font-['IBM_Plex_Serif'] text-gray-900 mb-2">
@@ -252,7 +270,7 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
         <img 
           src={
             isMcdonalds
-              ? 'assets/imgs/Mcdonalds/ld4tdsEQzQw9aIQj47eO0ZamxY.jpeg'
+              ? '/assets/imgs/Mcdonalds/ld4tdsEQzQw9aIQj47eO0ZamxY (1).avif'
               : isMTA
               ? 'dist/assets/MTA/WsdxxC4cphhRoECrkAfFh526E.avif'
               : study.slug === 'editorial-design'
@@ -653,6 +671,15 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
                           This project was created at VCU Brandcenter for our Physical Computing class. Our task was to design an experience with physical and digital components for a piece of media.
                           Our team chose <em>Knives Out</em> for our piece of media, a movie series about Benoit Blanc, a detective who solves mysteries.
                         </p>
+                        {FACELESS_IMAGES[0] && (
+                          <div className="relative w-full">
+                            <img
+                              src={FACELESS_IMAGES[0]}
+                              alt="Faceless Affair key art"
+                              className="w-full h-auto block"
+                            />
+                          </div>
+                        )}
                       </div>
                     </FadeInSection>
                   </section>
@@ -665,6 +692,15 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
                           We landed on creating a murder mystery game with an additional digital app component. We decided on this strategy because, like the <em>Knives Out</em> movie series, we wanted
                           to add a twist to a classic format.
                         </p>
+                        {FACELESS_IMAGES[1] && (
+                          <div className="relative w-full">
+                            <img
+                              src={FACELESS_IMAGES[1]}
+                              alt="Faceless Affair app overview"
+                              className="w-full h-auto block"
+                            />
+                          </div>
+                        )}
                       </div>
                     </FadeInSection>
                   </section>
@@ -672,7 +708,7 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
                   <section id="how-might-we" className="scroll-mt-40">
                     <FadeInSection>
                       <SectionHeading title="How Might We…" icon={Workflow} />
-                      <div className="text-gray-600 font-light text-lg leading-relaxed space-y-4 max-w-2xl">
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-gray-600 font-light text-lg leading-relaxed max-w-[65%]">
                         <p>Translate the experience of watching a movie or piece of media into an interactive experience?</p>
                         <p>Engage the user both in a physical and digital environment?</p>
                         <p>Refresh the classic murder-mystery dinner format into something new?</p>
@@ -693,6 +729,15 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
                           with their phones to collect clues in their inventory. While the murderer is looking for clues to solve the original “fabulous prize” task, the rest of the characters are
                           looking for clues about the murderer.
                         </p>
+                        {FACELESS_IMAGES[2] && (
+                          <div className="relative w-full rounded-2xl bg-gray-800 p-3 md:p-4 overflow-hidden">
+                            <img
+                              src={FACELESS_IMAGES[2]}
+                              alt="Faceless Affair journey map"
+                              className="w-full h-auto block rounded-xl"
+                            />
+                          </div>
+                        )}
                       </div>
                     </FadeInSection>
                   </section>
@@ -700,60 +745,170 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
                   <section id="visual-design" className="scroll-mt-40">
                     <FadeInSection>
                       <SectionHeading title="Visual & Experience Design" icon={Palette} />
-                      <div className="text-gray-600 font-light text-lg leading-relaxed space-y-8 max-w-2xl">
-                        <div className="space-y-4">
-                          <h3 className="text-base font-semibold text-gray-900 mb-1">Visual Design</h3>
-                          <p>
-                            I designed the logo in Adobe Illustrator, aiming to straddle the line between whimsical and elegant. We created imagery using Midjourney for the host character and
-                            environments. In the future, I hope to further develop this project by 3D modeling each room the players go through.
-                          </p>
+                      <div className="text-gray-600 font-light text-lg leading-relaxed space-y-10 max-w-[1240px]">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                          <div>
+                            <h3 className="text-base font-semibold text-gray-900 mb-1">Visual Design</h3>
+                            <p className="">
+                              I designed the logo in Adobe Illustrator, aiming to straddle the line between whimsical and elegant. We created imagery using Midjourney for the host character and
+                              environments. In the future, I hope to further develop this project by 3D modeling each room the players go through.
+                            </p>
+                          </div>
+                            {FACELESS_GIFS[0] && (
+                              <div className="relative w-full flex justify-center">
+                                <img
+                                  src={FACELESS_GIFS[0]}
+                                  alt="Faceless Affair visual design animation"
+                                  className="w-full md:max-w-[65%] h-auto block rounded-[3rem]"
+                                />
+                              </div>
+                            )}
                         </div>
 
-                        <div className="space-y-4">
-                          <h3 className="text-base font-semibold text-gray-900 mb-1">Digital Invitation</h3>
-                          <p>
-                            The players receive a digital invitation via text link that leads to a puzzle and an invitation to the manor, setting the tone for the experience before they arrive.
-                          </p>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                          <div>
+                            <h3 className="text-base font-semibold text-gray-900 mb-1">Digital Invitation</h3>
+                            <p className="">
+                              The players receive a digital invitation via text link that leads to a puzzle and an invitation to the manor, setting the tone for the experience before they arrive.
+                            </p>
+                          </div>
+                            {FACELESS_GIFS[1] && (
+                              <div className="relative w-full flex justify-center">
+                                <img
+                                  src={FACELESS_GIFS[1]}
+                                  alt="Faceless Affair digital invitation"
+                                  className="w-full md:max-w-[65%] h-auto block rounded-[3rem]"
+                                />
+                              </div>
+                            )}
                         </div>
 
-                        <div className="space-y-4">
-                          <h3 className="text-base font-semibold text-gray-900 mb-1">Face Filter</h3>
-                          <p>
-                            We envision face filters for each game character, allowing users to share their excitement on social media. I created this filter using Procreate to illustrate the mask
-                            design and Spark AR Studio to map it to the user&apos;s face.
-                          </p>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                          <div>
+                            <h3 className="text-base font-semibold text-gray-900 mb-1">Face Filter</h3>
+                            <p className="">
+                              We envision face filters for each game character, allowing users to share their excitement on social media. I created this filter using Procreate to illustrate the mask
+                              design and Spark AR Studio to map it to the user&apos;s face.
+                            </p>
+                          </div>
+                            {FACELESS_GIFS[2] && (
+                              <div className="relative w-full flex justify-center">
+                                <img
+                                  src={FACELESS_GIFS[2]}
+                                  alt="Faceless Affair face filter"
+                                  className="w-full md:max-w-[65%] h-auto block rounded-[3rem]"
+                                />
+                              </div>
+                            )}
                         </div>
 
-                        <div className="space-y-4">
-                          <h3 className="text-base font-semibold text-gray-900 mb-1">The Manor & Entry</h3>
-                          <p>
-                            When the players enter the manor, they receive phones with the app pre-loaded in the reception room at the beginning of the experience. Each phone has a privacy screen to
-                            prevent other players from looking at each other’s screens.
-                          </p>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                          <div>
+                            <h3 className="text-base font-semibold text-gray-900 mb-1">The Manor & Entry</h3>
+                            <p className="">
+                              When the players enter the manor, they receive phones with the app pre-loaded in the reception room at the beginning of the experience. Each phone has a privacy screen to
+                              prevent other players from looking at each other’s screens.
+                            </p>
+                          </div>
+                            {FACELESS_GIFS[3] && (
+                              <div className="relative w-full flex justify-center">
+                                <img
+                                  src={FACELESS_GIFS[3]}
+                                  alt="Faceless Affair manor entry"
+                                  className="w-full md:max-w-[65%] h-auto block rounded-[3rem]"
+                                />
+                              </div>
+                            )}
                         </div>
 
-                        <div className="space-y-4">
-                          <h3 className="text-base font-semibold text-gray-900 mb-1">Character Selection</h3>
-                          <p>
-                            Through the app, players are introduced to the cast of characters and select their role for the evening, aligning narrative expectations with gameplay.
-                          </p>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                          <div>
+                            <h3 className="text-base font-semibold text-gray-900 mb-1">Character Selection</h3>
+                            <p className="">
+                              Through the app, players are introduced to the cast of characters and select their role for the evening, aligning narrative expectations with gameplay.
+                            </p>
+                          </div>
+                            {FACELESS_GIFS[4] && (
+                              <div className="relative w-full flex justify-center">
+                                <img
+                                  src={FACELESS_GIFS[4]}
+                                  alt="Faceless Affair character selection"
+                                  className="w-full md:max-w-[65%] h-auto block rounded-[3rem]"
+                                />
+                              </div>
+                            )}
                         </div>
 
-                        <div className="space-y-4">
-                          <h3 className="text-base font-semibold text-gray-900 mb-1">Scanning for Clues</h3>
-                          <p>
-                            Players can scan items marked with a special symbol and collect them in their digital inventory. I modeled the clue items in the 3D app Nomad and added additional texture in
-                            Blender.
-                          </p>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                          <div>
+                            <h3 className="text-base font-semibold text-gray-900 mb-1">Scanning for Clues</h3>
+                            <p className="">
+                              Players can scan items marked with a special symbol and collect them in their digital inventory. I modeled the clue items in the 3D app Nomad and added additional texture in
+                              Blender.
+                            </p>
+                          </div>
+                        </div>
+                        {(FACELESS_GIFS[4] || FACELESS_GIFS[5] || FACELESS_GIFS[6]) && (
+                          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                            {[FACELESS_GIFS[4], FACELESS_GIFS[5], FACELESS_GIFS[6]].filter(Boolean).map((src, index) => (
+                              <div key={index} className="relative w-full flex justify-center">
+                                <img
+                                  src={src}
+                                  alt={`Faceless Affair scanning clues ${index + 1}`}
+                                  className="w-full h-auto block rounded-[3rem]"
+                                />
+                              </div>
+                            ))}
+                          </div>
+                        )}
+
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+                          <div className="md:col-span-1">
+                            <h3 className="text-base font-semibold text-gray-900 mb-1">Accuse the Murderer</h3>
+                            <p className="">
+                              From the home screen, players can select which player to accuse of being the murderer and solve the mystery. We created distinct win and lose states depending on the
+                              outcome of the game.
+                            </p>
+                          </div>
+                            <div className="md:col-span-2 flex gap-6 justify-center items-center">
+                              {FACELESS_GIFS[7] && (
+                                <div className="relative flex-1 min-w-0 flex justify-center">
+                                  <img
+                                    src={FACELESS_GIFS[7]}
+                                    alt="Faceless Affair accuse the murderer 1"
+                                    className="w-full h-auto block rounded-[3rem]"
+                                  />
+                                </div>
+                              )}
+                              {FACELESS_GIFS[8] && (
+                                <div className="relative flex-1 min-w-0 flex justify-center">
+                                  <img
+                                    src={FACELESS_GIFS[8]}
+                                    alt="Faceless Affair accuse the murderer 2"
+                                    className="w-full h-auto block rounded-[3rem]"
+                                  />
+                                </div>
+                              )}
+                            </div>
                         </div>
 
-                        <div className="space-y-4">
-                          <h3 className="text-base font-semibold text-gray-900 mb-1">Accuse the Murderer</h3>
-                          <p>
-                            From the home screen, players can select which player to accuse of being the murderer and solve the mystery. We created distinct win and lose states depending on the
-                            outcome of the game.
-                          </p>
-                        </div>
+                        {/* Extra gifs as a small motion gallery (any beyond index 8) */}
+                        {FACELESS_GIFS.slice(9).length > 0 && (
+                          <div className="space-y-4 pt-4">
+                            <h3 className="text-base font-semibold text-gray-900 mb-1">Additional Motion Explorations</h3>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 items-center">
+                              {FACELESS_GIFS.slice(9).map((src, index) => (
+                                <div key={index} className="relative w-full flex justify-center">
+                                  <img
+                                    src={src}
+                                    alt={`Faceless Affair motion ${index + 1}`}
+                                    className="w-full md:max-w-[75%] h-auto block rounded-[3rem]"
+                                  />
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
                       </div>
                     </FadeInSection>
                   </section>
