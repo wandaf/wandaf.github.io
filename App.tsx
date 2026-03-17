@@ -71,6 +71,32 @@ const App: React.FC = () => {
   const [scrollY, setScrollY] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
 
+  // Animate document title as a subtle marquee
+  useEffect(() => {
+    if (typeof document === 'undefined') return;
+
+    const base = 'Wanda Felsenhardt | Digital Designer';
+    const spacer = '   ';
+    const text = base + spacer;
+    let index = 0;
+
+    const updateTitle = () => {
+      // Rotate the string one character at a time
+      const rotated = text.slice(index) + text.slice(0, index);
+      document.title = rotated;
+      index = (index + 1) % text.length;
+    };
+
+    // Set an initial title
+    document.title = base;
+    const interval = window.setInterval(updateTitle, 250); // ~4 chars per second
+
+    return () => {
+      window.clearInterval(interval);
+      document.title = base;
+    };
+  }, []);
+
   useEffect(() => {
     const handleScroll = () => {
       setScrollY(window.scrollY);
