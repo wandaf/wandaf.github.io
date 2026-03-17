@@ -62,7 +62,7 @@ const Footer: React.FC<FooterProps> = ({ onPageChange }) => {
                 <p className="text-[10px] uppercase tracking-[0.2em] font-mono-tag text-black/40 mb-6">Links</p>
                 <nav className="flex flex-col gap-4">
                   <a 
-                    href="https://linkedin.com" 
+                    href="https://www.linkedin.com/in/wanda-f/" 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="text-xl md:text-2xl font-semibold flex items-center gap-2 hover:translate-x-2 transition-transform w-fit"
