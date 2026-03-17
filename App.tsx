@@ -1,6 +1,8 @@
 
-import React, { useState, useEffect, useMemo } from 'react';
-import { Page, CaseStudy } from './types';
+import React, { useEffect, useMemo, useState } from 'react';
+import { Navigate, Route, Routes, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { CASE_STUDIES } from './constants';
+import { CaseStudy, Page } from './types';
 import Navbar from './components/Navbar';
 import Branding from './components/Branding';
 import Hero from './components/Hero';
@@ -11,10 +13,61 @@ import About from './components/About';
 import Resume from './components/Resume';
 import CaseStudyView from './components/CaseStudyView';
 
+function pageToPath(page: Page): string {
+  switch (page) {
+    case Page.WORK:
+      return '/';
+    case Page.PLAYGROUND:
+      return '/playground';
+    case Page.ABOUT:
+      return '/about';
+    case Page.RESUME:
+      return '/resume';
+    default:
+      return '/';
+  }
+}
+
+function pathToActivePage(pathname: string): Page {
+  if (pathname.startsWith('/playground')) return Page.PLAYGROUND;
+  if (pathname.startsWith('/about')) return Page.ABOUT;
+  if (pathname.startsWith('/resume')) return Page.RESUME;
+  // Case studies live under /work/:slug, but nav should highlight Work
+  return Page.WORK;
+}
+
+const WorkRoute: React.FC<{ onSelectCaseStudy: (study: CaseStudy) => void }> = ({ onSelectCaseStudy }) => {
+  return (
+    <div className="w-full">
+      <Hero />
+      <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-16 relative z-20">
+        <WorkGrid onSelectCaseStudy={onSelectCaseStudy} />
+      </div>
+    </div>
+  );
+};
+
+const CaseStudyRoute: React.FC = () => {
+  const { slug } = useParams();
+  const study = useMemo(() => {
+    if (!slug) return null;
+    return CASE_STUDIES.find((s) => s.slug === slug) ?? null;
+  }, [slug]);
+
+  if (!study) return <Navigate to="/" replace />;
+
+  // External case studies are meant to open in a new tab from the grid,
+  // but if someone lands here directly, just send them home.
+  if (study.externalUrl) return <Navigate to="/" replace />;
+
+  return <CaseStudyView study={study} />;
+};
+
 const App: React.FC = () => {
-  const [currentPage, setCurrentPage] = useState<Page>(Page.WORK);
-  const [displayPage, setDisplayPage] = useState<Page>(Page.WORK);
-  const [selectedCaseStudy, setSelectedCaseStudy] = useState<CaseStudy | null>(null);
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const [displayLocation, setDisplayLocation] = useState(location);
   const [scrollY, setScrollY] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
 
@@ -27,33 +80,28 @@ const App: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (currentPage !== displayPage) {
+    if (location.key !== displayLocation.key) {
       setIsTransitioning(true);
-      const timer = setTimeout(() => {
-        setDisplayPage(currentPage);
+      const timer = window.setTimeout(() => {
+        setDisplayLocation(location);
         setIsTransitioning(false);
+        setScrollY(0);
         window.scrollTo(0, 0);
       }, 400);
-      return () => clearTimeout(timer);
+      return () => window.clearTimeout(timer);
     }
-  }, [currentPage, displayPage]);
+  }, [location, displayLocation.key]);
 
   const handleCaseStudySelect = (study: CaseStudy) => {
-    setSelectedCaseStudy(study);
-    setCurrentPage(Page.CASE_STUDY);
+    navigate(`/work/${study.slug}`);
   };
 
   const handlePageChange = (page: Page) => {
-    if (page === Page.WORK) {
-      // Ensure hero gradient is visible immediately when returning home
-      setScrollY(0);
-      if (typeof window !== 'undefined') {
-        window.scrollTo(0, 0);
-      }
-    }
-    setSelectedCaseStudy(null);
-    setCurrentPage(page);
+    navigate(pageToPath(page));
   };
+
+  const activePage = useMemo(() => pathToActivePage(location.pathname), [location.pathname]);
+  const displayPage = useMemo(() => pathToActivePage(displayLocation.pathname), [displayLocation.pathname]);
 
   // Gradient → white: 0 = only gradient visible, 1 = white overlay fully visible (for nav/branding and transition)
   const whiteFadeProgress = useMemo(() => {
@@ -75,55 +123,8 @@ const App: React.FC = () => {
     if (displayPage === Page.PLAYGROUND) return true;
     if (displayPage === Page.ABOUT || displayPage === Page.RESUME) return false;
     if (displayPage === Page.WORK) return darkProgress > 0.5;
-    if (displayPage === Page.CASE_STUDY) {
-      const vh = typeof window !== 'undefined' ? window.innerHeight : 800;
-      // Case study hero is roughly 80-90vh. Transition to light mode at 70vh scroll.
-      return scrollY < vh * 0.7;
-    }
     return false;
   }, [scrollY, displayPage, darkProgress]);
-
-  const renderContent = () => {
-    switch (displayPage) {
-      case Page.WORK:
-        return (
-          <div className="w-full">
-            <Hero />
-            <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-16 relative z-20">
-              <WorkGrid onSelectCaseStudy={handleCaseStudySelect} />
-            </div>
-          </div>
-        );
-      case Page.PLAYGROUND:
-        return (
-          <div className="w-full bg-black overflow-x-hidden">
-            <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-16">
-              <Playground />
-            </div>
-          </div>
-        );
-      case Page.ABOUT:
-        return (
-          <div className="w-full">
-            <div className="max-w-[1400px] mx-auto px-6 md:px-10 lg:px-16 pt-32">
-              <About />
-            </div>
-          </div>
-        );
-      case Page.RESUME:
-        return (
-          <div className="w-full">
-            <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-16 pt-32">
-              <Resume />
-            </div>
-          </div>
-        );
-      case Page.CASE_STUDY:
-        return selectedCaseStudy ? <CaseStudyView study={selectedCaseStudy} /> : null;
-      default:
-        return null;
-    }
-  };
 
   return (
     <div className={`min-h-screen w-full flex flex-col transition-colors duration-500 ${displayPage === Page.PLAYGROUND ? 'bg-black' : 'bg-white'} selection:bg-gray-500 selection:text-white`}>
@@ -137,14 +138,48 @@ const App: React.FC = () => {
       <Branding isDarkMode={isDarkMode} onPageChange={handlePageChange} />
       
       <Navbar 
-        activePage={currentPage === Page.CASE_STUDY ? Page.WORK : currentPage} 
+        activePage={activePage} 
         onPageChange={handlePageChange} 
         isScrolled={scrollY > 100} 
         isDarkMode={isDarkMode}
       />
       
       <main className={`flex-grow w-full relative z-10 transition-all duration-400 ease-in-out ${isTransitioning ? 'opacity-0 blur-xl' : 'opacity-100 blur-0'}`}>
-        {renderContent()}
+        <Routes location={displayLocation}>
+          <Route path="/" element={<WorkRoute onSelectCaseStudy={handleCaseStudySelect} />} />
+          <Route
+            path="/playground"
+            element={
+              <div className="w-full bg-black overflow-x-hidden">
+                <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-16">
+                  <Playground />
+                </div>
+              </div>
+            }
+          />
+          <Route
+            path="/about"
+            element={
+              <div className="w-full">
+                <div className="max-w-[1400px] mx-auto px-6 md:px-10 lg:px-16 pt-32">
+                  <About />
+                </div>
+              </div>
+            }
+          />
+          <Route
+            path="/resume"
+            element={
+              <div className="w-full">
+                <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-16 pt-32">
+                  <Resume />
+                </div>
+              </div>
+            }
+          />
+          <Route path="/work/:slug" element={<CaseStudyRoute />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
       </main>
 
       <Footer onPageChange={handlePageChange} />

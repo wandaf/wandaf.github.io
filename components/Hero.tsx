@@ -82,7 +82,7 @@ const Hero: React.FC = () => {
           intensity={0.5}
           noise={0.25}
           shape="corners"
-          speed={0.5}
+          speed={0.6}
           offsetX={0.14}
           offsetY={0.06}
         />
