@@ -272,9 +272,9 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
             isMcdonalds
               ? '/assets/imgs/Mcdonalds/ld4tdsEQzQw9aIQj47eO0ZamxY (1).avif'
               : isMTA
-              ? 'dist/assets/MTA/WsdxxC4cphhRoECrkAfFh526E.avif'
+              ? '/assets/MTA/WsdxxC4cphhRoECrkAfFh526E.avif'
               : study.slug === 'editorial-design'
-              ? 'dist/assets/imgs/Editorial/2I7GWougET3BKSbEA8Rqq5vg.png'
+              ? '/assets/imgs/Editorial/2I7GWougET3BKSbEA8Rqq5vg.png'
               : study.imageUrl
           } 
           alt={study.title}
