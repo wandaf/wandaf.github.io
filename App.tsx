@@ -44,6 +44,13 @@ const App: React.FC = () => {
   };
 
   const handlePageChange = (page: Page) => {
+    if (page === Page.WORK) {
+      // Ensure hero gradient is visible immediately when returning home
+      setScrollY(0);
+      if (typeof window !== 'undefined') {
+        window.scrollTo(0, 0);
+      }
+    }
     setSelectedCaseStudy(null);
     setCurrentPage(page);
   };
