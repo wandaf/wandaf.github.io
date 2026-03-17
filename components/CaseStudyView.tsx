@@ -91,41 +91,41 @@ const MCDONALDS_GALLERY_ROW_2 = [
 ];
 
 const EDITORIAL_THIRD_PLACE = [
-  'dist/assets/imgs/Editorial/The Third Place/Desktop - 13.jpg',
-  'dist/assets/imgs/Editorial/The Third Place/Desktop - 14.jpg',
-  'dist/assets/imgs/Editorial/The Third Place/Desktop - 15.jpg',
-  'dist/assets/imgs/Editorial/The Third Place/Desktop - 16.jpg',
-  'dist/assets/imgs/Editorial/The Third Place/Desktop - 17.jpg',
-  'dist/assets/imgs/Editorial/The Third Place/Desktop - 18.jpg',
+  'assets/imgs/Editorial/The Third Place/Desktop - 13.jpg',
+  'assets/imgs/Editorial/The Third Place/Desktop - 14.jpg',
+  'assets/imgs/Editorial/The Third Place/Desktop - 15.jpg',
+  'assets/imgs/Editorial/The Third Place/Desktop - 16.jpg',
+  'assets/imgs/Editorial/The Third Place/Desktop - 17.jpg',
+  'assets/imgs/Editorial/The Third Place/Desktop - 18.jpg',
 ];
 
 const EDITORIAL_GEORGETOWN = [
-  'dist/assets/imgs/Editorial/Georgetown Magazine/Desktop - 20.jpg',
-  'dist/assets/imgs/Editorial/Georgetown Magazine/Desktop - 21.jpg',
+  'assets/imgs/Editorial/Georgetown Magazine/Desktop - 20.jpg',
+  'assets/imgs/Editorial/Georgetown Magazine/Desktop - 21.jpg',
 ];
 
 const EDITORIAL_NIGHTLY = [
-  'dist/assets/imgs/Editorial/The Nightly/Desktop - 23.jpg',
-  'dist/assets/imgs/Editorial/The Nightly/Desktop - 22.jpg',
-  'dist/assets/imgs/Editorial/The Nightly/Desktop - 24.jpg',
+  'assets/imgs/Editorial/The Nightly/Desktop - 23.jpg',
+  'assets/imgs/Editorial/The Nightly/Desktop - 22.jpg',
+  'assets/imgs/Editorial/The Nightly/Desktop - 24.jpg',
 ];
 
 const FACELESS_IMAGES = [
-  '/assets/imgs/Faceless Affair/1.png.webp',
-  '/assets/imgs/Faceless Affair/2.png.webp',
-  '/assets/imgs/Faceless Affair/3.png.webp',
+  'assets/imgs/Faceless Affair/1.png.webp',
+  'assets/imgs/Faceless Affair/2.png.webp',
+  'assets/imgs/Faceless Affair/3.png.webp',
 ];
 
 const FACELESS_GIFS = [
-  '/assets/imgs/Faceless Affair/5.gif',
-  '/assets/imgs/Faceless Affair/4.gif',
-  '/assets/imgs/Faceless Affair/6.gif',
-  '/assets/imgs/Faceless Affair/7.gif',
-  '/assets/imgs/Faceless Affair/8.gif',
-  '/assets/imgs/Faceless Affair/9.gif',
-  '/assets/imgs/Faceless Affair/10.gif',
-  '/assets/imgs/Faceless Affair/11.gif',
-  '/assets/imgs/Faceless Affair/12.gif',
+  'assets/imgs/Faceless Affair/5.gif',
+  'assets/imgs/Faceless Affair/4.gif',
+  'assets/imgs/Faceless Affair/6.gif',
+  'assets/imgs/Faceless Affair/7.gif',
+  'assets/imgs/Faceless Affair/8.gif',
+  'assets/imgs/Faceless Affair/9.gif',
+  'assets/imgs/Faceless Affair/10.gif',
+  'assets/imgs/Faceless Affair/11.gif',
+  'assets/imgs/Faceless Affair/12.gif',
 ];
 
 const NdaCallout: React.FC = () => (
@@ -272,7 +272,7 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
             isMcdonalds
               ? 'assets/imgs/Mcdonalds/ld4tdsEQzQw9aIQj47eO0ZamxY (1).avif'
               : isMTA
-              ? 'assets/MTA/WsdxxC4cphhRoECrkAfFh526E.avif'
+              ? 'assets/imgs/MTA/WsdxxC4cphhRoECrkAfFh526E.avif'
               : study.slug === 'editorial-design'
               ? 'assets/imgs/Editorial/2I7GWougET3BKSbEA8Rqq5vg.png'
               : study.imageUrl
