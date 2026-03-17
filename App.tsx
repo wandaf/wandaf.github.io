@@ -36,10 +36,10 @@ function pathToActivePage(pathname: string): Page {
   return Page.WORK;
 }
 
-const WorkRoute: React.FC<{ onSelectCaseStudy: (study: CaseStudy) => void }> = ({ onSelectCaseStudy }) => {
+const WorkRoute: React.FC<{ onSelectCaseStudy: (study: CaseStudy) => void; scrollY: number }> = ({ onSelectCaseStudy, scrollY }) => {
   return (
     <div className="w-full">
-      <Hero />
+      <Hero scrollY={scrollY} />
       <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-16 relative z-20">
         <WorkGrid onSelectCaseStudy={onSelectCaseStudy} />
       </div>
@@ -161,7 +161,7 @@ const App: React.FC = () => {
           style={{ opacity: whiteFadeProgress }}
         />
       )}
-      <Branding isDarkMode={isDarkMode} onPageChange={handlePageChange} />
+      <Branding isDarkMode={isDarkMode} onPageChange={handlePageChange} scrollY={scrollY} />
       
       <Navbar 
         activePage={activePage} 
@@ -172,7 +172,7 @@ const App: React.FC = () => {
       
       <main className={`flex-grow w-full relative z-10 transition-all duration-400 ease-in-out ${isTransitioning ? 'opacity-0 blur-xl' : 'opacity-100 blur-0'}`}>
         <Routes location={displayLocation}>
-          <Route path="/" element={<WorkRoute onSelectCaseStudy={handleCaseStudySelect} />} />
+          <Route path="/" element={<WorkRoute onSelectCaseStudy={handleCaseStudySelect} scrollY={scrollY} />} />
           <Route
             path="/playground"
             element={

@@ -1,22 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { GrainGradient } from '@paper-design/shaders-react';
 
-const Hero: React.FC = () => {
-  const [scrollY, setScrollY] = useState(0);
+interface HeroProps {
+  scrollY: number;
+}
+
+const Hero: React.FC<HeroProps> = ({ scrollY }) => {
   const [isMounted, setIsMounted] = useState(false);
   const [time, setTime] = useState('');
   const [size, setSize] = useState({ width: 1280, height: 720 });
   const fullText = "Wanda Felsenhardt";
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrollY(window.scrollY);
-    };
     const handleResize = () => {
       setSize({ width: window.innerWidth, height: window.innerHeight });
     };
     handleResize();
-    window.addEventListener('scroll', handleScroll, { passive: true });
     window.addEventListener('resize', handleResize);
     const timer = setTimeout(() => setIsMounted(true), 150);
 
@@ -36,7 +35,6 @@ const Hero: React.FC = () => {
     const interval = setInterval(updateTime, 1000);
     
     return () => {
-      window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('resize', handleResize);
       clearTimeout(timer);
       clearInterval(interval);

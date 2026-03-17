@@ -1,22 +1,14 @@
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Page } from '../types';
 
 interface BrandingProps {
   isDarkMode: boolean;
   onPageChange: (page: Page) => void;
+  scrollY: number;
 }
 
-const Branding: React.FC<BrandingProps> = ({ isDarkMode, onPageChange }) => {
-  const [scrollY, setScrollY] = useState(0);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrollY(window.scrollY);
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+const Branding: React.FC<BrandingProps> = ({ isDarkMode, onPageChange, scrollY }) => {
 
   // Shrink from 1.15 to 1.0 over 150px of scroll
   const scrollRange = 150;
