@@ -117,8 +117,8 @@ const FACELESS_IMAGES = [
 ];
 
 const FACELESS_GIFS = [
-  '/assets/imgs/Faceless Affair/4.gif',
   '/assets/imgs/Faceless Affair/5.gif',
+  '/assets/imgs/Faceless Affair/4.gif',
   '/assets/imgs/Faceless Affair/6.gif',
   '/assets/imgs/Faceless Affair/7.gif',
   '/assets/imgs/Faceless Affair/8.gif',
@@ -304,7 +304,7 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
               </p>
             </FadeInSection>
             
-            <FadeInSection className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-10 pt-8 border-t border-gray-100">
+            <FadeInSection className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 md:gap-10 pt-8 border-t border-gray-100">
               <div>
                 <p className="text-[10px] uppercase tracking-normal text-black font-bold mb-3 font-mono-tag">Timeline</p>
                 <p className="text-gray-400 text-sm font-light">{study.timeline || '5 Weeks'}</p>
@@ -326,8 +326,8 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
 
           {/* Sticky Container */}
           <div className="flex flex-col md:flex-row gap-10 lg:gap-24 items-start">
-            {/* Index Sidebar */}
-            <aside className="md:w-[120px] sticky top-40 mb-12 md:mb-0 h-fit shrink-0 md:-ml-6 lg:-ml-10">
+            {/* Index Sidebar (hidden on mobile) */}
+            <aside className="hidden md:block md:w-[120px] sticky top-40 mb-12 md:mb-0 h-fit shrink-0 md:-ml-6 lg:-ml-10">
               <nav className="flex flex-col gap-6">
                 {sections.map(section => (
                   <button
@@ -821,35 +821,24 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
                             )}
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                          <div>
-                            <h3 className="text-base font-semibold text-gray-900 mb-1">Character Selection</h3>
-                            <p className="">
-                              Through the app, players are introduced to the cast of characters and select their role for the evening, aligning narrative expectations with gameplay.
-                            </p>
-                          </div>
-                            {FACELESS_GIFS[4] && (
-                              <div className="relative w-full flex justify-center">
-                                <img
-                                  src={FACELESS_GIFS[4]}
-                                  alt="Faceless Affair character selection"
-                                  className="w-full md:max-w-[65%] h-auto block rounded-[3rem]"
-                                />
-                              </div>
-                            )}
+                        <div className="w-full">
+                          <h3 className="text-base font-semibold text-gray-900 mb-1">Character Selection</h3>
+                          <p className="">
+                            Through the app, players are introduced to the cast of characters and select their role for the evening, aligning narrative expectations with gameplay.
+                          </p>
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                          <div>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+                          <div className="md:col-span-1">
                             <h3 className="text-base font-semibold text-gray-900 mb-1">Scanning for Clues</h3>
                             <p className="">
                               Players can scan items marked with a special symbol and collect them in their digital inventory. I modeled the clue items in the 3D app Nomad and added additional texture in
                               Blender.
                             </p>
                           </div>
-                          {(FACELESS_GIFS[5] || FACELESS_GIFS[6] || FACELESS_GIFS[7]) && (
-                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-                              {[FACELESS_GIFS[5], FACELESS_GIFS[6], FACELESS_GIFS[7]].filter(Boolean).map((src, index) => (
+                          {(FACELESS_GIFS[5] || FACELESS_GIFS[6] || FACELESS_GIFS[4]) && (
+                            <div className="md:col-span-2 grid grid-cols-1 sm:grid-cols-3 gap-6">
+                              {[FACELESS_GIFS[5], FACELESS_GIFS[6], FACELESS_GIFS[4]].filter(Boolean).map((src, index) => (
                                 <div key={index} className="relative w-full flex justify-center">
                                   <img
                                     src={src}
