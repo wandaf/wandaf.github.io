@@ -272,7 +272,7 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
             isMcdonalds
               ? 'assets/imgs/Mcdonalds/ld4tdsEQzQw9aIQj47eO0ZamxY (1).avif'
               : isMTA
-              ? 'assets/MTA/WsdxxC4cphhRoECrkAfFh526E.avif'
+              ? 'assets/MTA/Air7GrLLZ576mafZW991PNnKQI-ezgif.com-optimize.gif'
               : study.slug === 'editorial-design'
               ? 'assets/imgs/Editorial/2I7GWougET3BKSbEA8Rqq5vg.png'
               : study.imageUrl
@@ -785,10 +785,9 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
                           <div>
-                            <h3 className="text-base font-semibold text-gray-900 mb-1">Face Filter</h3>
+                            <h3 className="text-base font-semibold text-gray-900 mb-1">Character Selection</h3>
                             <p className="">
-                              We envision face filters for each game character, allowing users to share their excitement on social media. I created this filter using Procreate to illustrate the mask
-                              design and Spark AR Studio to map it to the user&apos;s face.
+                              Through the app, players are introduced to the cast of characters and select their role for the evening, aligning narrative expectations with gameplay.
                             </p>
                           </div>
                             {FACELESS_GIFS[2] && (
@@ -819,13 +818,6 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
                                 />
                               </div>
                             )}
-                        </div>
-
-                        <div className="w-full">
-                          <h3 className="text-base font-semibold text-gray-900 mb-1">Character Selection</h3>
-                          <p className="">
-                            Through the app, players are introduced to the cast of characters and select their role for the evening, aligning narrative expectations with gameplay.
-                          </p>
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
