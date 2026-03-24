@@ -101,10 +101,10 @@ const MCDONALDS_GALLERY_ROW_2 = [
 const EDITORIAL_THIRD_PLACE = [
   'assets/imgs/Editorial/The Third Place/Desktop - 13.jpg',
   'assets/imgs/Editorial/The Third Place/Desktop - 14.jpg',
-  'assets/imgs/Editorial/The Third Place/Desktop - 15.jpg',
+  'assets/imgs/Editorial/The Third Place/Desktop - 18.jpg',
   'assets/imgs/Editorial/The Third Place/Desktop - 16.jpg',
   'assets/imgs/Editorial/The Third Place/Desktop - 17.jpg',
-  'assets/imgs/Editorial/The Third Place/Desktop - 18.jpg',
+  'assets/imgs/Editorial/The Third Place/Desktop - 15.jpg',
 ];
 
 const EDITORIAL_GEORGETOWN = [
