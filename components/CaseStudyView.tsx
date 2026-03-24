@@ -7,6 +7,14 @@ interface CaseStudyViewProps {
   study: CaseStudy;
 }
 
+const normalizeAssetSrc = (src: string) => {
+  try {
+    return encodeURI(decodeURI(src));
+  } catch {
+    return encodeURI(src);
+  }
+};
+
 const FadeInSection: React.FC<{ children: React.ReactNode; className?: string }> = ({ children, className = "" }) => {
   const domRef = useRef<HTMLDivElement>(null);
   const [isVisible, setVisible] = useState(false);
@@ -145,7 +153,7 @@ const NdaCallout: React.FC = () => (
   </div>
 );
 
-const ResearchDeckCallout: React.FC<{ deckUrl?: string }> = ({ deckUrl = '#' }) => (
+const ResearchDeckCallout: React.FC<{ deckUrl?: string }> = ({ deckUrl = 'https://www.figma.com/deck/7hFmhIFG2ls91PCwOjp4BE/MTA-Research?node-id=2052-43&t=PWkMRcQVca9G6R5P-1' }) => (
   <div className="rounded-2xl bg-[#e0e7ff] p-8 md:p-10 max-w-2xl">
     <p className="text-xl md:text-2xl font-light font-['IBM_Plex_Serif'] text-gray-900 mb-2">
       Interested in learning more about my process?
@@ -178,6 +186,7 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
   const isMTA = study.slug === 'mta-open-source' || study.id === 2;
   const isEditorial = study.slug === 'editorial-design' || study.id === 5;
   const isFaceless = study.slug === 'faceless-affair' || study.id === 3;
+  const isVivBrand = study.slug === 'viv-brand-project' || study.id === 8;
 
   const sections = isMcdonalds
     ? [
@@ -197,6 +206,13 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
         { id: 'process', label: 'Process', icon: Workflow },
         { id: 'features', label: 'Features', icon: Target },
         { id: 'final', label: 'Final Thoughts', icon: CheckCircle2 },
+      ]
+    : isVivBrand
+    ? [
+        { id: 'visual-style', label: 'Visual Style', icon: Eye },
+        { id: 'typography-logo', label: 'Typography + Logo', icon: Workflow },
+        { id: 'applications', label: 'Applications', icon: Palette },
+        { id: 'conclusion', label: 'Conclusion', icon: CheckCircle2 },
       ]
     : isEditorial
     ? [
@@ -268,15 +284,17 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
       {/* 1. Impact Hero Image */}
       <div className="w-full h-[52vh] md:h-[59vh] relative overflow-hidden bg-black flex items-center justify-center">
         <img 
-          src={
+          src={normalizeAssetSrc(
             isMcdonalds
               ? 'assets/imgs/Mcdonalds/ld4tdsEQzQw9aIQj47eO0ZamxY (1).avif'
               : isMTA
               ? 'assets/MTA/Air7GrLLZ576mafZW991PNnKQI-ezgif.com-optimize.gif'
+              : isVivBrand
+              ? 'assets/imgs/Viv Brand/heroImage.jpg'
               : study.slug === 'editorial-design'
               ? 'assets/imgs/Editorial/2I7GWougET3BKSbEA8Rqq5vg.png'
               : study.imageUrl
-          } 
+          )}
           alt={study.title}
           className={`h-full opacity-90 transition-opacity duration-1000 ${
             isMTA ? 'w-auto max-w-[70%] object-contain' : 'w-full object-cover'
@@ -574,6 +592,80 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
                           </ul>
                         </div>
                       </div>
+                    </FadeInSection>
+                  </section>
+                </>
+              ) : isVivBrand ? (
+                <>
+                  <section id="visual-style" className="scroll-mt-40">
+                    <FadeInSection>
+                      <SectionHeading title="Visual Style" icon={Eye} />
+                      <div className="space-y-6 max-w-[1240px] text-gray-600 font-light text-lg leading-relaxed">
+                        <p>
+                          I was inspired by the use of illustration to convey concepts such as problem-solving and collaboration while conveying friendliness. I gathered imspiration in a moodboard.
+                        </p>
+                        <div className="relative w-full">
+                          <img src={normalizeAssetSrc('assets/imgs/Viv Brand/Moodboard.png')} alt="Viv Brand moodboard" className="w-full h-auto block" />
+                        </div>
+                      </div>
+                    </FadeInSection>
+                  </section>
+
+                  <section id="typography-logo" className="scroll-mt-40">
+                    <FadeInSection>
+                      <SectionHeading title="Typography and Logo explorations" icon={Workflow} />
+                      <div className="space-y-6 max-w-[1240px] text-gray-600 font-light text-lg leading-relaxed">
+                        <p>
+                          To pair with the illustrations, I used a friendly and approachable serif font combined with hand drawn elements such as lines and notations.
+                        </p>
+                        <div className="relative w-full">
+                          <img src={normalizeAssetSrc('assets/imgs/Viv Brand/Viv_Concept_Doc_Master_006.jpg')} alt="Viv concept visual 006" className="w-full h-auto block" />
+                        </div>
+                        <div className="relative w-full">
+                          <img src={normalizeAssetSrc('assets/imgs/Viv Brand/Viv_Concept_Doc_Master_007.jpg')} alt="Viv concept visual 007" className="w-full h-auto block" />
+                        </div>
+                        <div className="relative w-full">
+                          <img src={normalizeAssetSrc('assets/imgs/Viv Brand/Viv_Concept_Doc_Master_008.jpg')} alt="Viv concept visual 008" className="w-full h-auto block" />
+                        </div>
+                        <div className="relative w-full">
+                          <img src={normalizeAssetSrc('assets/imgs/Viv Brand/Artboard 4-100.jpg')} alt="Viv typography and logo explorations artboard 4" className="w-full h-auto block" />
+                        </div>
+                        <div className="relative w-full">
+                          <img src={normalizeAssetSrc('assets/imgs/Viv Brand/Artboard 3-100.jpg')} alt="Viv typography and logo explorations artboard 3" className="w-full h-auto block" />
+                        </div>
+                        <div className="relative w-full">
+                          <img src={normalizeAssetSrc('assets/imgs/Viv Brand/Artboard 6-100.jpg')} alt="Viv typography and logo explorations artboard 6" className="w-full h-auto block" />
+                        </div>
+                      </div>
+                    </FadeInSection>
+                  </section>
+
+                  <section id="applications" className="scroll-mt-40">
+                    <FadeInSection>
+                      <SectionHeading title="Applications" icon={Palette} />
+                      <div className="space-y-6 max-w-[1240px] text-gray-600 font-light text-lg leading-relaxed">
+                        <p>
+                          I designed assets across multiple applications, from digital to environmental.
+                        </p>
+                        <div className="relative w-full">
+                          <img src={normalizeAssetSrc('assets/imgs/Viv Brand/RE_Mark_Up_Posters_001.jpg')} alt="Viv applications posters" className="w-full h-auto block" />
+                        </div>
+                        <div className="relative w-full">
+                          <img src={normalizeAssetSrc('assets/imgs/Viv Brand/RE_Movenment_Website_001.jpg')} alt="Viv applications website" className="w-full h-auto block" />
+                        </div>
+                        <div className="relative w-full">
+                          <img src={normalizeAssetSrc('assets/imgs/Viv Brand/RE_Movement_Presentation.jpg')} alt="Viv applications presentation" className="w-full h-auto block" />
+                        </div>
+                      </div>
+                    </FadeInSection>
+                  </section>
+
+                  <section id="conclusion" className="scroll-mt-40">
+                    <FadeInSection>
+                      <SectionHeading title="Conclusion" icon={CheckCircle2} />
+                      <p className="text-gray-600 font-light text-lg leading-relaxed max-w-3xl">
+                        While this concept was scrapped for another direction, I enjoyed the challenge of conveying both seniority and knowledge with approachability and fun.
+                      </p>
                     </FadeInSection>
                   </section>
                 </>

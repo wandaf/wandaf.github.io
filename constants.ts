@@ -55,17 +55,18 @@ export const CASE_STUDIES: CaseStudy[] = [
     year: "2025-Ongoing"
   },
   {
-    id: 5,
-    slug: "editorial-design",
-    title: "Editorial Design",
-    category: "Typographic Motion",
-    subhead: "Designing for Print",
-    tags: ["Print Design", "Illustration"],
-    imageUrl: "assets/imgs/Case5.png",
-    description: "A typographic exploration of visual language in social movements.",
-    timeline: "2021-2023",
-    role: "Print Designer",
-    tools: "Adobe InDesign"
+    id: 8,
+    slug: "viv-brand-project",
+    title: "Viv Brand Project",
+    category: "Brand Design",
+    subhead: "Higher Ed Agency Rebrand",
+    tags: ["Brand Design", "Illustration"],
+    imageUrl: "assets/imgs/Viv Brand/heroImage.jpg",
+    description: "Higher Ed Agency Rebrand",
+    timeline: "2 Weeks",
+    role: "Designer and Illustrator",
+    tools: "Illustrator, Procreate",
+    year: "2026"
   },
   {
     id: 6,
@@ -82,16 +83,31 @@ export const CASE_STUDIES: CaseStudy[] = [
     externalUrl: "https://thesecretgardenindata.framer.website/"
   },
   {
+    id: 5,
+    slug: "editorial-design",
+    title: "Editorial Design",
+    category: "Typographic Motion",
+    subhead: "Designing for Print",
+    tags: ["Print Design", "Illustration"],
+    imageUrl: "assets/imgs/Case5.png",
+    description: "A typographic exploration of visual language in social movements.",
+    timeline: "2021-2023",
+    role: "Print Designer",
+    tools: "Adobe InDesign"
+  },
+  {
     id: 7,
     slug: "kinetics-branding",
-    title: "Kinetics: High-Performance Branding",
-    category: "Brand Identity",
-    tags: ["Visual Identity", "Typography"],
-    imageUrl: "assets/imgs/Case4.png",
-    description: "Dynamic brand system for an emerging electric bike manufacturer.",
-    timeline: "12 Weeks",
-    role: "Brand Strategist",
-    tools: "Illustrator, AfterEffects"
+    title: "Georgetown University campaigns",
+    category: "Campaign Design",
+    subhead: "Designing a $6 billion dollar fundraising campaign",
+    tags: ["Campaign Design", "Web Design"],
+    imageUrl: "assets/imgs/GU.png",
+    description: "Designing a $6 billion dollar fundraising campaign",
+    timeline: "Ongoing",
+    role: "Designer",
+    tools: "Figma, Adobe Creative Suite",
+    externalUrl: "https://calledtobe.georgetown.edu"
   }
 ];
 

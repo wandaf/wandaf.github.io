@@ -7,6 +7,14 @@ interface WorkGridProps {
   onSelectCaseStudy: (study: CaseStudy) => void;
 }
 
+const normalizeAssetSrc = (src: string) => {
+  try {
+    return encodeURI(decodeURI(src));
+  } catch {
+    return encodeURI(src);
+  }
+};
+
 const ScrollReveal: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [isVisible, setVisible] = useState(false);
   const domRef = useRef<HTMLDivElement>(null);
@@ -138,7 +146,7 @@ const FeaturedCard: React.FC<{ study: CaseStudy; reverse?: boolean; onClick: () 
 
         <div className="flex-[1.5] w-full aspect-[4/3] bg-gray-100 rounded-xl overflow-hidden shadow-2xl isolate">
           <img 
-            src={study.imageUrl} 
+            src={normalizeAssetSrc(study.imageUrl)} 
             alt={title}
             className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
             style={{ transform: 'translateZ(0)' }}
@@ -167,7 +175,7 @@ const GridCard: React.FC<{ study: CaseStudy; onClick: () => void }> = ({ study, 
           style={{ transform: 'translateZ(0)' }}
         >
           <img 
-            src={study.imageUrl} 
+            src={normalizeAssetSrc(study.imageUrl)} 
             alt={title}
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
             style={{ transform: 'translateZ(0)' }}
@@ -199,9 +207,9 @@ const WorkGrid: React.FC<WorkGridProps> = ({ onSelectCaseStudy }) => {
   if (studies.length === 0) return <div className="py-20 text-center text-gray-400">No projects to display.</div>;
 
   const featured = studies.slice(0, 2);
-  const gridItems = studies.slice(2, 6);
+  const gridItems = studies.slice(2, 8);
   const lastItem = studies.length >= 7 ? studies[6] : null;
-  const remaining = studies.slice(7);
+  const remaining = studies.slice(8);
 
   return (
     <div className="space-y-12 mb-32 pt-24">
