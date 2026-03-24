@@ -32,6 +32,12 @@ const Resume: React.FC = () => {
       role: "Graphic Designer",
       period: "March 2020 — September 2021",
       location: ""
+    },
+    {
+      company: "Weber Shandwick",
+      role: "Creative Intern",
+      period: "August 2019 — December 2020",
+      location: ""
     }
   ];
 

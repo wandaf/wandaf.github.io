@@ -101,6 +101,15 @@ const About: React.FC = () => {
               March 2020 — September 2021
             </p>
           </div>
+
+          <div className="group">
+            <h3 className="text-xl md:text-2xl font-light font-['IBM_Plex_Serif'] text-gray-900 mb-2">
+              Creative Intern | Weber Shandwick
+            </h3>
+            <p className="text-xs uppercase tracking-[0.2em] text-gray-400 font-mono-tag">
+              August 2019 — December 2020
+            </p>
+          </div>
         </div>
       </section>
     </div>
