@@ -20,17 +20,23 @@ const ScrollReveal: React.FC<{ children: React.ReactNode }> = ({ children }) => 
   const domRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          setVisible(true);
-          observer.unobserve(entry.target);
-        }
-      });
-    }, {
-      threshold: 0,
-      rootMargin: '0px 0px 200px 0px'
-    });
+    // Large bottom inset = intersect earlier while scrolling; tuned vs. vh so the first
+    // card still starts below the fold at scroll 0 (no peek past 100vh hero + pt-3).
+    const bottomPx = Math.min(560, Math.max(240, Math.round(window.innerHeight * 0.52)));
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setVisible(true);
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0,
+        rootMargin: `0px 0px ${bottomPx}px 0px`,
+      }
+    );
 
     const currentRef = domRef.current;
     if (currentRef) {
@@ -47,8 +53,8 @@ const ScrollReveal: React.FC<{ children: React.ReactNode }> = ({ children }) => 
   return (
     <div
       ref={domRef}
-      className={`transition-all duration-[450ms] ease-out transform ${
-        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
+      className={`transition-[opacity,transform] duration-[260ms] ease-[cubic-bezier(0.22,1,0.36,1)] transform motion-reduce:transition-none motion-reduce:opacity-100 motion-reduce:translate-y-0 ${
+        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'
       }`}
     >
       {children}

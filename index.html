@@ -43,6 +43,30 @@
         opacity: 1;
         transform: translateY(0);
       }
+
+      /* McDonald’s Changeables marquee — global so animation never resets on React re-render */
+      @keyframes changeables-marquee {
+        from { transform: translate3d(0, 0, 0); }
+        to { transform: translate3d(-50%, 0, 0); }
+      }
+      .changeables-marquee-track {
+        animation: changeables-marquee 50s linear infinite;
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
+      }
+      .changeables-marquee-track:hover {
+        animation-play-state: paused;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .changeables-marquee-track {
+          animation: none;
+          transform: none;
+          flex-wrap: wrap;
+          justify-content: center;
+          width: 100%;
+          max-width: 100%;
+        }
+      }
     </style>
 <script type="importmap">
 {

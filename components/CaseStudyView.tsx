@@ -1,7 +1,6 @@
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { CaseStudy } from '../types';
-import { Eye, Target, Workflow, Palette, CheckCircle2 } from 'lucide-react';
 
 interface CaseStudyViewProps {
   study: CaseStudy;
@@ -46,15 +45,10 @@ const FadeInSection: React.FC<{ children: React.ReactNode; className?: string }>
   );
 };
 
-const SectionHeading: React.FC<{ title: string; icon: React.ElementType }> = ({ title, icon: Icon }) => (
-  <div className="flex items-center gap-4 cursor-default mb-12 relative">
-    <div className="w-12 h-12 flex items-center justify-center relative">
-      <Icon className="w-8 h-8 text-black stroke-[1.5px] opacity-100 absolute" />
-    </div>
-    <h2 className="text-3xl font-serif-heading font-semibold text-gray-900">
-      {title}
-    </h2>
-  </div>
+const SectionHeading: React.FC<{ title: string }> = ({ title }) => (
+  <h2 className="text-3xl font-serif-heading font-semibold text-gray-900 mb-12 cursor-default">
+    {title}
+  </h2>
 );
 
 const GalleryBlockHeading: React.FC<{ title: string; description: string }> = ({ title, description }) => (
@@ -97,6 +91,99 @@ const MCDONALDS_GALLERY_ROW_2 = [
   'assets/imgs/Mcdonalds/fzwbpbdhFVLhAWhcUm6yr2PMog.png.webp',
   'assets/imgs/Mcdonalds/CwHPBomIJykO7JgFCOElWYDbz3c.png.webp',
 ];
+
+const MCDONALDS_CHANGEABLES_SEQUENCE = [1, 2, 3].map(
+  (n) => `assets/imgs/Mcdonalds/Project 2/${n}.jpg`
+);
+const MCDONALDS_CHANGEABLES_MARQUEE = [4, 5, 6, 7, 8, 9].map(
+  (n) => `assets/imgs/Mcdonalds/Project 2/${n}.jpg`
+);
+
+const ChangeablesSequenceSlideshow: React.FC = () => {
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    const id = window.setInterval(() => {
+      setIndex((i) => (i + 1) % MCDONALDS_CHANGEABLES_SEQUENCE.length);
+    }, 2000);
+    return () => window.clearInterval(id);
+  }, []);
+
+  return (
+    <div className="relative w-full min-h-[min(72vh,880px)] md:min-h-[min(78vh,960px)]">
+      {MCDONALDS_CHANGEABLES_SEQUENCE.map((src, i) => (
+        <img
+          key={src}
+          src={normalizeAssetSrc(src)}
+          alt={`Changeables storyboard ${i + 1}`}
+          className={`absolute inset-0 m-auto w-full max-h-[min(78vh,960px)] object-contain object-center transition-opacity duration-500 ease-out ${
+            i === index ? 'opacity-100 z-[1]' : 'opacity-0 z-0 pointer-events-none'
+          }`}
+        />
+      ))}
+    </div>
+  );
+};
+
+const MARQUEE_IMG_H = 450;
+
+const ChangeablesBackgroundMarquee = React.memo(function ChangeablesBackgroundMarquee() {
+  const stripA = useMemo(
+    () =>
+      MCDONALDS_CHANGEABLES_MARQUEE.map((src, i) => (
+        <div
+          key={`a-${i}`}
+          className="flex shrink-0 items-center pr-5 md:pr-8"
+          style={{ height: MARQUEE_IMG_H }}
+        >
+          <img
+            src={normalizeAssetSrc(src)}
+            alt={`Changeables environment ${i + 1}`}
+            loading="eager"
+            decoding="async"
+            draggable={false}
+            className="w-auto max-w-none object-contain object-center"
+            style={{ height: MARQUEE_IMG_H }}
+          />
+        </div>
+      )),
+    []
+  );
+
+  const stripB = useMemo(
+    () =>
+      MCDONALDS_CHANGEABLES_MARQUEE.map((src, i) => (
+        <div
+          key={`b-${i}`}
+          className="flex shrink-0 items-center pr-5 md:pr-8"
+          style={{ height: MARQUEE_IMG_H }}
+        >
+          <img
+            src={normalizeAssetSrc(src)}
+            alt={`Changeables environment ${i + 1}`}
+            loading="eager"
+            decoding="async"
+            draggable={false}
+            className="w-auto max-w-none object-contain object-center"
+            style={{ height: MARQUEE_IMG_H }}
+          />
+        </div>
+      )),
+    []
+  );
+
+  /* Full width of case-study column — matches gallery / full-bleed images; fades only at viewport edges of this strip */
+  return (
+    <div className="relative isolate w-full overflow-hidden py-4 [contain:paint]">
+      <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-12 bg-gradient-to-r from-white via-white/90 to-transparent md:w-24" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-12 bg-gradient-to-l from-white via-white/90 to-transparent md:w-24" />
+      <div className="changeables-marquee-track flex w-max">
+        {stripA}
+        {stripB}
+      </div>
+    </div>
+  );
+});
 
 const EDITORIAL_THIRD_PLACE = [
   'assets/imgs/Editorial/The Third Place/Desktop - 13.jpg',
@@ -190,52 +277,53 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
 
   const sections = isMcdonalds
     ? [
-        { id: 'overview', label: 'Background', icon: Eye },
-        { id: 'speculative', label: 'Speculative MLB', icon: Target },
-        { id: 'visuals', label: 'Gallery', icon: Palette },
-        { id: 'final', label: 'Final Thoughts', icon: CheckCircle2 },
+        { id: 'overview', label: 'Background' },
+        { id: 'changeables', label: 'Changeables' },
+        { id: 'speculative', label: 'Speculative MLB' },
+        { id: 'visuals', label: 'Gallery' },
+        { id: 'final', label: 'Final Thoughts' },
       ]
     : isHigherEd
     ? [
-        { id: 'overview', label: 'Digital campaigns', icon: Eye },
-        { id: 'visuals', label: 'Gallery', icon: Palette },
+        { id: 'overview', label: 'Digital campaigns' },
+        { id: 'visuals', label: 'Gallery' },
       ]
     : isMTA
     ? [
-        { id: 'overview', label: 'Background', icon: Eye },
-        { id: 'process', label: 'Process', icon: Workflow },
-        { id: 'features', label: 'Features', icon: Target },
-        { id: 'final', label: 'Final Thoughts', icon: CheckCircle2 },
+        { id: 'overview', label: 'Background' },
+        { id: 'process', label: 'Process' },
+        { id: 'features', label: 'Features' },
+        { id: 'final', label: 'Final Thoughts' },
       ]
     : isVivBrand
     ? [
-        { id: 'visual-style', label: 'Visual Style', icon: Eye },
-        { id: 'typography-logo', label: 'Typography + Logo', icon: Workflow },
-        { id: 'applications', label: 'Applications', icon: Palette },
-        { id: 'conclusion', label: 'Conclusion', icon: CheckCircle2 },
+        { id: 'visual-style', label: 'Visual Style' },
+        { id: 'typography-logo', label: 'Typography + Logo' },
+        { id: 'applications', label: 'Applications' },
+        { id: 'conclusion', label: 'Conclusion' },
       ]
     : isEditorial
     ? [
-        { id: 'overview', label: 'Overview', icon: Eye },
-        { id: 'third-place', label: 'The Third Place', icon: Target },
-        { id: 'georgetown', label: 'Georgetown Magazines', icon: Target },
-        { id: 'nightly', label: 'The Nightly', icon: Palette },
+        { id: 'overview', label: 'Overview' },
+        { id: 'third-place', label: 'The Third Place' },
+        { id: 'georgetown', label: 'Georgetown Magazines' },
+        { id: 'nightly', label: 'The Nightly' },
       ]
     : isFaceless
     ? [
-        { id: 'overview', label: 'Background', icon: Eye },
-        { id: 'experience', label: 'The Experience', icon: Target },
-        { id: 'how-might-we', label: 'How Might We', icon: Workflow },
-        { id: 'journey', label: 'User Journey', icon: Workflow },
-        { id: 'visual-design', label: 'Visual Design', icon: Palette },
-        { id: 'final', label: 'Final Thoughts', icon: CheckCircle2 },
+        { id: 'overview', label: 'Background' },
+        { id: 'experience', label: 'The Experience' },
+        { id: 'how-might-we', label: 'How Might We' },
+        { id: 'journey', label: 'User Journey' },
+        { id: 'visual-design', label: 'Visual Design' },
+        { id: 'final', label: 'Final Thoughts' },
       ]
     : [
-        { id: 'overview', label: 'Overview', icon: Eye },
-        { id: 'challenge', label: 'The Challenge', icon: Target },
-        { id: 'process', label: 'Process', icon: Workflow },
-        { id: 'visuals', label: 'Visual System', icon: Palette },
-        { id: 'final', label: 'Final Result', icon: CheckCircle2 },
+        { id: 'overview', label: 'Overview' },
+        { id: 'challenge', label: 'The Challenge' },
+        { id: 'process', label: 'Process' },
+        { id: 'visuals', label: 'Visual System' },
+        { id: 'final', label: 'Final Result' },
       ];
 
   const scrollToSection = (id: string) => {
@@ -257,30 +345,32 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
   useEffect(() => {
     const observerOptions = {
       root: null,
-      rootMargin: '-20% 0px -70% 0px',
-      threshold: 0
+      rootMargin: '-12% 0px -40% 0px',
+      threshold: [0, 0.05, 0.1, 0.15, 0.25],
     };
 
     const handleIntersect = (entries: IntersectionObserverEntry[]) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          setActiveSection(entry.target.id);
-        }
-      });
+      const intersecting = entries.filter((entry) => entry.isIntersecting);
+      if (intersecting.length === 0) return;
+      intersecting.sort(
+        (a, b) => a.target.getBoundingClientRect().top - b.target.getBoundingClientRect().top
+      );
+      setActiveSection(intersecting[0].target.id);
     };
 
     const observer = new IntersectionObserver(handleIntersect, observerOptions);
-    
+
     sections.forEach((section) => {
       const element = document.getElementById(section.id);
       if (element) observer.observe(element);
     });
 
     return () => observer.disconnect();
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- section ids come from study.slug via render; list must match that study only
+  }, [study.slug]);
 
   return (
-    <div className="w-full text-black bg-white min-h-screen">
+    <div className="w-full min-w-0 overflow-x-clip text-black bg-white min-h-screen">
       {/* 1. Impact Hero Image */}
       <div className="w-full h-[52vh] md:h-[59vh] relative overflow-hidden bg-black flex items-center justify-center">
         <img 
@@ -364,12 +454,12 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
             </aside>
 
             {/* Content Body */}
-            <div className="flex-1 space-y-[6.4rem] overflow-visible">
+            <div className="min-w-0 flex-1 space-y-[6.4rem]">
               {isHigherEd ? (
                 <>
                   <section id="overview" className="scroll-mt-40">
                     <FadeInSection>
-                      <SectionHeading title="Digital campaigns" icon={Eye} />
+                      <SectionHeading title="Digital campaigns" />
                       <p className="text-gray-600 font-light text-lg leading-relaxed max-w-2xl">
                         While at Viv Higher Ed, I have designed multiple higher education campaigns. For these campaigns, I created moodboards, designed concepts, animated videos, and resized assets for a variety of digital channels.
                       </p>
@@ -378,7 +468,7 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
 
                   <section id="visuals" className="scroll-mt-40">
                     <FadeInSection>
-                      <SectionHeading title="Gallery" icon={Palette} />
+                      <SectionHeading title="Gallery" />
                       <div className="space-y-8">
                         <GalleryBlockHeading title="Lead campaign visuals" description="TPP Music Engineering and key campaign imagery for digital channels." />
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 items-stretch">
@@ -431,7 +521,7 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
                 <>
                   <section id="overview" className="scroll-mt-40">
                     <FadeInSection>
-                      <SectionHeading title="Background" icon={Eye} />
+                      <SectionHeading title="Background" />
                       <div className="text-gray-600 font-light text-lg leading-relaxed space-y-12">
                         <p className="max-w-2xl">
                           I worked as a designer on the McDonald's powerups team at The Marketing Store for 6 months. The digital team focuses on designing mobile games that pair with current Happy Meal toy series. I worked on the UI design, websites, character and background illustrations, QA testing, and animation storyboards for multiple mobile web games. The games I designed for included IPs from anime, McDonald's original characters, and movies.
@@ -441,9 +531,30 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
                     </FadeInSection>
                   </section>
 
+                  <section id="changeables" className="scroll-mt-40">
+                    <FadeInSection>
+                      <SectionHeading title="Changeables" />
+                      <div className="space-y-10">
+                        <p className="text-gray-600 font-light text-lg leading-relaxed max-w-2xl">
+                          The Changeables happy meal was a revamp of the transforming toys first released in the 80s. For this campaign, I got to storyboard, from low to high-fidelity, the intro video for the accompanying mobile game. This project leaned into retro pixel art, nostalgia, and colorful sci-fi inspired landscapes.
+                        </p>
+                        <ChangeablesSequenceSlideshow />
+                        <div className="pt-6">
+                          <h3 className="max-w-2xl text-2xl font-serif-heading font-semibold text-gray-900 mb-4">
+                            Background illustrations
+                          </h3>
+                          <p className="text-gray-600 font-light text-lg leading-relaxed max-w-2xl mb-8">
+                            I also had the chance to explore what the different environments the Changeables live in might look like. A couple of the assets and illustrations even snuck into the final intro video as background elements.
+                          </p>
+                          <ChangeablesBackgroundMarquee />
+                        </div>
+                      </div>
+                    </FadeInSection>
+                  </section>
+
                   <section id="speculative" className="scroll-mt-40">
                     <FadeInSection>
-                      <SectionHeading title="Speculative MLB campaign" icon={Target} />
+                      <SectionHeading title="Speculative MLB campaign" />
                       <p className="text-gray-600 font-light text-lg leading-relaxed max-w-2xl">
                         While at tms, I worked on a speculative design project where teams explored different potential sports collaborations. My team focused on the World Series and MLB, and I designed, 3D-modelled, and art directed all aspects of the project.
                       </p>
@@ -452,7 +563,6 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
 
                   <section id="visuals" className="scroll-mt-40">
                     <FadeInSection>
-                      <SectionHeading title="Gallery" icon={Palette} />
                       <div className="space-y-8">
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-2 gap-y-8">
                           {MCDONALDS_GALLERY_GRID_4.map((src, i) => (
@@ -480,7 +590,7 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
 
                   <section id="final" className="scroll-mt-40">
                     <FadeInSection>
-                      <SectionHeading title="Final Thoughts" icon={CheckCircle2} />
+                      <SectionHeading title="Final Thoughts" />
                       <p className="text-gray-600 font-light text-lg leading-relaxed max-w-2xl">
                         Designing for games with global releases that required localization, coordination with the packaging and toys teams, and input from IP owners made me realize the importance of a flexible design system.
                       </p>
@@ -491,7 +601,7 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
                 <>
                   <section id="overview" className="scroll-mt-40">
                     <FadeInSection>
-                      <SectionHeading title="Background" icon={Eye} />
+                      <SectionHeading title="Background" />
                       <p className="text-gray-600 font-light text-lg leading-relaxed max-w-2xl">
                         The MTA publishes open source data on their website on a variety of topics. I wanted to challenge myself to create a data visualization of their user ridership data. I decided to combine this data set with publicly-available weather data.
                       </p>
@@ -500,7 +610,7 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
 
                   <section id="process" className="scroll-mt-40">
                     <FadeInSection>
-                      <SectionHeading title="Process" icon={Workflow} />
+                      <SectionHeading title="Process" />
                       <div className="text-gray-600 font-light text-lg leading-relaxed space-y-12 max-w-4xl">
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
                           <div>
@@ -540,7 +650,7 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
 
                   <section id="features" className="scroll-mt-40 bg-gray-100 rounded-2xl -mx-6 md:mx-0 lg:mx-0 px-6 md:px-12 lg:px-16 py-12 md:py-16">
                     <FadeInSection>
-                      <SectionHeading title="Features" icon={Target} />
+                      <SectionHeading title="Features" />
                       <div className="text-gray-600 font-light text-lg leading-relaxed space-y-12">
                         <div>
                           <h3 className="text-base font-semibold text-gray-900 mb-2 max-w-2xl">Transit Mode Selection</h3>
@@ -576,7 +686,7 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
 
                   <section id="final" className="scroll-mt-40">
                     <FadeInSection>
-                      <SectionHeading title="Final Thoughts" icon={CheckCircle2} />
+                      <SectionHeading title="Final Thoughts" />
                       <div className="space-y-10 max-w-2xl">
                         <div>
                           <h3 className="text-base font-semibold text-gray-900 mb-2">What I Learned</h3>
@@ -599,7 +709,7 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
                 <>
                   <section id="visual-style" className="scroll-mt-40">
                     <FadeInSection>
-                      <SectionHeading title="Visual Style" icon={Eye} />
+                      <SectionHeading title="Visual Style" />
                       <div className="space-y-6 max-w-[1240px] text-gray-600 font-light text-lg leading-relaxed">
                         <p>
                           I was inspired by the use of illustration to convey concepts such as problem-solving and collaboration while conveying friendliness. I gathered imspiration in a moodboard.
@@ -613,7 +723,7 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
 
                   <section id="typography-logo" className="scroll-mt-40">
                     <FadeInSection>
-                      <SectionHeading title="Typography and Logo explorations" icon={Workflow} />
+                      <SectionHeading title="Typography and Logo explorations" />
                       <div className="space-y-6 max-w-[1240px] text-gray-600 font-light text-lg leading-relaxed">
                         <p>
                           To pair with the illustrations, I used a friendly and approachable serif font combined with hand drawn elements such as lines and notations.
@@ -642,7 +752,7 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
 
                   <section id="applications" className="scroll-mt-40">
                     <FadeInSection>
-                      <SectionHeading title="Applications" icon={Palette} />
+                      <SectionHeading title="Applications" />
                       <div className="space-y-6 max-w-[1240px] text-gray-600 font-light text-lg leading-relaxed">
                         <p>
                           I designed assets across multiple applications, from digital to environmental.
@@ -662,7 +772,7 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
 
                   <section id="conclusion" className="scroll-mt-40">
                     <FadeInSection>
-                      <SectionHeading title="Conclusion" icon={CheckCircle2} />
+                      <SectionHeading title="Conclusion" />
                       <p className="text-gray-600 font-light text-lg leading-relaxed max-w-3xl">
                         While this concept was scrapped for another direction, I enjoyed the challenge of conveying both seniority and knowledge with approachability and fun.
                       </p>
@@ -673,7 +783,7 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
                 <>
                   <section id="overview" className="scroll-mt-40">
                     <FadeInSection>
-                      <SectionHeading title="Editorial Design" icon={Eye} />
+                      <SectionHeading title="Editorial Design" />
                       <div className="text-gray-600 font-light text-lg leading-relaxed space-y-6 max-w-[1240px]">
                         <p>
                           Designing for print is how I first learned fundamental design skills such as hierarchy, alignment, and typography.
@@ -684,7 +794,7 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
 
                   <section id="third-place" className="scroll-mt-40">
                     <FadeInSection>
-                      <SectionHeading title="The Third Place" icon={Target} />
+                      <SectionHeading title="The Third Place" />
                       <div className="text-gray-600 font-light text-lg leading-relaxed space-y-8 max-w-[1240px]">
                         <p>
                           A personal project where I created a magazine about some of Washington DC&apos;s lesser-known attractions.
@@ -708,7 +818,7 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
 
                   <section id="georgetown" className="scroll-mt-40">
                     <FadeInSection>
-                      <SectionHeading title="Georgetown Magazine &amp; Georgetown Health" icon={Target} />
+                      <SectionHeading title="Georgetown Magazine &amp; Georgetown Health" />
                       <div className="text-gray-600 font-light text-lg leading-relaxed space-y-8 max-w-[1240px]">
                         <p>
                           Each year Georgetown publishes four issues of Georgetown Magazine and four issues of Georgetown Health.
@@ -732,7 +842,7 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
 
                   <section id="nightly" className="scroll-mt-40">
                     <FadeInSection>
-                      <SectionHeading title="The Nightly" icon={Palette} />
+                      <SectionHeading title="The Nightly" />
                       <div className="text-gray-600 font-light text-lg leading-relaxed space-y-8 max-w-[1240px]">
                         <p>
                           Spreads from a 32-page magazine I designed about dreams and sleep. For the &quot;Sleep Experts&quot; article,
@@ -757,7 +867,7 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
                 <>
                   <section id="overview" className="scroll-mt-40">
                     <FadeInSection>
-                      <SectionHeading title="Background" icon={Eye} />
+                      <SectionHeading title="Background" />
                       <div className="text-gray-600 font-light text-lg leading-relaxed space-y-8 max-w-2xl">
                         <p>
                           This project was created at VCU Brandcenter for our Physical Computing class. Our task was to design an experience with physical and digital components for a piece of media.
@@ -778,7 +888,7 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
 
                   <section id="experience" className="scroll-mt-40">
                     <FadeInSection>
-                      <SectionHeading title="The Experience" icon={Target} />
+                      <SectionHeading title="The Experience" />
                       <div className="text-gray-600 font-light text-lg leading-relaxed space-y-8 max-w-2xl">
                         <p>
                           We landed on creating a murder mystery game with an additional digital app component. We decided on this strategy because, like the <em>Knives Out</em> movie series, we wanted
@@ -799,7 +909,7 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
 
                   <section id="how-might-we" className="scroll-mt-40">
                     <FadeInSection>
-                      <SectionHeading title="How Might We…" icon={Workflow} />
+                      <SectionHeading title="How Might We…" />
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-gray-600 font-light text-lg leading-relaxed max-w-[65%]">
                         <p>Translate the experience of watching a movie or piece of media into an interactive experience?</p>
                         <p>Engage the user both in a physical and digital environment?</p>
@@ -810,7 +920,7 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
 
                   <section id="journey" className="scroll-mt-40">
                     <FadeInSection>
-                      <SectionHeading title="The User Journey" icon={Workflow} />
+                      <SectionHeading title="The User Journey" />
                       <div className="text-gray-600 font-light text-lg leading-relaxed space-y-8 max-w-2xl">
                         <p>
                           Our team spent a lot of time—and used countless flash cards—to figure out the game system for the experience. We explored multiple versions of the game and thought about
@@ -836,7 +946,7 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
 
                   <section id="visual-design" className="scroll-mt-40">
                     <FadeInSection>
-                      <SectionHeading title="Visual & Experience Design" icon={Palette} />
+                      <SectionHeading title="Visual & Experience Design" />
                       <div className="text-gray-600 font-light text-lg leading-relaxed space-y-10 max-w-[1240px]">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
                           <div>
@@ -988,7 +1098,7 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
 
                   <section id="final" className="scroll-mt-40">
                     <FadeInSection>
-                      <SectionHeading title="Final Thoughts" icon={CheckCircle2} />
+                      <SectionHeading title="Final Thoughts" />
                       <div className="space-y-10 max-w-2xl">
                         <div>
                           <h3 className="text-base font-semibold text-gray-900 mb-2">What We Learned</h3>
@@ -1013,7 +1123,7 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
                 <>
                   <section id="overview" className="scroll-mt-40">
                     <FadeInSection>
-                      <SectionHeading title="Project Context" icon={Eye} />
+                      <SectionHeading title="Project Context" />
                       <div className="text-gray-600 font-light text-lg leading-relaxed space-y-12">
                         <p className="max-w-2xl">
                           My approach focused on translating raw architectural intent into fluid human experiences. By dissecting the user journey, we identified friction points that weren't just functional, but emotional.
@@ -1031,7 +1141,7 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
 
                   <section id="challenge" className="scroll-mt-40">
                     <FadeInSection>
-                      <SectionHeading title="The Challenge" icon={Target} />
+                      <SectionHeading title="The Challenge" />
                       <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
                         <div className="lg:col-span-5 text-gray-600 font-light text-lg leading-relaxed space-y-8">
                           <p>
@@ -1057,7 +1167,7 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
 
                   <section id="process" className="scroll-mt-40">
                     <FadeInSection>
-                      <SectionHeading title="Process" icon={Workflow} />
+                      <SectionHeading title="Process" />
                       <div className="grid grid-cols-1 sm:grid-cols-3 gap-16 mb-24">
                         <div className="space-y-6">
                           <span className="text-[10px] text-gray-300 font-bold font-mono-tag">01 / Exploration</span>
@@ -1080,7 +1190,7 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
 
                   <section id="visuals" className="scroll-mt-40">
                     <FadeInSection>
-                      <SectionHeading title="Visual System" icon={Palette} />
+                      <SectionHeading title="Visual System" />
                       <div className="space-y-16">
                         <p className="text-gray-600 font-light text-lg leading-relaxed max-w-2xl">
                           A cohesive visual language was established to ensure brand resonance across all touchpoints.
@@ -1106,7 +1216,7 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
 
                   <section id="final" className="scroll-mt-40">
                     <FadeInSection>
-                      <SectionHeading title="Final Outcome" icon={CheckCircle2} />
+                      <SectionHeading title="Final Outcome" />
                       <div className="space-y-20">
                         <p className="text-gray-600 font-light text-lg leading-relaxed max-w-2xl">
                           The resulting platform saw a 40% increase in user engagement by simplifying complex navigation and prioritizing contextual information.

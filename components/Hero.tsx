@@ -62,7 +62,7 @@ const Hero: React.FC<HeroProps> = ({ scrollY }) => {
     })();
 
   return (
-    <section className="relative w-full h-[100vh] flex flex-col items-center justify-start overflow-hidden z-10 pt-40 md:pt-56">
+    <section className="relative w-full min-h-[100vh] h-[100vh] flex flex-col items-center justify-start overflow-hidden z-10 pt-40 md:pt-56 bg-[#0d0707]">
       {/* Grain gradient — bottom fade appears only as you scroll, short band */}
       <div
         className="absolute inset-0 w-full h-full pointer-events-none"
