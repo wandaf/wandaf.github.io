@@ -28,8 +28,8 @@ const ScrollReveal: React.FC<{ children: React.ReactNode }> = ({ children }) => 
         }
       });
     }, {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
+      threshold: 0,
+      rootMargin: '0px 0px 200px 0px'
     });
 
     const currentRef = domRef.current;
@@ -47,8 +47,8 @@ const ScrollReveal: React.FC<{ children: React.ReactNode }> = ({ children }) => 
   return (
     <div
       ref={domRef}
-      className={`transition-all duration-1000 ease-out transform ${
-        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+      className={`transition-all duration-[450ms] ease-out transform ${
+        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
       }`}
     >
       {children}
@@ -212,7 +212,7 @@ const WorkGrid: React.FC<WorkGridProps> = ({ onSelectCaseStudy }) => {
   const remaining = studies.slice(8);
 
   return (
-    <div className="space-y-12 mb-32 pt-24">
+    <div className="space-y-12 mb-32 pt-3 md:pt-6">
       <div className="space-y-4">
         {featured.map((study, idx) => (
           <ScrollReveal key={study.id || idx}>
