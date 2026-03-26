@@ -1,5 +1,5 @@
 
-import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { CaseStudy } from '../types';
 
 interface CaseStudyViewProps {
@@ -128,52 +128,124 @@ const ChangeablesSequenceSlideshow: React.FC = () => {
 const MARQUEE_IMG_H = 450;
 
 const ChangeablesBackgroundMarquee = React.memo(function ChangeablesBackgroundMarquee() {
+  const shellRef = useRef<HTMLDivElement | null>(null);
   const trackRef = useRef<HTMLDivElement | null>(null);
-  const shiftPxRef = useRef(0);
-  const animationStartedRef = useRef(false);
-  const [marqueeRunning, setMarqueeRunning] = useState(false);
 
-  const syncMarqueeShift = useCallback(() => {
-    const el = trackRef.current;
-    if (!el) return;
-    const half = Math.floor(el.scrollWidth / 2);
-    if (half < 2 || half === shiftPxRef.current) return;
-    shiftPxRef.current = half;
-    el.style.setProperty('--marquee-shift', `${half}px`);
-    if (!animationStartedRef.current) {
-      animationStartedRef.current = true;
-      setMarqueeRunning(true);
+  useEffect(() => {
+    const shell = shellRef.current;
+    const track = trackRef.current;
+    if (!shell || !track) return undefined;
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return undefined;
     }
-  }, []);
 
-  useLayoutEffect(() => {
-    const el = trackRef.current;
-    if (!el) return undefined;
+    let rafId = 0;
+    let loopActive = false;
+    let x = 0;
+    let lastTs = performance.now();
+    let loopW = 0;
+    let pausedHover = false;
 
-    syncMarqueeShift();
+    const measure = () => {
+      const half = Math.floor(track.scrollWidth / 2);
+      if (half >= 2) loopW = half;
+    };
 
-    const ro = new ResizeObserver(() => syncMarqueeShift());
-    ro.observe(el);
+    const stopLoop = () => {
+      loopActive = false;
+      cancelAnimationFrame(rafId);
+    };
 
-    const onImgLoad = () => syncMarqueeShift();
-    el.querySelectorAll('img').forEach((node) => {
+    const loop = (now: number) => {
+      if (!loopActive) return;
+      const dt = Math.min(0.064, (now - lastTs) / 1000);
+      lastTs = now;
+      if (loopW >= 2 && !pausedHover) {
+        const pxPerSec = loopW / 50;
+        x -= pxPerSec * dt;
+        while (x <= -loopW) x += loopW;
+        track.style.transform = `translate3d(${x.toFixed(2)}px,0,0)`;
+      }
+      rafId = requestAnimationFrame(loop);
+    };
+
+    const startLoop = () => {
+      if (loopActive) return;
+      loopActive = true;
+      lastTs = performance.now();
+      rafId = requestAnimationFrame(loop);
+    };
+
+    const shellIsNearViewport = () => {
+      const r = shell.getBoundingClientRect();
+      const vh = window.innerHeight;
+      return r.bottom > -120 && r.top < vh + 120;
+    };
+
+    const ro = new ResizeObserver(() => measure());
+    ro.observe(track);
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        const vis = entries.some((e) => e.isIntersecting);
+        if (vis) {
+          measure();
+          startLoop();
+        } else {
+          stopLoop();
+        }
+      },
+      { root: null, rootMargin: '120px 0px 120px 0px', threshold: 0 }
+    );
+    io.observe(shell);
+
+    const onImgLoad = () => measure();
+    track.querySelectorAll('img').forEach((node) => {
       const img = node as HTMLImageElement;
       if (img.complete) return;
       img.addEventListener('load', onImgLoad);
     });
 
-    const raf = requestAnimationFrame(() => syncMarqueeShift());
+    const onVis = () => {
+      if (document.visibilityState === 'hidden') {
+        stopLoop();
+      } else if (shellIsNearViewport()) {
+        measure();
+        startLoop();
+      }
+    };
+    document.addEventListener('visibilitychange', onVis);
+
+    const onEnter = () => {
+      pausedHover = true;
+    };
+    const onLeave = () => {
+      pausedHover = false;
+      lastTs = performance.now();
+    };
+    shell.addEventListener('mouseenter', onEnter);
+    shell.addEventListener('mouseleave', onLeave);
+
+    measure();
+    requestAnimationFrame(() => {
+      measure();
+      if (shellIsNearViewport()) startLoop();
+    });
 
     return () => {
-      cancelAnimationFrame(raf);
+      stopLoop();
       ro.disconnect();
-      el.querySelectorAll('img').forEach((node) => {
+      io.disconnect();
+      document.removeEventListener('visibilitychange', onVis);
+      shell.removeEventListener('mouseenter', onEnter);
+      shell.removeEventListener('mouseleave', onLeave);
+      track.querySelectorAll('img').forEach((node) => {
         node.removeEventListener('load', onImgLoad);
       });
-      shiftPxRef.current = 0;
-      animationStartedRef.current = false;
+      track.style.transform = '';
     };
-  }, [syncMarqueeShift]);
+  }, []);
 
   const stripA = useMemo(
     () =>
@@ -219,15 +291,12 @@ const ChangeablesBackgroundMarquee = React.memo(function ChangeablesBackgroundMa
     []
   );
 
-  /* Outside FadeInSection on purpose: parent opacity/transform fights this transform and causes stutter */
+  /* rAF + viewport gate: avoids CSS keyframe compositor churn; pauses off-screen so the top of the page stays stable */
   return (
-    <div className="relative isolate w-full overflow-hidden py-4">
+    <div ref={shellRef} className="relative isolate w-full overflow-hidden py-4">
       <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-12 bg-gradient-to-r from-white via-white/90 to-transparent md:w-24" />
       <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-12 bg-gradient-to-l from-white via-white/90 to-transparent md:w-24" />
-      <div
-        ref={trackRef}
-        className={`changeables-marquee-track flex w-max ${marqueeRunning ? 'changeables-marquee-track--running' : ''}`}
-      >
+      <div ref={trackRef} className="changeables-marquee-track flex w-max">
         {stripA}
         {stripB}
       </div>
@@ -627,13 +696,15 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
                         <div className="relative w-full">
                           <img src={MCDONALDS_FULL_WIDTH_2} alt="McDonald's project" className="w-full h-auto block" />
                         </div>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-2 gap-y-8">
-                          {MCDONALDS_GALLERY_ROW_2.map((src, i) => (
-                            <div key={i} className="relative overflow-hidden aspect-[4/3]">
-                              <img src={src} alt={`McDonald's project ${i + 5}`} className="w-full h-full object-cover" />
-                            </div>
-                          ))}
-                        </div>
+                        {MCDONALDS_GALLERY_ROW_2.map((src, i) => (
+                          <div key={i} className="relative w-full">
+                            <img
+                              src={normalizeAssetSrc(src)}
+                              alt={`McDonald's project ${i + 5}`}
+                              className="w-full h-auto block"
+                            />
+                          </div>
+                        ))}
                       </div>
                     </FadeInSection>
                   </section>

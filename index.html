@@ -44,28 +44,13 @@
         transform: translateY(0);
       }
 
-      /* McDonald’s Changeables marquee — --marquee-shift (px) set by JS for a seamless loop */
-      @keyframes changeables-marquee {
-        from { transform: translate3d(0, 0, 0); }
-        to { transform: translate3d(calc(-1 * var(--marquee-shift, 1px)), 0, 0); }
-      }
+      /* McDonald’s Changeables marquee — motion via rAF in React; static fallback here only */
       .changeables-marquee-track {
         backface-visibility: hidden;
         -webkit-backface-visibility: hidden;
-        perspective: 1000px;
-        -webkit-perspective: 1000px;
-      }
-      .changeables-marquee-track.changeables-marquee-track--running {
-        animation: changeables-marquee 50s linear infinite;
-      }
-      .changeables-marquee-track.changeables-marquee-track--running:hover {
-        animation-play-state: paused;
       }
       @media (prefers-reduced-motion: reduce) {
-        .changeables-marquee-track,
-        .changeables-marquee-track.changeables-marquee-track--running {
-          animation: none;
-          transform: none;
+        .changeables-marquee-track {
           flex-wrap: wrap;
           justify-content: center;
           width: 100%;
