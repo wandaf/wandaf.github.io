@@ -26,19 +26,31 @@ const FadeInSection: React.FC<{ children: React.ReactNode; className?: string }>
       return;
     }
 
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          setVisible(true);
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.1 });
+    if (typeof (window as any).IntersectionObserver === 'undefined') {
+      setVisible(true);
+      return;
+    }
+
+    let observer: IntersectionObserver | null = null;
+    try {
+      observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            setVisible(true);
+            observer?.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1 });
+    } catch {
+      setVisible(true);
+      return;
+    }
 
     const current = domRef.current;
     if (current) observer.observe(current);
     return () => {
-      if (current) observer.unobserve(current);
+      if (current) observer?.unobserve(current);
+      observer?.disconnect();
     };
   }, []);
 
@@ -548,6 +560,7 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
   };
 
   useEffect(() => {
+    if (typeof (window as any).IntersectionObserver === 'undefined') return;
     const observerOptions = {
       root: null,
       rootMargin: '-12% 0px -40% 0px',
@@ -563,14 +576,19 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
       setActiveSection(intersecting[0].target.id);
     };
 
-    const observer = new IntersectionObserver(handleIntersect, observerOptions);
+    let observer: IntersectionObserver | null = null;
+    try {
+      observer = new IntersectionObserver(handleIntersect, observerOptions);
+    } catch {
+      return;
+    }
 
     sections.forEach((section) => {
       const element = document.getElementById(section.id);
       if (element) observer.observe(element);
     });
 
-    return () => observer.disconnect();
+    return () => observer?.disconnect();
     // eslint-disable-next-line react-hooks/exhaustive-deps -- section ids come from study.slug via render; list must match that study only
   }, [study.slug]);
 
