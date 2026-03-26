@@ -113,8 +113,24 @@ const useIsMobile = () => {
     const mq = window.matchMedia('(max-width: 767px)');
     const update = () => setIsMobile(mq.matches);
     update();
-    mq.addEventListener('change', update);
-    return () => mq.removeEventListener('change', update);
+    // iOS Safari (and older browsers) may only support addListener/removeListener.
+    const anyMq = mq as unknown as {
+      addEventListener?: (type: 'change', listener: () => void) => void;
+      removeEventListener?: (type: 'change', listener: () => void) => void;
+      addListener?: (listener: () => void) => void;
+      removeListener?: (listener: () => void) => void;
+    };
+
+    if (anyMq.addEventListener) {
+      anyMq.addEventListener('change', update);
+      return () => anyMq.removeEventListener?.('change', update);
+    }
+    if (anyMq.addListener) {
+      anyMq.addListener(update);
+      return () => anyMq.removeListener?.(update);
+    }
+
+    return;
   }, []);
   return isMobile;
 };
@@ -247,22 +263,28 @@ const ChangeablesBackgroundMarquee = React.memo(function ChangeablesBackgroundMa
       return r.bottom > -120 && r.top < vh + 120;
     };
 
-    const ro = new ResizeObserver(() => measure());
-    ro.observe(track);
+    // Guard for older mobile browsers: missing observers should never blank the page.
+    const hasResizeObserver = typeof (window as any).ResizeObserver !== 'undefined';
+    const hasIntersectionObserver = typeof (window as any).IntersectionObserver !== 'undefined';
 
-    const io = new IntersectionObserver(
-      (entries) => {
-        const vis = entries.some((e) => e.isIntersecting);
-        if (vis) {
-          measure();
-          startLoop();
-        } else {
-          stopLoop();
-        }
-      },
-      { root: null, rootMargin: '120px 0px 120px 0px', threshold: 0 }
-    );
-    io.observe(shell);
+    const ro = hasResizeObserver ? new ResizeObserver(() => measure()) : null;
+    ro?.observe(track);
+
+    const io = hasIntersectionObserver
+      ? new IntersectionObserver(
+          (entries) => {
+            const vis = entries.some((e) => e.isIntersecting);
+            if (vis) {
+              measure();
+              startLoop();
+            } else {
+              stopLoop();
+            }
+          },
+          { root: null, rootMargin: '120px 0px 120px 0px', threshold: 0 }
+        )
+      : null;
+    io?.observe(shell);
 
     const onImgLoad = () => measure();
     track.querySelectorAll('img').forEach((node) => {
@@ -299,8 +321,8 @@ const ChangeablesBackgroundMarquee = React.memo(function ChangeablesBackgroundMa
 
     return () => {
       stopLoop();
-      ro.disconnect();
-      io.disconnect();
+      ro?.disconnect();
+      io?.disconnect();
       document.removeEventListener('visibilitychange', onVis);
       shell.removeEventListener('mouseenter', onEnter);
       shell.removeEventListener('mouseleave', onLeave);
