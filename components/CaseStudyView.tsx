@@ -19,6 +19,13 @@ const FadeInSection: React.FC<{ children: React.ReactNode; className?: string }>
   const [isVisible, setVisible] = useState(false);
 
   useEffect(() => {
+    // On small screens the IntersectionObserver-triggered reveal can occasionally miss due to
+    // layout/resize timing. Avoid blank content by showing immediately on mobile widths.
+    if (typeof window !== 'undefined' && window.matchMedia('(max-width: 767px)').matches) {
+      setVisible(true);
+      return;
+    }
+
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
