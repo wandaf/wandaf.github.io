@@ -48,29 +48,20 @@ const Hero: React.FC<HeroProps> = ({ scrollY }) => {
   const translateY = scrollY * 0.25;
   const blurAmount = (scrollY / vh) * 8;
 
-  // Fade only on scroll: 100 = no fade at load; band grows until it covers the whole hero
-  const fadeStart = Math.max(0, 100 - (scrollY / vh) * 100);
-  const maskGradient = `linear-gradient(to bottom, black 0%, black ${fadeStart}%, transparent 100%)`;
-
   // Same as App whiteFadeProgress so hero white overlay stays in sync with global transition
-  const startFade = vh * 0.15;
-  const endFade = vh * 0.85;
+  const startFade = 0;
+  const endFade = vh * 0.9;
   const whiteFadeProgress =
     scrollY <= startFade ? 0 : scrollY >= endFade ? 1 : (() => {
       const t = (scrollY - startFade) / (endFade - startFade);
       return t * t * (3 - 2 * t);
     })();
+  const bandHeightVh = whiteFadeProgress * 174; // starts at 0, grows fast while staying bottom-anchored
 
   return (
     <section className="relative w-full min-h-[100vh] h-[100vh] flex flex-col items-center justify-start overflow-hidden z-10 pt-40 md:pt-56 bg-[#0d0707]">
-      {/* Grain gradient — bottom fade appears only as you scroll, short band */}
-      <div
-        className="absolute inset-0 w-full h-full pointer-events-none"
-        style={{
-          maskImage: maskGradient,
-          WebkitMaskImage: maskGradient,
-        }}
-      >
+      {/* Grain gradient */}
+      <div className="absolute inset-0 w-full h-full pointer-events-none">
         <GrainGradient
           width={size.width}
           height={size.height}
@@ -85,21 +76,14 @@ const Hero: React.FC<HeroProps> = ({ scrollY }) => {
           offsetY={0.06}
         />
       </div>
-      {/* White scroll transition — fades in on scroll toward case studies */}
-      <div
-        className="absolute inset-0 pointer-events-none bg-white"
-        style={{ opacity: whiteFadeProgress }}
-      />
-      {/* Soft blurred bottom edge — only appears on scroll toward case studies */}
+      {/* Bottom-anchored white band that progressively grows upward on scroll */}
       <div
         className="absolute left-0 right-0 bottom-0 pointer-events-none"
         style={{
-          height: '25vh',
-          background: 'linear-gradient(to top, rgba(255,255,255,0.98), transparent)',
-          filter: 'blur(24px)',
-          WebkitFilter: 'blur(24px)',
-          transform: 'translateZ(0)',
-          opacity: whiteFadeProgress,
+          height: `${bandHeightVh}vh`,
+          background:
+            'linear-gradient(to top, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 28%, rgba(255,255,255,0.95) 48%, rgba(255,255,255,0.68) 66%, rgba(255,255,255,0.26) 84%, rgba(255,255,255,0) 100%)',
+          opacity: whiteFadeProgress > 0 ? 1 : 0,
         }}
       />
       <style>

@@ -133,8 +133,8 @@ const App: React.FC = () => {
   const whiteFadeProgress = useMemo(() => {
     if (displayPage !== Page.WORK) return 1;
     const vh = typeof window !== 'undefined' ? window.innerHeight : 800;
-    const startFade = vh * 0.15;
-    const endFade = vh * 0.85;
+    const startFade = vh * 0.22;
+    const endFade = vh * 0.9;
     if (scrollY <= startFade) return 0;
     if (scrollY >= endFade) return 1;
     const t = (scrollY - startFade) / (endFade - startFade);
@@ -154,13 +154,6 @@ const App: React.FC = () => {
 
   return (
     <div className={`min-h-screen w-full flex flex-col transition-colors duration-500 ${displayPage === Page.PLAYGROUND ? 'bg-black' : 'bg-white'} selection:bg-gray-500 selection:text-white`}>
-      {/* Work page: scroll-driven fade from gradient (opacity 0) to white (opacity 1) — no harsh line */}
-      {displayPage === Page.WORK && (
-        <div
-          className="fixed inset-0 z-0 bg-white pointer-events-none will-change-opacity"
-          style={{ opacity: whiteFadeProgress }}
-        />
-      )}
       <Branding isDarkMode={isDarkMode} onPageChange={handlePageChange} scrollY={scrollY} />
       
       <Navbar 
