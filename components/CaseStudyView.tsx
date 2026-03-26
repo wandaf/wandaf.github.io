@@ -1,5 +1,5 @@
 
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { CaseStudy } from '../types';
 
 interface CaseStudyViewProps {
@@ -128,6 +128,53 @@ const ChangeablesSequenceSlideshow: React.FC = () => {
 const MARQUEE_IMG_H = 450;
 
 const ChangeablesBackgroundMarquee = React.memo(function ChangeablesBackgroundMarquee() {
+  const trackRef = useRef<HTMLDivElement | null>(null);
+  const shiftPxRef = useRef(0);
+  const animationStartedRef = useRef(false);
+  const [marqueeRunning, setMarqueeRunning] = useState(false);
+
+  const syncMarqueeShift = useCallback(() => {
+    const el = trackRef.current;
+    if (!el) return;
+    const half = Math.floor(el.scrollWidth / 2);
+    if (half < 2 || half === shiftPxRef.current) return;
+    shiftPxRef.current = half;
+    el.style.setProperty('--marquee-shift', `${half}px`);
+    if (!animationStartedRef.current) {
+      animationStartedRef.current = true;
+      setMarqueeRunning(true);
+    }
+  }, []);
+
+  useLayoutEffect(() => {
+    const el = trackRef.current;
+    if (!el) return undefined;
+
+    syncMarqueeShift();
+
+    const ro = new ResizeObserver(() => syncMarqueeShift());
+    ro.observe(el);
+
+    const onImgLoad = () => syncMarqueeShift();
+    el.querySelectorAll('img').forEach((node) => {
+      const img = node as HTMLImageElement;
+      if (img.complete) return;
+      img.addEventListener('load', onImgLoad);
+    });
+
+    const raf = requestAnimationFrame(() => syncMarqueeShift());
+
+    return () => {
+      cancelAnimationFrame(raf);
+      ro.disconnect();
+      el.querySelectorAll('img').forEach((node) => {
+        node.removeEventListener('load', onImgLoad);
+      });
+      shiftPxRef.current = 0;
+      animationStartedRef.current = false;
+    };
+  }, [syncMarqueeShift]);
+
   const stripA = useMemo(
     () =>
       MCDONALDS_CHANGEABLES_MARQUEE.map((src, i) => (
@@ -172,12 +219,15 @@ const ChangeablesBackgroundMarquee = React.memo(function ChangeablesBackgroundMa
     []
   );
 
-  /* Full width of case-study column — matches gallery / full-bleed images; fades only at viewport edges of this strip */
+  /* Outside FadeInSection on purpose: parent opacity/transform fights this transform and causes stutter */
   return (
-    <div className="relative isolate w-full overflow-hidden py-4 [contain:paint]">
+    <div className="relative isolate w-full overflow-hidden py-4">
       <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-12 bg-gradient-to-r from-white via-white/90 to-transparent md:w-24" />
       <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-12 bg-gradient-to-l from-white via-white/90 to-transparent md:w-24" />
-      <div className="changeables-marquee-track flex w-max">
+      <div
+        ref={trackRef}
+        className={`changeables-marquee-track flex w-max ${marqueeRunning ? 'changeables-marquee-track--running' : ''}`}
+      >
         {stripA}
         {stripB}
       </div>
@@ -546,10 +596,10 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
                           <p className="text-gray-600 font-light text-lg leading-relaxed max-w-2xl mb-8">
                             I also had the chance to explore what the different environments the Changeables live in might look like. A couple of the assets and illustrations even snuck into the final intro video as background elements.
                           </p>
-                          <ChangeablesBackgroundMarquee />
                         </div>
                       </div>
                     </FadeInSection>
+                    <ChangeablesBackgroundMarquee />
                   </section>
 
                   <section id="speculative" className="scroll-mt-40">
