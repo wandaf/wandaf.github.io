@@ -106,37 +106,94 @@ const MCDONALDS_CHANGEABLES_MARQUEE = [4, 5, 6, 7, 8, 9].map(
   (n) => `assets/imgs/Mcdonalds/Project 2/${n}.jpg`
 );
 
+const useIsMobile = () => {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const mq = window.matchMedia('(max-width: 767px)');
+    const update = () => setIsMobile(mq.matches);
+    update();
+    mq.addEventListener('change', update);
+    return () => mq.removeEventListener('change', update);
+  }, []);
+  return isMobile;
+};
+
 const ChangeablesSequenceSlideshow: React.FC = () => {
   const [index, setIndex] = useState(0);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
+    if (isMobile) return;
     const id = window.setInterval(() => {
       setIndex((i) => (i + 1) % MCDONALDS_CHANGEABLES_SEQUENCE.length);
     }, 2000);
     return () => window.clearInterval(id);
-  }, []);
+  }, [isMobile]);
 
   return (
-    <div className="relative w-full min-h-[min(72vh,880px)] md:min-h-[min(78vh,960px)]">
-      {MCDONALDS_CHANGEABLES_SEQUENCE.map((src, i) => (
-        <img
-          key={src}
-          src={normalizeAssetSrc(src)}
-          alt={`Changeables storyboard ${i + 1}`}
-          className={`absolute inset-0 m-auto w-full max-h-[min(78vh,960px)] object-contain object-center transition-opacity duration-500 ease-out ${
-            i === index ? 'opacity-100 z-[1]' : 'opacity-0 z-0 pointer-events-none'
-          }`}
-        />
-      ))}
+    <div className="relative w-full overflow-hidden">
+      {isMobile ? (
+        <div className="space-y-4">
+          {MCDONALDS_CHANGEABLES_SEQUENCE.map((src, i) => (
+            <div key={src} className="relative w-full">
+              <img
+                src={normalizeAssetSrc(src)}
+                alt={`Changeables storyboard ${i + 1}`}
+                loading="lazy"
+                decoding="async"
+                className="w-full h-auto block"
+              />
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div className="relative w-full aspect-[16/10] md:aspect-[16/9] max-h-[min(72vh,860px)]">
+          {MCDONALDS_CHANGEABLES_SEQUENCE.map((src, i) => (
+            <img
+              key={src}
+              src={normalizeAssetSrc(src)}
+              alt={`Changeables storyboard ${i + 1}`}
+              loading="lazy"
+              decoding="async"
+              className={`absolute inset-0 w-full h-full object-contain object-center transition-opacity duration-500 ease-out ${
+                i === index ? 'opacity-100 z-[1]' : 'opacity-0 z-0 pointer-events-none'
+              }`}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 };
 
-const MARQUEE_IMG_H = 450;
+const MARQUEE_IMG_H_DESKTOP = 450;
+const MARQUEE_IMG_H_MOBILE = 280;
 
 const ChangeablesBackgroundMarquee = React.memo(function ChangeablesBackgroundMarquee() {
   const shellRef = useRef<HTMLDivElement | null>(null);
   const trackRef = useRef<HTMLDivElement | null>(null);
+  const isMobile = useIsMobile();
+
+  if (isMobile) {
+    return (
+      <div className="w-full">
+        <div className="grid grid-cols-2 gap-3">
+          {MCDONALDS_CHANGEABLES_MARQUEE.map((src, i) => (
+            <div key={src} className="relative w-full overflow-hidden rounded-lg bg-gray-50">
+              <img
+                src={normalizeAssetSrc(src)}
+                alt={`Changeables environment ${i + 1}`}
+                loading="lazy"
+                decoding="async"
+                className="w-full h-auto block"
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   useEffect(() => {
     const shell = shellRef.current;
@@ -260,7 +317,7 @@ const ChangeablesBackgroundMarquee = React.memo(function ChangeablesBackgroundMa
         <div
           key={`a-${i}`}
           className="flex shrink-0 items-center pr-5 md:pr-8"
-          style={{ height: MARQUEE_IMG_H }}
+          style={{ height: MARQUEE_IMG_H_DESKTOP }}
         >
           <img
             src={normalizeAssetSrc(src)}
@@ -269,7 +326,7 @@ const ChangeablesBackgroundMarquee = React.memo(function ChangeablesBackgroundMa
             decoding="async"
             draggable={false}
             className="w-auto max-w-none object-contain object-center"
-            style={{ height: MARQUEE_IMG_H }}
+            style={{ height: MARQUEE_IMG_H_DESKTOP }}
           />
         </div>
       )),
@@ -282,7 +339,7 @@ const ChangeablesBackgroundMarquee = React.memo(function ChangeablesBackgroundMa
         <div
           key={`b-${i}`}
           className="flex shrink-0 items-center pr-5 md:pr-8"
-          style={{ height: MARQUEE_IMG_H }}
+          style={{ height: MARQUEE_IMG_H_DESKTOP }}
         >
           <img
             src={normalizeAssetSrc(src)}
@@ -291,7 +348,7 @@ const ChangeablesBackgroundMarquee = React.memo(function ChangeablesBackgroundMa
             decoding="async"
             draggable={false}
             className="w-auto max-w-none object-contain object-center"
-            style={{ height: MARQUEE_IMG_H }}
+            style={{ height: MARQUEE_IMG_H_DESKTOP }}
           />
         </div>
       )),
@@ -693,21 +750,41 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-2 gap-y-8">
                           {MCDONALDS_GALLERY_GRID_4.map((src, i) => (
                             <div key={i} className="relative overflow-hidden aspect-[4/3]">
-                              <img src={src} alt={`McDonald's project ${i + 1}`} className="w-full h-full object-cover" />
+                              <img
+                                src={normalizeAssetSrc(src)}
+                                alt={`McDonald's project ${i + 1}`}
+                                loading="lazy"
+                                decoding="async"
+                                className="w-full h-full object-cover"
+                              />
                             </div>
                           ))}
                         </div>
                         <div className="relative w-full">
-                          <img src={MCDONALDS_FULL_WIDTH_1} alt="McDonald's project" className="w-full h-auto block" />
+                          <img
+                            src={normalizeAssetSrc(MCDONALDS_FULL_WIDTH_1)}
+                            alt="McDonald's project"
+                            loading="lazy"
+                            decoding="async"
+                            className="w-full h-auto block"
+                          />
                         </div>
                         <div className="relative w-full">
-                          <img src={MCDONALDS_FULL_WIDTH_2} alt="McDonald's project" className="w-full h-auto block" />
+                          <img
+                            src={normalizeAssetSrc(MCDONALDS_FULL_WIDTH_2)}
+                            alt="McDonald's project"
+                            loading="lazy"
+                            decoding="async"
+                            className="w-full h-auto block"
+                          />
                         </div>
                         {MCDONALDS_GALLERY_ROW_2.map((src, i) => (
                           <div key={i} className="relative w-full">
                             <img
                               src={normalizeAssetSrc(src)}
                               alt={`McDonald's project ${i + 5}`}
+                              loading="lazy"
+                              decoding="async"
                               className="w-full h-auto block"
                             />
                           </div>
