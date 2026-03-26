@@ -195,208 +195,22 @@ const ChangeablesSequenceSlideshow: React.FC = () => {
   );
 };
 
-const MARQUEE_IMG_H_DESKTOP = 450;
-const MARQUEE_IMG_H_MOBILE = 280;
-
 const ChangeablesBackgroundMarquee = React.memo(function ChangeablesBackgroundMarquee() {
-  const shellRef = useRef<HTMLDivElement | null>(null);
-  const trackRef = useRef<HTMLDivElement | null>(null);
-  const isMobile = useIsMobile();
-
-  if (isMobile) {
-    return (
-      <div className="w-full">
-        <div className="grid grid-cols-2 gap-3">
-          {MCDONALDS_CHANGEABLES_MARQUEE.map((src, i) => (
-            <div key={src} className="relative w-full overflow-hidden rounded-lg bg-gray-50">
-              <img
-                src={normalizeAssetSrc(src)}
-                alt={`Changeables environment ${i + 1}`}
-                loading="lazy"
-                decoding="async"
-                className="w-full h-auto block"
-              />
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
-
-  useEffect(() => {
-    const shell = shellRef.current;
-    const track = trackRef.current;
-    if (!shell || !track) return undefined;
-
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      return undefined;
-    }
-
-    let rafId = 0;
-    let loopActive = false;
-    let x = 0;
-    let lastTs = performance.now();
-    let loopW = 0;
-    let pausedHover = false;
-
-    const measure = () => {
-      const half = Math.floor(track.scrollWidth / 2);
-      if (half >= 2) loopW = half;
-    };
-
-    const stopLoop = () => {
-      loopActive = false;
-      cancelAnimationFrame(rafId);
-    };
-
-    const loop = (now: number) => {
-      if (!loopActive) return;
-      const dt = Math.min(0.064, (now - lastTs) / 1000);
-      lastTs = now;
-      if (loopW >= 2 && !pausedHover) {
-        const pxPerSec = loopW / 50;
-        x -= pxPerSec * dt;
-        while (x <= -loopW) x += loopW;
-        track.style.transform = `translate3d(${x.toFixed(2)}px,0,0)`;
-      }
-      rafId = requestAnimationFrame(loop);
-    };
-
-    const startLoop = () => {
-      if (loopActive) return;
-      loopActive = true;
-      lastTs = performance.now();
-      rafId = requestAnimationFrame(loop);
-    };
-
-    const shellIsNearViewport = () => {
-      const r = shell.getBoundingClientRect();
-      const vh = window.innerHeight;
-      return r.bottom > -120 && r.top < vh + 120;
-    };
-
-    // Guard for older mobile browsers: missing observers should never blank the page.
-    const hasResizeObserver = typeof (window as any).ResizeObserver !== 'undefined';
-    const hasIntersectionObserver = typeof (window as any).IntersectionObserver !== 'undefined';
-
-    const ro = hasResizeObserver ? new ResizeObserver(() => measure()) : null;
-    ro?.observe(track);
-
-    const io = hasIntersectionObserver
-      ? new IntersectionObserver(
-          (entries) => {
-            const vis = entries.some((e) => e.isIntersecting);
-            if (vis) {
-              measure();
-              startLoop();
-            } else {
-              stopLoop();
-            }
-          },
-          { root: null, rootMargin: '120px 0px 120px 0px', threshold: 0 }
-        )
-      : null;
-    io?.observe(shell);
-
-    const onImgLoad = () => measure();
-    track.querySelectorAll('img').forEach((node) => {
-      const img = node as HTMLImageElement;
-      if (img.complete) return;
-      img.addEventListener('load', onImgLoad);
-    });
-
-    const onVis = () => {
-      if (document.visibilityState === 'hidden') {
-        stopLoop();
-      } else if (shellIsNearViewport()) {
-        measure();
-        startLoop();
-      }
-    };
-    document.addEventListener('visibilitychange', onVis);
-
-    const onEnter = () => {
-      pausedHover = true;
-    };
-    const onLeave = () => {
-      pausedHover = false;
-      lastTs = performance.now();
-    };
-    shell.addEventListener('mouseenter', onEnter);
-    shell.addEventListener('mouseleave', onLeave);
-
-    measure();
-    requestAnimationFrame(() => {
-      measure();
-      if (shellIsNearViewport()) startLoop();
-    });
-
-    return () => {
-      stopLoop();
-      ro?.disconnect();
-      io?.disconnect();
-      document.removeEventListener('visibilitychange', onVis);
-      shell.removeEventListener('mouseenter', onEnter);
-      shell.removeEventListener('mouseleave', onLeave);
-      track.querySelectorAll('img').forEach((node) => {
-        node.removeEventListener('load', onImgLoad);
-      });
-      track.style.transform = '';
-    };
-  }, []);
-
-  const stripA = useMemo(
-    () =>
-      MCDONALDS_CHANGEABLES_MARQUEE.map((src, i) => (
-        <div
-          key={`a-${i}`}
-          className="flex shrink-0 items-center pr-5 md:pr-8"
-          style={{ height: MARQUEE_IMG_H_DESKTOP }}
-        >
-          <img
-            src={normalizeAssetSrc(src)}
-            alt={`Changeables environment ${i + 1}`}
-            loading="eager"
-            decoding="async"
-            draggable={false}
-            className="w-auto max-w-none object-contain object-center"
-            style={{ height: MARQUEE_IMG_H_DESKTOP }}
-          />
-        </div>
-      )),
-    []
-  );
-
-  const stripB = useMemo(
-    () =>
-      MCDONALDS_CHANGEABLES_MARQUEE.map((src, i) => (
-        <div
-          key={`b-${i}`}
-          className="flex shrink-0 items-center pr-5 md:pr-8"
-          style={{ height: MARQUEE_IMG_H_DESKTOP }}
-        >
-          <img
-            src={normalizeAssetSrc(src)}
-            alt={`Changeables environment ${i + 1}`}
-            loading="eager"
-            decoding="async"
-            draggable={false}
-            className="w-auto max-w-none object-contain object-center"
-            style={{ height: MARQUEE_IMG_H_DESKTOP }}
-          />
-        </div>
-      )),
-    []
-  );
-
-  /* rAF + viewport gate: avoids CSS keyframe compositor churn; pauses off-screen so the top of the page stays stable */
+  // Static, fast-loading grid (no animation/observers) to avoid iOS rendering issues.
   return (
-    <div ref={shellRef} className="relative isolate w-full overflow-hidden py-4">
-      <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-12 bg-gradient-to-r from-white via-white/90 to-transparent md:w-24" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-12 bg-gradient-to-l from-white via-white/90 to-transparent md:w-24" />
-      <div ref={trackRef} className="changeables-marquee-track flex w-max">
-        {stripA}
-        {stripB}
+    <div className="w-full">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+        {MCDONALDS_CHANGEABLES_MARQUEE.map((src, i) => (
+          <div key={src} className="relative w-full overflow-hidden rounded-lg bg-gray-50 aspect-[16/9]">
+            <img
+              src={normalizeAssetSrc(src)}
+              alt={`Changeables environment ${i + 1}`}
+              loading="lazy"
+              decoding="async"
+              className="w-full h-full object-cover block"
+            />
+          </div>
+        ))}
       </div>
     </div>
   );
