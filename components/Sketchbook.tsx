@@ -105,10 +105,13 @@ const Sketchbook: React.FC = () => {
 
           .book-viewport {
             perspective: 3500px;
+            -webkit-perspective: 3500px;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: calc(var(--book-height) + 100px);
+            transform: translateZ(0);
+            -webkit-transform: translateZ(0);
           }
 
           .book-wrapper {
@@ -116,7 +119,9 @@ const Sketchbook: React.FC = () => {
             width: var(--book-width);
             height: var(--book-height);
             transform-style: preserve-3d;
+            -webkit-transform-style: preserve-3d;
             transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
+            will-change: transform;
           }
 
           .book-wrapper.closing .page-item:first-child {
@@ -132,9 +137,11 @@ const Sketchbook: React.FC = () => {
             left: 0;
             transform-origin: left;
             transform-style: preserve-3d;
+            -webkit-transform-style: preserve-3d;
             transition: transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1), z-index 0s 0.6s;
             background: transparent;
             pointer-events: none;
+            will-change: transform;
           }
 
           .face {
@@ -142,12 +149,15 @@ const Sketchbook: React.FC = () => {
             width: 100%;
             height: 100%;
             backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
             display: flex;
             flex-direction: column;
             overflow: hidden;
             pointer-events: auto;
             box-shadow: 0 4px 30px rgba(0,0,0,0.15);
             background: #ffffff;
+            transform: translateZ(0.1px);
+            -webkit-transform: translateZ(0.1px);
           }
 
           .face-front {
@@ -158,7 +168,8 @@ const Sketchbook: React.FC = () => {
           }
 
           .face-back {
-            transform: rotateY(180deg);
+            transform: rotateY(180deg) translateZ(0.1px);
+            -webkit-transform: rotateY(180deg) translateZ(0.1px);
             border-top-left-radius: 6px;
             border-bottom-left-radius: 6px;
             border-top-right-radius: 2px;
@@ -226,7 +237,7 @@ const Sketchbook: React.FC = () => {
                   className="page-item"
                   style={{ 
                     zIndex,
-                    transform: isFlipped ? 'rotateY(-180deg)' : 'rotateY(0deg)',
+                    transform: `${isFlipped ? 'rotateY(-180deg)' : 'rotateY(0deg)'} translateZ(${(totalPages - index) * 0.02}px)`,
                   }}
                 >
                   <div 
