@@ -118,6 +118,9 @@ const MCDONALDS_CHANGEABLES_MARQUEE = [4, 5, 6, 7, 8, 9].map(
   (n) => `assets/imgs/Mcdonalds/Project 2/${n}.jpg`
 );
 
+const CHANGEABLES_INTRO_VIDEO_EMBED_SRC =
+  'https://www.youtube.com/embed/hBRl7qiig6w?si=DKA2lXkreR-4NIMI&modestbranding=1&autoplay=1&mute=1&loop=1&playlist=hBRl7qiig6w';
+
 const useIsMobile = () => {
   const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
@@ -194,6 +197,22 @@ const ChangeablesSequenceSlideshow: React.FC = () => {
     </div>
   );
 };
+
+const ChangeablesIntroVideo: React.FC = () => (
+  <div className="relative w-full aspect-video rounded-lg overflow-hidden">
+    <iframe
+      width="100%"
+      height="100%"
+      src={CHANGEABLES_INTRO_VIDEO_EMBED_SRC}
+      title="YouTube video player"
+      frameBorder={0}
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      referrerPolicy="strict-origin-when-cross-origin"
+      allowFullScreen
+      className="absolute inset-0 w-full h-full"
+    />
+  </div>
+);
 
 const ChangeablesBackgroundMarquee = React.memo(function ChangeablesBackgroundMarquee() {
   // Static, fast-loading grid (no animation/observers) to avoid iOS rendering issues.
@@ -576,6 +595,12 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
                           The Changeables happy meal was a revamp of the transforming toys first released in the 80s. For this campaign, I got to storyboard, from low to high-fidelity, the intro video for the accompanying mobile game. This project leaned into retro pixel art, nostalgia, and colorful sci-fi inspired landscapes.
                         </p>
                         <ChangeablesSequenceSlideshow />
+                        <div className="space-y-[31px]">
+                          <p className="text-gray-600 font-light text-lg leading-relaxed max-w-2xl">
+                            The storyboards evolved through different rounds. The journey evolved to ensure that gameplay such as collecting Happy Meals, freezing enemies, and Changeables transformations were featured. See below for the final intro, motion design done by the motion design team at tms.
+                          </p>
+                          <ChangeablesIntroVideo />
+                        </div>
                         <div className="pt-6">
                           <h3 className="max-w-2xl text-2xl font-serif-heading font-semibold text-gray-900 mb-4">
                             Background illustrations
