@@ -98,6 +98,38 @@ const HIGHER_ED_DESKTOP = [
   'assets/imgs/HigherEd/Desktop - 5.jpg',
 ];
 
+const HIGHER_ED_GALLERY_CAPTIONS = [
+  {
+    title: 'Tufts University',
+    description:
+      'Digital social campaign graphics, display ads, and print flyer for Tufts’ summer programs for high schoolers.',
+  },
+  {
+    title: 'Simmons University',
+    description: 'Static and animated social campaign assets.',
+  },
+  {
+    title: 'Vermont Law & Graduate School',
+    description: 'Social campaign assets for Vermont Law’s Masters programs.',
+  },
+  {
+    title: 'Boston University',
+    description: 'Motion assets for an AI-focused campaign.',
+  },
+  {
+    title: 'Roosevelt University',
+    description: 'Social media assets emphasizing upward mobility.',
+  },
+  {
+    title: 'Northeastern University',
+    description: 'Digital campaign assets for Northeastern’s tech programs.',
+  },
+  {
+    title: 'University of Chicago',
+    description: 'Digital campaign assets for University of Chicago’s MS in Chemistry.',
+  },
+] as const;
+
 const MCDONALDS_GALLERY_GRID_4 = [
   'assets/imgs/Mcdonalds/IHUsE9aVdEHPrcf2LaRZdN9th6c.png.webp',
   'assets/imgs/Mcdonalds/uAtdCtqR69anravVJfnxNYeg.png.webp',
@@ -526,7 +558,10 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
                     <FadeInSection>
                       <SectionHeading title="Gallery" />
                       <div className="space-y-8">
-                        <GalleryBlockHeading title="Lead campaign visuals" description="TPP Music Engineering and key campaign imagery for digital channels." />
+                        <GalleryBlockHeading
+                          title={HIGHER_ED_GALLERY_CAPTIONS[0].title}
+                          description={HIGHER_ED_GALLERY_CAPTIONS[0].description}
+                        />
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 items-stretch">
                           <div className="flex items-center justify-center overflow-hidden sm:col-span-1 p-4">
                             <img src={encodeURI(HIGHER_ED_ROW_1[0])} alt="TPP Music Engineering" className="h-full w-[75%] max-w-full object-contain object-center rounded-lg" />
@@ -538,7 +573,10 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
                         <div className="relative w-full">
                           <img src={encodeURI(HIGHER_ED_ROW_2_FULL)} alt="Higher ed campaign" className="w-full h-auto block" />
                         </div>
-                        <GalleryBlockHeading title="Campaign imagery" description="Full-width campaign assets and Simmons University animated content." />
+                        <GalleryBlockHeading
+                          title={HIGHER_ED_GALLERY_CAPTIONS[1].title}
+                          description={HIGHER_ED_GALLERY_CAPTIONS[1].description}
+                        />
                         <div className="relative w-full">
                           <img src={encodeURI(HIGHER_ED_ROW_3_FULL)} alt="Higher ed campaign" className="w-full h-auto block" />
                         </div>
@@ -549,11 +587,17 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
                             </div>
                           ))}
                         </div>
-                        <GalleryBlockHeading title="Campaign asset" description="Additional full-width creative for the campaign." />
+                        <GalleryBlockHeading
+                          title={HIGHER_ED_GALLERY_CAPTIONS[2].title}
+                          description={HIGHER_ED_GALLERY_CAPTIONS[2].description}
+                        />
                         <div className="relative w-full">
                           <img src={encodeURI(HIGHER_ED_BETWEEN_GIFS)} alt="Higher ed campaign" className="w-full h-auto block" />
                         </div>
-                        <GalleryBlockHeading title="Animated content" description="Motion and GIF-based campaign pieces." />
+                        <GalleryBlockHeading
+                          title={HIGHER_ED_GALLERY_CAPTIONS[3].title}
+                          description={HIGHER_ED_GALLERY_CAPTIONS[3].description}
+                        />
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-[22px]">
                           {HIGHER_ED_ROW_3_UNNAMED.map((src, i) => (
                             <div key={i} className="relative w-full flex items-center justify-center p-6">
@@ -563,7 +607,10 @@ const CaseStudyView: React.FC<CaseStudyViewProps> = ({ study }) => {
                         </div>
                         {HIGHER_ED_DESKTOP.map((src, i) => (
                           <div key={i}>
-                            <GalleryBlockHeading title={`Campaign image ${i + 1}`} description="Desktop and digital campaign asset." />
+                            <GalleryBlockHeading
+                              title={HIGHER_ED_GALLERY_CAPTIONS[4 + i].title}
+                              description={HIGHER_ED_GALLERY_CAPTIONS[4 + i].description}
+                            />
                             <div className="relative w-full">
                               <img src={encodeURI(src)} alt={`Higher ed desktop ${i + 1}`} className="w-full h-auto block" />
                             </div>
